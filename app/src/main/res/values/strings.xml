@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Syncthing Live Update</string>
+    <string name="module_description">Promote Syncthing sync progress to an Android Live Update notification</string>
+</resources>
