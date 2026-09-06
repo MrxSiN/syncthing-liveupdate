@@ -8,7 +8,7 @@ MANIFEST="$ROOT/app/src/main/AndroidManifest.xml"
 SOURCE="$ROOT/app/src/main/java/my/MrxSiN/syncthingliveupdate"
 XPOSED_META="$ROOT/app/src/main/resources/META-INF/xposed"
 
-for file in "$APP_GRADLE" "$WORKFLOW" "$MANIFEST" \
+for file in "$APP_GRADLE" "$WORKFLOW" "$MANIFEST" "$ROOT/CHANGELOG.md" \
   "$SOURCE/ModuleMain.java" \
   "$SOURCE/ModuleRuntime.java" \
   "$SOURCE/Reflect.java" \
@@ -36,6 +36,9 @@ grep -q 'merges += "META-INF/xposed/\*"' "$APP_GRADLE"
 # Live Updates are an Android 16 (API 36) feature, so the module cannot run lower.
 grep -q 'minSdk = 36' "$APP_GRADLE"
 grep -q 'r0adkll/sign-android-release@v1' "$WORKFLOW"
+# The release description is the changelog section for the tagged version.
+grep -q 'body_path: release-notes.md' "$WORKFLOW"
+grep -q "^## $(sed -n 's/^val appVersion = "\([^"]*\)"/\1/p' "$APP_GRADLE") " "$ROOT/CHANGELOG.md"
 ! grep -q 'signingConfigs' "$APP_GRADLE"
 
 # Modern Xposed API module declaration; no legacy entry point.
