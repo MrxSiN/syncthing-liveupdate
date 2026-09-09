@@ -4,15 +4,42 @@ plugins {
 
 val appVersion = "1.0.0"
 
+val envKeystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+val envKeystoreAlias = System.getenv("ANDROID_KEYSTORE_ALIAS")
+val envKeystorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+val envKeyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+
 android {
     namespace = "my.MrxSiN.syncthingliveupdate"
     compileSdk = 36
 
+    /*
+     * Release signing is supplied by the environment so that no credential ever
+     * reaches version control. Local builds without those variables stay
+     * unsigned instead of failing.
+     */
+    val releaseSigningConfig = if (
+        !envKeystorePath.isNullOrBlank() &&
+        !envKeystoreAlias.isNullOrBlank() &&
+        !envKeystorePassword.isNullOrBlank() &&
+        !envKeyPassword.isNullOrBlank() &&
+        file(envKeystorePath).isFile
+    ) {
+        signingConfigs.create("release") {
+            storeFile = file(envKeystorePath)
+            storePassword = envKeystorePassword
+            keyAlias = envKeystoreAlias
+            keyPassword = envKeyPassword
+        }
+    } else {
+        null
+    }
+
     defaultConfig {
-        applicationId = "my.MrxSiN.syncthingliveupdate"
+        applicationId = "io.github.mrxsin.syncthingliveupdate"
         minSdk = 36
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = appVersion
     }
 
@@ -20,6 +47,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles("proguard-rules.pro")
+            releaseSigningConfig?.let { signingConfig = it }
         }
     }
 
