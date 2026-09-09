@@ -30,7 +30,7 @@ done
 
 # Build configuration.
 grep -q 'val appVersion = "1.0.0"' "$APP_GRADLE"
-grep -q 'versionCode = 1' "$APP_GRADLE"
+grep -q 'versionCode = 2' "$APP_GRADLE"
 grep -q 'compileOnly("io.github.libxposed:api:102.0.0")' "$APP_GRADLE"
 grep -q 'merges += "META-INF/xposed/\*"' "$APP_GRADLE"
 # Live Updates are an Android 16 (API 36) feature, so the module cannot run lower.
