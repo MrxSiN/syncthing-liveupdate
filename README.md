@@ -200,8 +200,8 @@ channel it will promote on.
 With the Vector CLI, steps 2 and 3 are:
 
 ```sh
-su -c '/data/adb/lspd/cli modules enable my.MrxSiN.syncthingliveupdate'
-su -c '/data/adb/lspd/cli scope set my.MrxSiN.syncthingliveupdate system/0 com.github.catfriend1.syncthingfork/0'
+su -c '/data/adb/lspd/cli modules enable io.github.mrxsin.syncthingliveupdate'
+su -c '/data/adb/lspd/cli scope set io.github.mrxsin.syncthingliveupdate system/0 com.github.catfriend1.syncthingfork/0'
 ```
 
 ## 🧪 Validation status
