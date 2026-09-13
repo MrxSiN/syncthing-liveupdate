@@ -1,5 +1,6 @@
 package my.MrxSiN.syncthingliveupdate;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
@@ -32,7 +33,7 @@ final class LiveUpdateChannel {
         channel.enableVibration(false);
         channel.setSound(null, null);
         channel.setShowBadge(false);
-        channel.setLockscreenVisibility(android.app.Notification.VISIBILITY_PUBLIC);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(channel);
     }
 }

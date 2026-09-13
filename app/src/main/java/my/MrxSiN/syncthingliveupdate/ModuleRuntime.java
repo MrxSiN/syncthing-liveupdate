@@ -1,5 +1,6 @@
 package my.MrxSiN.syncthingliveupdate;
 
+import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 import java.lang.reflect.Executable;
@@ -26,6 +27,12 @@ final class ModuleRuntime {
 
     static void attach(XposedInterface runtime) {
         api = runtime;
+    }
+
+    /** The module's own application info, or {@code null} before the framework attached. */
+    static ApplicationInfo moduleApplicationInfo() {
+        XposedInterface runtime = api;
+        return runtime == null ? null : runtime.getModuleApplicationInfo();
     }
 
     static void log(String message) {
