@@ -6,6 +6,9 @@ import java.lang.reflect.Method;
 /** Reflection helpers shared by the host-facing parts of the module. */
 final class Reflect {
 
+    private static final String UNSAFE = "sun.misc.Unsafe";
+    private static final String ACTIVITY_THREAD = "android.app.ActivityThread";
+
     private Reflect() {
     }
 
@@ -51,6 +54,49 @@ final class Reflect {
             Method method = target.getClass().getMethod(name);
             method.setAccessible(true);
             return method.invoke(target);
+        } catch (ReflectiveOperationException | RuntimeException unavailable) {
+            return null;
+        }
+    }
+
+    /** Writes an int field. Returns whether the value was written. */
+    static boolean writeField(Object target, String name, int value) {
+        if (target == null) {
+            return false;
+        }
+        try {
+            Field field = target.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            field.setInt(target, value);
+            return true;
+        } catch (ReflectiveOperationException | RuntimeException unavailable) {
+            return false;
+        }
+    }
+
+    /**
+     * Allocates an instance without running a constructor, for classes whose
+     * constructors were removed by the optimizer. Returns {@code null} on failure.
+     */
+    static Object allocate(Class<?> type) {
+        if (type == null) {
+            return null;
+        }
+        try {
+            Class<?> unsafeClass = Class.forName(UNSAFE);
+            Field theUnsafe = unsafeClass.getDeclaredField("theUnsafe");
+            theUnsafe.setAccessible(true);
+            return unsafeClass.getMethod("allocateInstance", Class.class)
+                    .invoke(theUnsafe.get(null), type);
+        } catch (ReflectiveOperationException | RuntimeException unavailable) {
+            return null;
+        }
+    }
+
+    /** The application of the current process, or {@code null} when unavailable. */
+    static Object currentApplication() {
+        try {
+            return Class.forName(ACTIVITY_THREAD).getMethod("currentApplication").invoke(null);
         } catch (ReflectiveOperationException | RuntimeException unavailable) {
             return null;
         }

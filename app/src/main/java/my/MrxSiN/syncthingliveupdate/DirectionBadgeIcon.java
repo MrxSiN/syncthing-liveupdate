@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
@@ -43,17 +42,8 @@ final class DirectionBadgeIcon {
         if (direction == SyncDirection.NONE || base == null) {
             return base;
         }
-        Icon cached = CACHE.get(direction);
-        if (cached != null) {
-            return cached;
-        }
-
-        Icon badged = draw(context, base, direction);
-        if (badged == null) {
-            return base;
-        }
-        CACHE.put(direction, badged);
-        return badged;
+        Icon badged = CACHE.computeIfAbsent(direction, key -> draw(context, base, key));
+        return badged == null ? base : badged;
     }
 
     private static Icon draw(Context context, Icon base, SyncDirection direction) {
@@ -77,54 +67,8 @@ final class DirectionBadgeIcon {
 
         Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
         fill.setColor(Color.WHITE);
-        drawBadge(canvas, fill, direction, centre, SIZE * BADGE_RADIUS);
+        DirectionGlyph.draw(canvas, fill, direction, centre, centre, SIZE * BADGE_RADIUS);
 
         return Icon.createWithBitmap(bitmap);
-    }
-
-    private static void drawBadge(
-            Canvas canvas,
-            Paint paint,
-            SyncDirection direction,
-            float centre,
-            float radius
-    ) {
-        switch (direction) {
-            case DOWNLOAD -> drawArrow(canvas, paint, centre, centre, radius, true);
-            case UPLOAD -> drawArrow(canvas, paint, centre, centre, radius, false);
-            case BOTH -> {
-                float offset = radius * 0.52f;
-                float small = radius * 0.88f;
-                drawArrow(canvas, paint, centre - offset, centre, small, false);
-                drawArrow(canvas, paint, centre + offset, centre, small, true);
-            }
-            default -> {
-            }
-        }
-    }
-
-    private static void drawArrow(
-            Canvas canvas,
-            Paint paint,
-            float x,
-            float y,
-            float radius,
-            boolean pointingDown
-    ) {
-        float headHalfWidth = radius * 0.72f;
-        float stemHalfWidth = radius * 0.26f;
-        float tip = pointingDown ? y + radius : y - radius;
-        float shoulder = pointingDown ? y + radius * 0.1f : y - radius * 0.1f;
-        float tail = pointingDown ? y - radius : y + radius;
-
-        canvas.drawRect(x - stemHalfWidth, Math.min(tail, shoulder),
-                x + stemHalfWidth, Math.max(tail, shoulder), paint);
-
-        Path head = new Path();
-        head.moveTo(x - headHalfWidth, shoulder);
-        head.lineTo(x + headHalfWidth, shoulder);
-        head.lineTo(x, tip);
-        head.close();
-        canvas.drawPath(head, paint);
     }
 }

@@ -2,6 +2,41 @@
 
 ## Unreleased
 
+## 1.1.0 — 2026-09-13
+
+- Material 3 Expressive styling for the notification in the shade, built entirely from
+  `Notification.ProgressStyle` because a promoted notification may not carry custom views.
+  - The bar reads from source to destination: a start and an end icon, each a tonal circle
+    holding the Material Symbols `smartphone` or `computer` glyph, show this device and the
+    remote one in the order the data moves. A two-way transfer is drawn outbound; the status
+    icon badge still shows both arrows.
+  - The tracker is the nine-sided "cookie" from the Material 3 Expressive shape set, filled
+    with the primary colour and carrying the host's own Syncthing glyph.
+  - Colours are Material 3 roles derived from Syncthing's blue with the fidelity scheme,
+    resolved for the light or dark theme. SystemUI draws the progress icons untinted, so
+    each is rendered into a bitmap once per theme.
+- A new, optional `com.android.systemui` scope adds what `ProgressStyle` cannot express:
+  - The filled part of the bar is drawn as a Material 3 Expressive wavy progress indicator:
+    a 4dp stroke with a 3dp amplitude and a 40dp wavelength that flows one wavelength per
+    second and flattens near either end, followed by a flat 4dp track and a stop dot. The
+    platform's layout of the bar is kept; only `NotificationProgressDrawable.draw(Canvas)` is
+    replaced, and only for Syncthing-Fork's notification. The wave holds still when
+    animations are off.
+  - Progress no longer jumps. `NotificationProgressBar.setProgressModel(Bundle)` applies
+    each update at the value on screen and then moves the bar to the new value on a
+    critically damped spring. Progress is reported in tenths of a percent so the movement is
+    smooth.
+  - The status bar chip is filled with Syncthing's primary colour and its content drawn in
+    on-primary, matching the progress tracker. Android 17 otherwise always paints a
+    notification chip in the system surface colour.
+- The visual layer now sits behind a `LiveUpdateAppearance` interface.
+  `LiveUpdatePromoter` keeps only what promotion requires — channel, chip text, ongoing
+  flag and the promotion request — while `ExpressiveAppearance` owns the colour, progress
+  style, folder line and status icon badge.
+- The status icon badge draws its arrows through `DirectionGlyph`.
+- `scripts/check-project.sh` covers the new classes and resources, and fails if a custom
+  content view is introduced, which would stop the notification from being promoted.
+
 ## 1.0.0 — 2026-09-06
 
 First release.

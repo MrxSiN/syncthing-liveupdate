@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
-import android.graphics.drawable.Icon;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -23,13 +22,6 @@ import io.github.libxposed.api.XposedInterface;
  */
 final class LiveUpdatePromoter {
 
-    /** Syncthing's own blue, used for the progress bar and the icon tint. */
-    private static final int ACCENT_COLOR = 0xFF0891D1;
-
-    /** How many folder names fit on the notification's second line. */
-    private static final int FOLDERS_NAMED = 2;
-
-    private static final int PROGRESS_SEGMENT_LENGTH = 100;
     private static final int NOTIFICATION_ARGUMENT = 1;
     private static final String START_FOREGROUND = "startForeground";
 
@@ -41,12 +33,14 @@ final class LiveUpdatePromoter {
     private static final String REQUEST_PROMOTED_ONGOING = "setRequestPromotedOngoing";
 
     private final SyncProgressSource source;
+    private final LiveUpdateAppearance appearance;
     private final AtomicBoolean installed = new AtomicBoolean(false);
 
     private volatile int lastPromotedCompletion = SyncSnapshot.COMPLETION_UNKNOWN;
 
-    LiveUpdatePromoter(SyncProgressSource source) {
+    LiveUpdatePromoter(SyncProgressSource source, LiveUpdateAppearance appearance) {
         this.source = source;
+        this.appearance = appearance;
     }
 
     /** Installs the hooks. Returns false when no entry point could be hooked. */
@@ -123,7 +117,8 @@ final class LiveUpdatePromoter {
 
     /**
      * Rebuilds the host's notification with the characteristics the platform
-     * requires for promotion, keeping its title, actions and intents.
+     * requires for promotion, keeping its title, actions and intents, and hands
+     * the look to {@link #appearance}.
      */
     private Notification promoted(
             Context hostContext,
@@ -133,49 +128,13 @@ final class LiveUpdatePromoter {
         Notification.Builder builder = Notification.Builder
                 .recoverBuilder(hostContext, original)
                 .setChannelId(LiveUpdateChannel.ID)
-                .setStyle(progressStyle(snapshot))
                 .setShortCriticalText(snapshot.completion() + "%")
-                .setColor(ACCENT_COLOR)
                 .setOngoing(true)
                 .setOnlyAlertOnce(true);
 
         Reflect.invokeIfPresent(builder, REQUEST_PROMOTED_ONGOING, boolean.class, true);
 
-        String folders = folderLine(snapshot.folders());
-        if (folders != null) {
-            builder.setContentText(folders);
-        }
-
-        Icon badged = DirectionBadgeIcon.badged(
-                hostContext, original.getSmallIcon(), snapshot.direction());
-        if (badged != null) {
-            builder.setSmallIcon(badged);
-        }
+        appearance.apply(hostContext, original, builder, snapshot);
         return builder.build();
-    }
-
-    /**
-     * The line naming what is being transferred, or {@code null} when the host has
-     * not reported a folder. Long lists are trimmed with a plain count rather than
-     * a sentence, because the module carries no translations of its own.
-     */
-    private static String folderLine(List<String> folders) {
-        if (folders.isEmpty()) {
-            return null;
-        }
-        if (folders.size() <= FOLDERS_NAMED) {
-            return String.join(", ", folders);
-        }
-        return String.join(", ", folders.subList(0, FOLDERS_NAMED))
-                + " +" + (folders.size() - FOLDERS_NAMED);
-    }
-
-    private static Notification.ProgressStyle progressStyle(SyncSnapshot snapshot) {
-        Notification.ProgressStyle.Segment segment =
-                new Notification.ProgressStyle.Segment(PROGRESS_SEGMENT_LENGTH);
-        segment.setColor(ACCENT_COLOR);
-        return new Notification.ProgressStyle()
-                .setProgressSegments(List.of(segment))
-                .setProgress(snapshot.completion());
     }
 }

@@ -40,6 +40,15 @@ transfer — here, data arriving on this device.
   notification the app depends on.
 - Draws a `Notification.ProgressStyle` bar for overall sync completion, and a percentage in
   the status bar chip through `setShortCriticalText`.
+- Follows Material 3 Expressive in the notification shade. The bar runs from where the data
+  comes from to where it goes, each end marked by a tonal circle showing this phone or the
+  remote computer, and is led by a scalloped cookie-shaped tracker carrying the Syncthing
+  glyph. Colours are Material 3 roles derived from Syncthing's blue, resolved for the light
+  or dark theme.
+- Draws the filled part of the bar as a Material 3 Expressive wavy progress indicator that
+  flows while the transfer runs, and glides the bar to each new value on a spring instead of
+  jumping.
+- Fills the status bar chip with the same Syncthing blue as the progress tracker.
 - Names the folders currently transferring on a second line, using the labels configured in
   Syncthing rather than folder ids. Past two, the remainder is shown as a count.
 - Badges the status icon with the transfer direction: down while this device pulls from a
@@ -55,19 +64,23 @@ transfer — here, data arriving on this device.
 
 ## 🎯 Scope
 
-The module hooks two processes:
+The module hooks three processes:
 
 ```text
 system
 com.github.catfriend1.syncthingfork
+com.android.systemui
 ```
 
-Both are required. Without `system` the notification is rewritten but never promoted, and
-no chip appears. Do not enable additional applications in the module scope.
+`system` and Syncthing-Fork are required. Without `system` the notification is rewritten but
+never promoted, and no chip appears. `com.android.systemui` is optional: without it the bar
+stays flat, jumps between values, and the chip keeps the system colours. Do not enable
+additional applications in the module scope.
 
 ## 🔍 How it works
 
-Two problems have to be solved, and they live in different processes.
+Two problems have to be solved, and they live in different processes. A third process,
+SystemUI, only adds polish.
 
 ### In the Syncthing process
 
@@ -91,6 +104,13 @@ Two problems have to be solved, and they live in different processes.
    persistent channel. `Notification.Builder.recoverBuilder(...)` reopens the notification
    the host just built, so nothing has to be reconstructed from scratch, and the module only
    adds what promotion requires.
+6. The look is kept apart from the promotion. `LiveUpdatePromoter` sets only what the
+   platform needs to promote the notification, and hands the builder to a
+   `LiveUpdateAppearance`. The shipped `ExpressiveAppearance` works entirely through
+   `ProgressStyle`, because a promoted notification may not carry custom views. SystemUI
+   draws the tracker, start and end icons untinted, so each shape and its glyph are rendered
+   into a bitmap once per theme. The endpoint glyphs live in the module's own resources and
+   are opened in the host through `getModuleApplicationInfo()`.
 
 ### In `system_server`
 
@@ -110,6 +130,25 @@ if (args.get(0) instanceof Notification notification
 ```
 
 Nothing else about the platform's promotion policy is touched.
+
+### In SystemUI
+
+SystemUI draws the notification and the chip, so the parts `ProgressStyle` cannot express
+are added where they are drawn. Each hook first checks that it is looking at Syncthing-Fork's
+notification; everything else is drawn by the platform as before.
+
+- `NotificationProgressDrawable.draw(Canvas)` is replaced for Syncthing's bar. The platform's
+  layout of the bar is kept and only its painting changes: the filled part becomes a wave
+  (4dp stroke, 3dp amplitude, 40dp wavelength) that travels one wavelength per second and
+  flattens near either end, and the rest becomes a flat 4dp track ending in a stop dot. The
+  wave holds still when animations are turned off.
+- `NotificationProgressBar.setProgressModel(Bundle)` is where each update reaches the bar.
+  The update is applied at the value on screen, and the bar then travels to the new value on
+  a critically damped spring. The notification reports progress in tenths of a percent so the
+  travel is smooth rather than stepped.
+- Android 17 always paints a notification chip in the system surface colour. The constructor
+  of `OngoingActivityChipModel.Active` is intercepted for Syncthing's notification key, and
+  its colours are swapped for Syncthing's primary and on-primary pair.
 
 ### The channel
 
@@ -145,7 +184,8 @@ out looking like a filled, light-coloured card rather than an ordinary one.
 - [Syncthing-Fork](https://github.com/researchxxl/syncthing-android)
   (`com.github.catfriend1.syncthingfork`).
 - The **Syncthing Live Update** APK installed and enabled in the framework manager, with
-  both scope entries granted.
+  the `system` and Syncthing-Fork scope entries granted, plus SystemUI for the wavy bar,
+  its animation and the chip colour.
 
 ### Build environment
 
@@ -183,9 +223,9 @@ host contract the hooks depend on. It runs first in CI, and is worth running bef
 
 1. Build and install the release APK.
 2. Open the framework manager and enable **Syncthing Live Update**.
-3. Grant both scope entries: the system server **and** Syncthing-Fork. The module declares
-   them in `META-INF/xposed/scope.list`, but the system server scope generally has to be
-   confirmed by hand.
+3. Grant the scope entries: the system server, Syncthing-Fork and SystemUI. The module
+   declares them in `META-INF/xposed/scope.list`, but the system server scope generally has
+   to be confirmed by hand.
 4. **Reboot.** The `system_server` hook is installed while the system server starts, so it
    cannot take effect until the next boot.
 5. Review the framework logs, or logcat, for entries tagged:
@@ -201,12 +241,12 @@ With the Vector CLI, steps 2 and 3 are:
 
 ```sh
 su -c '/data/adb/lspd/cli modules enable io.github.mrxsin.syncthingliveupdate'
-su -c '/data/adb/lspd/cli scope set io.github.mrxsin.syncthingliveupdate system/0 com.github.catfriend1.syncthingfork/0'
+su -c '/data/adb/lspd/cli scope set io.github.mrxsin.syncthingliveupdate system/0 com.github.catfriend1.syncthingfork/0 com.android.systemui/0'
 ```
 
 ## 🧪 Validation status
 
-The release version is `1.0.0` (`versionCode 1`).
+The release version is `1.1.0` (`versionCode 3`).
 
 Validated on a Pixel 8 Pro running Android 17 (SDK 37) with KernelSU, Vector 2.2 and
 Syncthing-Fork 2.1.3.0. During a live transfer the notification was confirmed as a single
@@ -218,7 +258,13 @@ flags=ONGOING_EVENT|ONLY_ALERT_ONCE|NO_CLEAR|FOREGROUND_SERVICE|PROMOTED_ONGOING
 ```
 
 and reverting to `01_syncthing_persistent` without the promotion flag once the sync
-completed. The screenshots above are from that run.
+completed. The screenshots above are from the `1.0.0` run and predate the Material 3
+Expressive styling.
+
+The `1.1.0` SystemUI hooks were validated on the same device, build `CP2A.260805.005`: the
+filled part of the bar was drawn as a moving wave, the tracker was captured at intermediate
+positions between whole-percent updates, and the status bar chip was filled with Syncthing's
+blue.
 
 The included GitHub Actions workflow builds on every push, pull request, and manual run. A
 `v*` tag additionally builds, signs, and attaches the release APK to the GitHub Release when
@@ -233,6 +279,7 @@ the four signing secrets are configured.
 | Chip shows the icon but no percentage | Expected while Syncthing itself is the visible app, or while the notification is pinned as a heads-up. SystemUI collapses the chip to an icon in both cases; the percentage returns once another app is in front. |
 | Chip and the status bar clock overlap or flicker | Another Xposed module is redrawing the status bar and colliding with the chip animation. Disabling it resolves the overlap; the notification itself is unaffected. |
 | Progress shows but no folder name | Either only a remote is pulling from this device, in which case no local folder enters a transferring state, or the log reports `Folder names unavailable`, meaning a Syncthing update moved the folder model. |
+| Bar is flat, jumps between values, or the chip is grey | The SystemUI scope is missing or SystemUI has not restarted since it was granted. Look for `Wavy progress unavailable`, `Progress bar animation unavailable` or `Chip colours unavailable` in the log, which mean a system update moved the SystemUI internals. |
 | Direction badge never appears | Look for `Transfer direction unavailable` in the log. Progress still works without it. |
 | Two Syncthing notifications | A build older than `1.0.0` posted its own notification on id `7710`. Force-stop Syncthing once after updating the module. |
 
@@ -245,6 +292,7 @@ This project depends on and benefits from the following open-source work:
 | [Syncthing-Fork](https://github.com/researchxxl/syncthing-android) | The host application whose sync figures and notification this module builds on. Licensed under MPL-2.0. |
 | [Vector](https://github.com/JingMatrix/Vector) by JingMatrix | Provides the ART hooking framework used in both the app process and the system server. Licensed under GPL-3.0. |
 | [libxposed API](https://github.com/libxposed/api) | The modern Xposed module API this module compiles against. Licensed under Apache-2.0. |
+| [Material Symbols](https://github.com/google/material-design-icons) | The `smartphone` and `computer` glyphs at either end of the progress bar. Licensed under Apache-2.0. |
 
 ## ⚠️ Disclaimer
 

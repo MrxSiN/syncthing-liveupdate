@@ -21,6 +21,22 @@ for file in "$APP_GRADLE" "$WORKFLOW" "$MANIFEST" "$ROOT/CHANGELOG.md" \
   "$SOURCE/LiveUpdatePromoter.java" \
   "$SOURCE/SyncDirection.java" \
   "$SOURCE/DirectionBadgeIcon.java" \
+  "$SOURCE/DirectionGlyph.java" \
+  "$SOURCE/LiveUpdateAppearance.java" \
+  "$SOURCE/ExpressiveAppearance.java" \
+  "$SOURCE/ProgressIcons.java" \
+  "$SOURCE/ShapedIcon.java" \
+  "$SOURCE/IconShape.java" \
+  "$SOURCE/SyncthingPalette.java" \
+  "$SOURCE/TransferEndpoint.java" \
+  "$SOURCE/TransferRoute.java" \
+  "$SOURCE/ModuleDrawables.java" \
+  "$SOURCE/SystemUi.java" \
+  "$SOURCE/ProgressBarMotion.java" \
+  "$SOURCE/SpringInterpolator.java" \
+  "$SOURCE/StatusBarChipColors.java" \
+  "$SOURCE/WavyProgressTrack.java" \
+  "$SOURCE/CookieShape.java" \
   "$SOURCE/SyncingFolders.java" \
   "$XPOSED_META/java_init.list" \
   "$XPOSED_META/module.prop" \
@@ -29,8 +45,8 @@ for file in "$APP_GRADLE" "$WORKFLOW" "$MANIFEST" "$ROOT/CHANGELOG.md" \
 done
 
 # Build configuration.
-grep -q 'val appVersion = "1.0.0"' "$APP_GRADLE"
-grep -q 'versionCode = 2' "$APP_GRADLE"
+grep -q 'val appVersion = "1.1.0"' "$APP_GRADLE"
+grep -q 'versionCode = 3' "$APP_GRADLE"
 grep -q 'compileOnly("io.github.libxposed:api:102.0.0")' "$APP_GRADLE"
 grep -q 'merges += "META-INF/xposed/\*"' "$APP_GRADLE"
 # Live Updates are an Android 16 (API 36) feature, so the module cannot run lower.
@@ -45,6 +61,7 @@ grep -q "^## $(sed -n 's/^val appVersion = "\([^"]*\)"/\1/p' "$APP_GRADLE") " "$
 grep -q '^my.MrxSiN.syncthingliveupdate.ModuleMain$' "$XPOSED_META/java_init.list"
 grep -q '^com.github.catfriend1.syncthingfork$' "$XPOSED_META/scope.list"
 grep -q '^system$' "$XPOSED_META/scope.list"
+grep -q '^com.android.systemui$' "$XPOSED_META/scope.list"
 grep -q '^targetApiVersion=102$' "$XPOSED_META/module.prop"
 ! test -f "$ROOT/app/src/main/assets/xposed_init"
 ! grep -q 'xposedmodule\|xposedminversion\|xposedscope' "$MANIFEST"
@@ -74,13 +91,34 @@ grep -q 'HostApp.PERSISTENT_CHANNEL.equals(original.getChannelId())' "$SOURCE/Li
 # explicitly instead, so the request replaces the colorized flag Android 16 used.
 ! grep -q 'setColorized' "$SOURCE/LiveUpdatePromoter.java"
 grep -q 'setRequestPromotedOngoing' "$SOURCE/LiveUpdatePromoter.java"
-grep -q 'DirectionBadgeIcon.badged' "$SOURCE/LiveUpdatePromoter.java"
-grep -q 'setContentText' "$SOURCE/LiveUpdatePromoter.java"
 grep -q 'sync-preparing' "$SOURCE/SyncingFolders.java"
 grep -q 'updateFromConfig' "$SOURCE/HostApp.java"
 grep -q 'getTotalFolderCompletion' "$SOURCE/HostApp.java"
 grep -q 'getTotalDeviceCompletion' "$SOURCE/HostApp.java"
 grep -q 'setOngoing(true)' "$SOURCE/LiveUpdatePromoter.java"
 grep -q 'setShortCriticalText' "$SOURCE/LiveUpdatePromoter.java"
-grep -q 'Notification.ProgressStyle' "$SOURCE/LiveUpdatePromoter.java"
+grep -q 'appearance.apply' "$SOURCE/LiveUpdatePromoter.java"
 grep -q 'IMPORTANCE_LOW' "$SOURCE/LiveUpdateChannel.java"
+
+# Material 3 Expressive appearance, expressed through ProgressStyle only: a promoted
+# notification may not carry custom views.
+grep -q 'new LiveUpdatePromoter(tracker, new ExpressiveAppearance())' "$SOURCE/ModuleMain.java"
+grep -q 'Notification.ProgressStyle' "$SOURCE/ExpressiveAppearance.java"
+grep -q 'setProgressTrackerIcon' "$SOURCE/ExpressiveAppearance.java"
+grep -q 'setProgressStartIcon' "$SOURCE/ExpressiveAppearance.java"
+grep -q 'setProgressEndIcon' "$SOURCE/ExpressiveAppearance.java"
+grep -q 'getModuleApplicationInfo' "$SOURCE/ModuleRuntime.java"
+test -f "$ROOT/app/src/main/res/drawable/ic_endpoint_this_device.xml"
+test -f "$ROOT/app/src/main/res/drawable/ic_endpoint_remote_device.xml"
+grep -q 'DirectionBadgeIcon.badged' "$SOURCE/ExpressiveAppearance.java"
+grep -q 'setContentText' "$SOURCE/ExpressiveAppearance.java"
+! grep -rq 'setCustomContentView\|setCustomBigContentView\|DecoratedCustomViewStyle' "$SOURCE"
+
+# SystemUI polish stays limited to the host's own notification.
+grep -q 'NotificationProgressDrawable' "$SOURCE/SystemUi.java"
+grep -q 'setProgressModel' "$SOURCE/SystemUi.java"
+grep -q 'OngoingActivityChipModel$Active' "$SOURCE/SystemUi.java"
+grep -q 'HostApp.PACKAGE.equals(bar.getContext().getPackageName())' "$SOURCE/WavyProgressTrack.java"
+grep -q 'HostApp.PACKAGE.equals(bar.getContext().getPackageName())' "$SOURCE/ProgressBarMotion.java"
+grep -q 'HOST_KEY_PART' "$SOURCE/StatusBarChipColors.java"
+grep -q 'areAnimatorsEnabled' "$SOURCE/WavyProgressTrack.java"

@@ -7,18 +7,26 @@ import io.github.libxposed.api.XposedModule;
 /**
  * Modern Xposed API entry point.
  *
- * It wires three independent pieces: {@link PromotionPolicyPatch} lets the host
+ * It wires independent pieces: {@link PromotionPolicyPatch} lets the host
  * post promoted notifications at all, {@link SyncProgressTracker} follows the
  * sync figures the host publishes, and {@link LiveUpdatePromoter} rewrites the
- * host's own persistent notification into a Live Update while a transfer runs.
+ * host's own persistent notification into a Live Update while a transfer runs,
+ * styled by {@link ExpressiveAppearance}. In SystemUI, {@link WavyProgressTrack}
+ * draws its progress bar as a wave, {@link ProgressBarMotion} animates it between
+ * updates and {@link StatusBarChipColors} colours its chip.
  */
 public final class ModuleMain extends XposedModule {
 
-    private static final String MODULE_VERSION = "1.0.0";
+    private static final String MODULE_VERSION = "1.1.0";
 
     private final SyncProgressTracker tracker = new SyncProgressTracker();
-    private final LiveUpdatePromoter promoter = new LiveUpdatePromoter(tracker);
+    private final LiveUpdatePromoter promoter =
+            new LiveUpdatePromoter(tracker, new ExpressiveAppearance());
+    private final ProgressBarMotion progressMotion = new ProgressBarMotion();
+    private final WavyProgressTrack wavyTrack = new WavyProgressTrack();
+    private final StatusBarChipColors chipColors = new StatusBarChipColors();
     private final AtomicBoolean promotionPatched = new AtomicBoolean(false);
+    private final AtomicBoolean systemUiStyled = new AtomicBoolean(false);
 
     private volatile String processName = "";
 
@@ -48,14 +56,19 @@ public final class ModuleMain extends XposedModule {
 
     @Override
     public void onPackageReady(PackageReadyParam param) {
-        if (!HostApp.PACKAGE.equals(param.getPackageName())) {
+        String packageName = param.getPackageName();
+        if (!processName.isEmpty() && !packageName.equals(processName)) {
             return;
         }
-        if (!processName.isEmpty() && !HostApp.PACKAGE.equals(processName)) {
-            return;
-        }
-        if (tracker.install(param.getClassLoader())) {
-            promoter.install();
+        if (HostApp.PACKAGE.equals(packageName)) {
+            if (tracker.install(param.getClassLoader())) {
+                promoter.install();
+            }
+        } else if (SystemUi.PACKAGE.equals(packageName)
+                && systemUiStyled.compareAndSet(false, true)) {
+            progressMotion.install(param.getClassLoader());
+            wavyTrack.install(param.getClassLoader());
+            chipColors.install(param.getClassLoader());
         }
     }
 

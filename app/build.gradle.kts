@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
 }
 
-val appVersion = "1.0.0"
+val appVersion = "1.1.0"
 
 val envKeystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
 val envKeystoreAlias = System.getenv("ANDROID_KEYSTORE_ALIAS")
@@ -39,7 +39,7 @@ android {
         applicationId = "io.github.mrxsin.syncthingliveupdate"
         minSdk = 36
         targetSdk = 36
-        versionCode = 2
+        versionCode = 3
         versionName = appVersion
     }
 
