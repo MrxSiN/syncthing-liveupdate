@@ -21,15 +21,17 @@ the missing part, without adding a notification of its own.
 
 ## 📸 Screenshots
 
-<p align="center"><img src="branding/notification.png" width="620" alt="Syncthing's own notification, rewritten with a progress bar and the folder being transferred"></p>
+<p align="center"><img src="branding/notification.png" width="620" alt="Syncthing's own notification during an upload, with a wavy progress bar running from a phone icon to a computer icon, led by a cookie-shaped tracker"></p>
 
 Syncthing's own persistent notification during a transfer: the host's title and Exit action
-are untouched, with the progress bar and the name of the folder being transferred added.
+are untouched. The progress bar runs from this phone to the remote computer, its filled part
+drawn as a Material 3 Expressive wave behind a cookie-shaped tracker carrying the Syncthing
+glyph.
 
-<p align="center"><img src="branding/status-bar-chip.png" width="380" alt="Status bar chip showing the Syncthing icon with a download badge and 73 percent"></p>
+<p align="center"><img src="branding/status-bar-chip.png" width="320" alt="Blue status bar chip showing the Syncthing icon with an upload badge and 81 percent"></p>
 
-The same notification as a status bar chip. The arrow badge shows the direction of the
-transfer — here, data arriving on this device.
+The same notification as a status bar chip, filled with Syncthing's blue. The arrow badge
+shows the direction of the transfer — here, data leaving this device.
 
 ## ✨ Features
 
@@ -258,13 +260,12 @@ flags=ONGOING_EVENT|ONLY_ALERT_ONCE|NO_CLEAR|FOREGROUND_SERVICE|PROMOTED_ONGOING
 ```
 
 and reverting to `01_syncthing_persistent` without the promotion flag once the sync
-completed. The screenshots above are from the `1.0.0` run and predate the Material 3
-Expressive styling.
+completed.
 
 The `1.1.0` SystemUI hooks were validated on the same device, build `CP2A.260805.005`: the
 filled part of the bar was drawn as a moving wave, the tracker was captured at intermediate
 positions between whole-percent updates, and the status bar chip was filled with Syncthing's
-blue.
+blue. The screenshots above are from that run.
 
 The included GitHub Actions workflow builds on every push, pull request, and manual run. A
 `v*` tag additionally builds, signs, and attaches the release APK to the GitHub Release when
