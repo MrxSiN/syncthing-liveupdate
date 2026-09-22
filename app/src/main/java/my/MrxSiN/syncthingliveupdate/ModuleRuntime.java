@@ -53,13 +53,26 @@ final class ModuleRuntime {
 
     /**
      * Installs a hook, or returns {@code null} when the framework interface is
-     * missing or the framework rejected the hook.
+     * missing, the framework rejected the hook, or installing it threw.
+     *
+     * This is the module's single hard boundary for hook installation: every
+     * feature reaches the framework through here, so catching the failure here is
+     * what makes "a broken hook disables one feature, never the process" a
+     * property of the module rather than a habit of each call site. Errors that
+     * report a damaged runtime rather than a missing member ({@link Error} other
+     * than {@link LinkageError}) are left to propagate, because swallowing those
+     * would hide a problem the module cannot recover from anyway.
      */
     static XposedInterface.HookHandle hook(Executable origin, XposedInterface.Hooker hooker) {
         XposedInterface runtime = api;
         if (runtime == null || origin == null) {
             return null;
         }
-        return runtime.hook(origin).intercept(hooker);
+        try {
+            return runtime.hook(origin).intercept(hooker);
+        } catch (RuntimeException | LinkageError failure) {
+            log("Hook installation failed: " + origin, failure);
+            return null;
+        }
     }
 }

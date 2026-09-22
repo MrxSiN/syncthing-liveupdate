@@ -39,12 +39,8 @@ final class ProgressBarMotion {
     private boolean applyingFrame;
 
     /** Installs the hook. Returns false when the platform bar is not present. */
-    boolean install(ClassLoader systemUiClassLoader) {
-        setProgressModel = Reflect.findMethod(
-                Reflect.findClass(systemUiClassLoader, SystemUi.NOTIFICATION_PROGRESS_BAR),
-                SystemUi.SET_PROGRESS_MODEL,
-                Bundle.class
-        );
+    boolean install(MemberResolver resolver) {
+        setProgressModel = resolver.method(SystemUi.PROGRESS_MODEL_QUERY);
         if (setProgressModel == null
                 || ModuleRuntime.hook(setProgressModel, this::intercept) == null) {
             ModuleRuntime.log(

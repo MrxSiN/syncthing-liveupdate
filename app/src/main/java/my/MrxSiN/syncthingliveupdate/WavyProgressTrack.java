@@ -9,10 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import io.github.libxposed.api.XposedInterface;
 
@@ -41,8 +44,39 @@ final class WavyProgressTrack {
 
     private static final float SAMPLE_STEP_PX = 2f;
 
+    /**
+     * Shortest gap between two self-requested frames, about 60 Hz.
+     *
+     * Redrawing from inside {@code draw} means the bar follows whatever rate the
+     * panel runs at, so a 120 Hz device would rebuild the wave twice as often for
+     * a wave that travels one wavelength per second either way. The frame is
+     * scheduled instead of requested immediately, which puts a ceiling on the work
+     * this module adds to SystemUI regardless of the panel.
+     */
+    private static final long FRAME_INTERVAL_MS = 16;
+
+    /**
+     * Failed draws tolerated before the wave is given up on for this process. A
+     * draw that throws once is a surprise; a draw that keeps throwing is a
+     * structural mismatch with this SystemUI build, and retrying it on every frame
+     * would cost more than the feature is worth.
+     */
+    private static final int FAILURE_BUDGET = 3;
+
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path wave = new Path();
+
+    /**
+     * One reusable frame request per drawable, so a request can be withdrawn and
+     * so repeated scheduling cannot pile up. Touched on the main thread only.
+     */
+    private final Map<Drawable, Runnable> frames = new WeakHashMap<>();
+
+    /** Failed draws so far; touched on the main thread only. */
+    private int failures;
+
+    /** Set once the wave is given up on, and never cleared. */
+    private volatile boolean disabled;
 
     private Field parts;
     private Field endDotColor;
@@ -59,7 +93,7 @@ final class WavyProgressTrack {
     }
 
     /** Installs the hook. Returns false when the platform drawable is not present. */
-    boolean install(ClassLoader systemUiClassLoader) {
+    boolean install(ClassLoader systemUiClassLoader, MemberResolver resolver) {
         Class<?> drawable = Reflect.findClass(
                 systemUiClassLoader, SystemUi.NOTIFICATION_PROGRESS_DRAWABLE);
         Class<?> part = Reflect.findClass(
@@ -78,7 +112,7 @@ final class WavyProgressTrack {
             return false;
         }
 
-        Method draw = Reflect.findMethod(drawable, SystemUi.DRAW, Canvas.class);
+        Method draw = resolver.method(SystemUi.PROGRESS_DRAW_QUERY);
         if (draw == null || ModuleRuntime.hook(draw, this::intercept) == null) {
             ModuleRuntime.log("Wavy progress unavailable; the bar stays flat");
             return false;
@@ -89,7 +123,8 @@ final class WavyProgressTrack {
 
     private Object intercept(XposedInterface.Chain chain) throws Throwable {
         List<Object> args = chain.getArgs();
-        if (!(chain.getThisObject() instanceof Drawable drawable)
+        if (disabled
+                || !(chain.getThisObject() instanceof Drawable drawable)
                 || !(hostView(drawable) instanceof View bar)
                 || args.isEmpty()
                 || !(args.get(0) instanceof Canvas canvas)
@@ -100,9 +135,26 @@ final class WavyProgressTrack {
             draw(drawable, canvas, bar.getResources().getDisplayMetrics().density);
             return null;
         } catch (ReflectiveOperationException | RuntimeException failure) {
-            ModuleRuntime.log("Wavy progress skipped: " + Reflect.describe(failure));
+            giveUpAfter(drawable, failure);
             return chain.proceed();
         }
+    }
+
+    /**
+     * Records a failed draw and, once the budget is spent, stops drawing the wave
+     * for the rest of the process so the platform bar is simply used instead.
+     */
+    private void giveUpAfter(Drawable drawable, Throwable failure) {
+        cancelFrame(drawable);
+        failures++;
+        if (failures < FAILURE_BUDGET) {
+            ModuleRuntime.log("Wavy progress skipped: " + Reflect.describe(failure));
+            return;
+        }
+        disabled = true;
+        frames.clear();
+        ModuleRuntime.log("Wavy progress disabled after " + failures
+                + " failed draws; the bar stays flat", failure);
     }
 
     /** Runs on the main thread, the only thread SystemUI draws notifications on. */
@@ -145,7 +197,21 @@ final class WavyProgressTrack {
         }
 
         if (flowing) {
-            drawable.invalidateSelf();
+            scheduleFrame(drawable);
+        }
+    }
+
+    /** Asks for the next frame no sooner than {@link #FRAME_INTERVAL_MS} from now. */
+    private void scheduleFrame(Drawable drawable) {
+        Runnable frame = frames.computeIfAbsent(drawable, Frame::new);
+        drawable.unscheduleSelf(frame);
+        drawable.scheduleSelf(frame, SystemClock.uptimeMillis() + FRAME_INTERVAL_MS);
+    }
+
+    private void cancelFrame(Drawable drawable) {
+        Runnable frame = frames.remove(drawable);
+        if (frame != null) {
+            drawable.unscheduleSelf(frame);
         }
     }
 
@@ -220,5 +286,29 @@ final class WavyProgressTrack {
     private static <T extends AccessibleObject> T accessible(T member) {
         member.setAccessible(true);
         return member;
+    }
+
+    /**
+     * A pending frame request.
+     *
+     * The drawable is held weakly on purpose: the request is the value of a
+     * {@link WeakHashMap} keyed by that same drawable, so holding it strongly
+     * would keep every bar the module ever drew alive for the life of SystemUI.
+     */
+    private static final class Frame implements Runnable {
+
+        private final WeakReference<Drawable> target;
+
+        Frame(Drawable drawable) {
+            target = new WeakReference<>(drawable);
+        }
+
+        @Override
+        public void run() {
+            Drawable drawable = target.get();
+            if (drawable != null) {
+                drawable.invalidateSelf();
+            }
+        }
     }
 }

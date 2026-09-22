@@ -25,22 +25,26 @@ final class LiveUpdatePromoter {
     private static final int NOTIFICATION_ARGUMENT = 1;
     private static final String START_FOREGROUND = "startForeground";
 
-    /**
-     * Android 17 asks for the promotion explicitly instead of reading it out of
-     * {@code setColorized}, which it now rejects. The method does not exist on
-     * Android 16, where the colorized request carried the same meaning.
-     */
-    private static final String REQUEST_PROMOTED_ONGOING = "setRequestPromotedOngoing";
-
     private final SyncProgressSource source;
     private final LiveUpdateAppearance appearance;
+    private final PlatformContract contract;
     private final AtomicBoolean installed = new AtomicBoolean(false);
+
+    /** The promotion request is attempted per update, so its failure is logged once. */
+    private final AtomicBoolean promotionRequestFailureLogged = new AtomicBoolean(false);
+
+    private final PromotionStatus status = new PromotionStatus();
 
     private volatile int lastPromotedCompletion = SyncSnapshot.COMPLETION_UNKNOWN;
 
-    LiveUpdatePromoter(SyncProgressSource source, LiveUpdateAppearance appearance) {
+    LiveUpdatePromoter(
+            SyncProgressSource source,
+            LiveUpdateAppearance appearance,
+            PlatformContract contract
+    ) {
         this.source = source;
         this.appearance = appearance;
+        this.contract = contract;
     }
 
     /** Installs the hooks. Returns false when no entry point could be hooked. */
@@ -58,6 +62,7 @@ final class LiveUpdatePromoter {
             return false;
         }
         ModuleRuntime.log("Promoting the host notification on channel " + LiveUpdateChannel.ID);
+        status.report();
         return true;
     }
 
@@ -132,7 +137,11 @@ final class LiveUpdatePromoter {
                 .setOngoing(true)
                 .setOnlyAlertOnce(true);
 
-        Reflect.invokeIfPresent(builder, REQUEST_PROMOTED_ONGOING, boolean.class, true);
+        if (!contract.requestPromotion(builder)
+                && promotionRequestFailureLogged.compareAndSet(false, true)) {
+            ModuleRuntime.log("Promotion could not be requested on " + contract.describe()
+                    + "; the Live Update stays an ordinary notification");
+        }
 
         appearance.apply(hostContext, original, builder, snapshot);
         return builder.build();
