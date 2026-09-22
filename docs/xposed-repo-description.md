@@ -57,7 +57,8 @@ server starts and cannot take effect until the next boot.
   Vector with Magisk or KernelSU and Zygisk enabled. LSPatch cannot run this module: the
   promotion flag has to be restored inside `system_server`, which a rootless patch cannot
   reach.
-- Syncthing-Fork (`com.github.catfriend1.syncthingfork`).
+- Syncthing-Fork (`com.github.catfriend1.syncthingfork`). Verified against 2.1.5.0 and
+  2.1.6.0-rc.1.
 
 ### Notes
 
@@ -67,6 +68,9 @@ server starts and cannot take effect until the next boot.
   other notification on the device, including Syncthing's own, keeps the platform's verdict.
 - A hook that cannot install is logged and skipped, and Syncthing is left exactly as it was.
 - Logs are tagged `SyncthingLiveUpdate`.
+- The module declares `autoHotReload`, so an update is loaded into running processes instead
+  of waiting for a reboot. `system_server` is the slower half; until it holds the new build
+  the module says so in the log rather than leaving the Live Update silently unpromoted.
 
 Source, full documentation and troubleshooting:
 https://github.com/MrxSiN/syncthing-liveupdate
