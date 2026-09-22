@@ -22,27 +22,17 @@ final class PromotionPolicyPatch {
     private static final String NOTIFICATION_MANAGER_SERVICE =
             "com.android.server.notification.NotificationManagerService";
 
-    /** Applies the promotion verdict to a notification about to be recorded. */
-    private static final String FIX_NOTIFICATION = "fixNotificationWithChannel";
-
-    /** {@code Notification.FLAG_PROMOTED_ONGOING}, not public API on every release. */
-    private static final int FLAG_PROMOTED_ONGOING = 0x00040000;
-
-    private static final int PACKAGE_ARGUMENT = 3;
-
     private PromotionPolicyPatch() {
     }
 
     /** Installs the patch. Returns false when the platform method is not present. */
     static boolean install(ClassLoader systemServerClassLoader) {
+        PlatformContract contract = PlatformContracts.current();
         Class<?> service = findService(systemServerClassLoader);
         Method origin = Reflect.findMethod(
                 service,
-                FIX_NOTIFICATION,
-                Notification.class,
-                NotificationChannel.class,
-                int.class,
-                String.class
+                contract.promotionMethod(),
+                contract.promotionParameters()
         );
         if (origin == null) {
             ModuleRuntime.log("Promotion entry point not found; Live Update stays unpromoted");
@@ -50,13 +40,14 @@ final class PromotionPolicyPatch {
         }
 
         XposedInterface.HookHandle handle =
-                ModuleRuntime.hook(origin, PromotionPolicyPatch::promoteLiveUpdate);
+                ModuleRuntime.hook(origin, chain -> promoteLiveUpdate(chain, contract));
         if (handle == null) {
             ModuleRuntime.log("Promotion hook rejected; Live Update stays unpromoted");
             return false;
         }
         ModuleRuntime.log("Promotion enabled for " + HostApp.PACKAGE
-                + " channel " + LiveUpdateChannel.ID);
+                + " channel " + LiveUpdateChannel.ID
+                + " on " + contract.describe());
         return true;
     }
 
@@ -84,17 +75,19 @@ final class PromotionPolicyPatch {
         return null;
     }
 
-    private static Object promoteLiveUpdate(XposedInterface.Chain chain) throws Throwable {
+    private static Object promoteLiveUpdate(XposedInterface.Chain chain, PlatformContract contract)
+            throws Throwable {
         Object result = chain.proceed();
         List<Object> args = chain.getArgs();
-        if (args.size() <= PACKAGE_ARGUMENT
-                || !HostApp.PACKAGE.equals(args.get(PACKAGE_ARGUMENT))) {
+        int packageArgument = contract.promotionPackageArgument();
+        if (args.size() <= packageArgument
+                || !HostApp.PACKAGE.equals(args.get(packageArgument))) {
             return result;
         }
         if (args.get(0) instanceof Notification notification
                 && args.get(1) instanceof NotificationChannel channel
                 && LiveUpdateChannel.ID.equals(channel.getId())) {
-            notification.flags |= FLAG_PROMOTED_ONGOING;
+            notification.flags |= contract.flagPromotedOngoing();
         }
         return result;
     }

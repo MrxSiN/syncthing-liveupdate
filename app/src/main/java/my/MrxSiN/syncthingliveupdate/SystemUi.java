@@ -43,6 +43,18 @@ final class SystemUi {
     static final String CUSTOM_BACKGROUND_FIELD = "backgroundColorInt";
     static final String CUSTOM_TEXT_FIELD = "primaryTextColorInt";
 
+    /**
+     * The methods the SystemUI polish hooks. These are framework classes rather
+     * than app code, so they are not obfuscated and carry no distinctive string
+     * constants; the queries are here for the same reason as the host's, to keep
+     * every hooked member declared in one place.
+     */
+    static final MemberQuery PROGRESS_MODEL_QUERY = MemberQuery
+            .of(NOTIFICATION_PROGRESS_BAR, SET_PROGRESS_MODEL, "android.os.Bundle");
+
+    static final MemberQuery PROGRESS_DRAW_QUERY = MemberQuery
+            .of(NOTIFICATION_PROGRESS_DRAWABLE, DRAW, "android.graphics.Canvas");
+
     private SystemUi() {
     }
 }

@@ -18,9 +18,6 @@ import java.util.List;
  */
 final class ExpressiveAppearance implements LiveUpdateAppearance {
 
-    /** How many folder names fit on the notification's second line. */
-    private static final int FOLDERS_NAMED = 2;
-
     /**
      * Steps per percent. The host reports whole percents, but SystemUI draws the bar
      * from integer steps, so a finer scale lets an animated bar glide instead of
@@ -41,7 +38,7 @@ final class ExpressiveAppearance implements LiveUpdateAppearance {
         builder.setColor(palette.primary())
                 .setStyle(progressStyle(hostContext, original, snapshot, palette));
 
-        String folders = folderLine(snapshot.folders());
+        String folders = FolderLine.of(snapshot.folders());
         if (folders != null) {
             builder.setContentText(folders);
         }
@@ -75,21 +72,5 @@ final class ExpressiveAppearance implements LiveUpdateAppearance {
                     .setProgressEndIcon(icons.endpoint(hostContext, route.destination(), palette));
         }
         return style;
-    }
-
-    /**
-     * The line naming what is being transferred, or {@code null} when the host has
-     * not reported a folder. Long lists are trimmed with a plain count rather than
-     * a sentence, because the module carries no translations of its own.
-     */
-    private static String folderLine(List<String> folders) {
-        if (folders.isEmpty()) {
-            return null;
-        }
-        if (folders.size() <= FOLDERS_NAMED) {
-            return String.join(", ", folders);
-        }
-        return String.join(", ", folders.subList(0, FOLDERS_NAMED))
-                + " +" + (folders.size() - FOLDERS_NAMED);
     }
 }

@@ -25,7 +25,6 @@ final class StatusBarChipColors {
     private final Map<SyncthingPalette, Object> colors = new ConcurrentHashMap<>();
 
     private Class<?> customColors;
-    private volatile int colorsArgument = -1;
 
     /** Installs the hook. Returns false when the chip model is not present. */
     boolean install(ClassLoader systemUiClassLoader) {
@@ -36,9 +35,16 @@ final class StatusBarChipColors {
         int hooks = 0;
         if (chip != null && colorsModel != null && customColors != null) {
             for (Constructor<?> constructor : chip.getDeclaredConstructors()) {
+                /*
+                 * The index is captured per constructor. SystemUI may expose several
+                 * constructors that take a colours model, and nothing says they agree
+                 * on where it sits, so a single shared index would let one hook
+                 * rewrite the wrong argument of another constructor.
+                 */
                 int index = List.of(constructor.getParameterTypes()).indexOf(colorsModel);
-                if (index >= 0 && ModuleRuntime.hook(constructor, this::intercept) != null) {
-                    colorsArgument = index;
+                if (index >= 0
+                        && ModuleRuntime.hook(constructor, chain -> intercept(chain, index))
+                        != null) {
                     hooks++;
                 }
             }
@@ -51,9 +57,8 @@ final class StatusBarChipColors {
         return true;
     }
 
-    private Object intercept(XposedInterface.Chain chain) throws Throwable {
+    private Object intercept(XposedInterface.Chain chain, int index) throws Throwable {
         Object[] args = chain.getArgs().toArray();
-        int index = colorsArgument;
         if (index >= args.length || !belongsToHost(args)) {
             return chain.proceed();
         }

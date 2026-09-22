@@ -1,5 +1,10 @@
 name: Android CI & Release
 
+# Actions are pinned to immutable commit SHAs rather than tags. A tag can be
+# moved to different code by whoever owns the action, and two of the steps here
+# run with the repository's write token or near the signing secrets, so what runs
+# there has to be exactly what was reviewed.
+
 on:
   push:
     branches: [ "main" ]
@@ -8,53 +13,120 @@ on:
     branches: [ "main" ]
   release:
     types: [published]
+  schedule:
+    # Weekly, to notice an upstream Syncthing-Fork release that moved something
+    # the module hooks before a user does.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: Check and build
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
       - name: Grant execute permission
-        run: chmod +x gradlew scripts/check-project.sh
+        run: chmod +x gradlew scripts/check-project.sh scripts/check-host-contract.sh
 
       - name: Validate project files
         run: ./scripts/check-project.sh
 
+      - name: Run unit tests
+        run: ./gradlew test
+
       - name: Build with Gradle
         run: ./gradlew assemble
 
-      - name: Build Release APK
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
-        run: ./gradlew assembleRelease
-
-      - name: Sign Release APK
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          name: unit-test-report
+          path: app/build/reports/tests/
+          if-no-files-found: ignore
+
+  host-contract:
+    name: Host contract
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # The check downloads a released Syncthing-Fork APK, so it is kept off the
+    # pull-request path where a network failure would block an unrelated change.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Grant execute permission
+        run: chmod +x scripts/check-host-contract.sh
+
+      - name: Check the supported Syncthing-Fork release
+        run: ./scripts/check-host-contract.sh
+
+  release:
+    name: Sign and publish
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      # Gradle is the only thing that ever sees the keystore. The module has a
+      # single release signing path, in app/build.gradle.kts, so the APK that
+      # leaves this job is signed by the same configuration a local release build
+      # would use.
+      - name: Build a signed release APK
         env:
-          BUILD_TOOLS_VERSION: "35.0.0"
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -eu
+          keystore="$RUNNER_TEMP/release.jks"
+          printf '%s' "$SIGNING_KEY" | base64 --decode > "$keystore"
+          ANDROID_KEYSTORE_PATH="$keystore" ./gradlew assembleRelease
+          rm -f "$keystore"
+
+      - name: Verify the APK is signed
+        run: |
+          set -eu
+          apk=$(find app/build/outputs/apk/release -name '*.apk' -print -quit)
+          [ -n "$apk" ] || { echo "no release APK was produced" >&2; exit 1; }
+          unzip -l "$apk" | grep -q 'META-INF/.*\.\(RSA\|EC\|DSA\)' \
+            || { echo "$apk is not signed" >&2; exit 1; }
+          echo "APK=$apk" >> "$GITHUB_ENV"
 
       - name: Extract release notes from the changelog
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
-        shell: bash
         run: |
+          set -eu
           VERSION="${GITHUB_REF_NAME#v}"
           awk -v v="$VERSION" '
             $0 ~ "^## " v " " { found = 1; next }
@@ -67,11 +139,12 @@ jobs:
           fi
 
       - name: Upload APK to Release
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
-          files: ${{ steps.sign_app.outputs.signedReleaseFile }}
+          files: ${{ env.APK }}
           tag_name: ${{ github.ref_name }}
           body_path: release-notes.md
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          # The workflow's own token, scoped to this repository and to this job
+          # alone; no separately maintained personal access token is needed.
+          GITHUB_TOKEN: ${{ github.token }}

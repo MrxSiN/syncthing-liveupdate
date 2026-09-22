@@ -44,21 +44,12 @@ final class SyncProgressTracker implements SyncProgressSource {
     }
 
     /** Installs the hooks. Returns false when the host method is not present. */
-    boolean install(ClassLoader hostClassLoader) {
+    boolean install(MemberResolver resolver) {
         if (!installed.compareAndSet(false, true)) {
             return true;
         }
 
-        Class<?> handlerClass = Reflect.findClass(hostClassLoader, HostApp.NOTIFICATION_HANDLER);
-        Class<?> serviceClass = Reflect.findClass(hostClassLoader, HostApp.SYNCTHING_SERVICE);
-        Method origin = Reflect.findMethod(
-                handlerClass,
-                HostApp.UPDATE_PERSISTENT_NOTIFICATION,
-                serviceClass,
-                Boolean.class,
-                int.class,
-                int.class
-        );
+        Method origin = resolver.method(HostApp.PERSISTENT_NOTIFICATION_QUERY);
         if (origin == null) {
             ModuleRuntime.log("Host notification method not found; module stays inactive");
             return false;
@@ -70,8 +61,8 @@ final class SyncProgressTracker implements SyncProgressSource {
             return false;
         }
         ModuleRuntime.log("Observing " + origin);
-        installDirectionHooks(hostClassLoader);
-        if (!folders.install(hostClassLoader)) {
+        installDirectionHooks(resolver);
+        if (!folders.install(resolver)) {
             ModuleRuntime.log("Folder names unavailable; the Live Update omits them");
         }
         return true;
@@ -81,17 +72,15 @@ final class SyncProgressTracker implements SyncProgressSource {
      * The direction hooks are optional: without them the progress is still shown,
      * only without the inbound or outbound badge.
      */
-    private void installDirectionHooks(ClassLoader hostClassLoader) {
+    private void installDirectionHooks(MemberResolver resolver) {
         boolean folders = hookCompletion(
-                hostClassLoader,
-                HostApp.LOCAL_COMPLETION,
-                HostApp.TOTAL_FOLDER_COMPLETION,
+                resolver,
+                HostApp.FOLDER_COMPLETION_QUERY,
                 completion -> folderCompletion = completion
         );
         boolean devices = hookCompletion(
-                hostClassLoader,
-                HostApp.REMOTE_COMPLETION,
-                HostApp.TOTAL_DEVICE_COMPLETION,
+                resolver,
+                HostApp.DEVICE_COMPLETION_QUERY,
                 completion -> deviceCompletion = completion
         );
         if (!folders || !devices) {
@@ -100,13 +89,11 @@ final class SyncProgressTracker implements SyncProgressSource {
     }
 
     private boolean hookCompletion(
-            ClassLoader hostClassLoader,
-            String className,
-            String methodName,
+            MemberResolver resolver,
+            MemberQuery query,
             CompletionSink sink
     ) {
-        Method origin = Reflect.findMethod(
-                Reflect.findClass(hostClassLoader, className), methodName);
+        Method origin = resolver.method(query);
         if (origin == null) {
             return false;
         }

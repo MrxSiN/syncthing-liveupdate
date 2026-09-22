@@ -17,11 +17,12 @@ import io.github.libxposed.api.XposedModule;
  */
 public final class ModuleMain extends XposedModule {
 
-    private static final String MODULE_VERSION = "1.1.0";
+    private static final String MODULE_VERSION = "1.1.1";
 
+    private final PlatformContract contract = PlatformContracts.current();
     private final SyncProgressTracker tracker = new SyncProgressTracker();
     private final LiveUpdatePromoter promoter =
-            new LiveUpdatePromoter(tracker, new ExpressiveAppearance());
+            new LiveUpdatePromoter(tracker, new ExpressiveAppearance(), contract);
     private final ProgressBarMotion progressMotion = new ProgressBarMotion();
     private final WavyProgressTrack wavyTrack = new WavyProgressTrack();
     private final StatusBarChipColors chipColors = new StatusBarChipColors();
@@ -38,7 +39,8 @@ public final class ModuleMain extends XposedModule {
                 + " loaded in " + processName
                 + ", framework=" + getFrameworkName()
                 + " " + getFrameworkVersion()
-                + ", api=" + getApiVersion());
+                + ", api=" + getApiVersion()
+                + ", contract=" + contract.describe());
         if (param.isSystemServer()) {
             patchPromotionPolicy(getClass().getClassLoader());
         }
@@ -61,14 +63,31 @@ public final class ModuleMain extends XposedModule {
             return;
         }
         if (HostApp.PACKAGE.equals(packageName)) {
-            if (tracker.install(param.getClassLoader())) {
-                promoter.install();
+            try (MemberResolver resolver = Resolvers.open(param.getClassLoader())) {
+                if (tracker.install(resolver)) {
+                    promoter.install();
+                }
             }
         } else if (SystemUi.PACKAGE.equals(packageName)
                 && systemUiStyled.compareAndSet(false, true)) {
-            progressMotion.install(param.getClassLoader());
-            wavyTrack.install(param.getClassLoader());
-            chipColors.install(param.getClassLoader());
+            styleSystemUi(param.getClassLoader());
+        }
+    }
+
+    /**
+     * The SystemUI polish is optional, and only attempted on a release whose
+     * SystemUI the module has been read against. On anything else the Live Update
+     * itself still works and the bar is simply the one the platform draws.
+     */
+    private void styleSystemUi(ClassLoader classLoader) {
+        if (!contract.systemUiPolishSupported()) {
+            ModuleRuntime.log("SystemUI polish left off on " + contract.describe());
+            return;
+        }
+        try (MemberResolver resolver = Resolvers.open(classLoader)) {
+            progressMotion.install(resolver);
+            wavyTrack.install(classLoader, resolver);
+            chipColors.install(classLoader);
         }
     }
 
