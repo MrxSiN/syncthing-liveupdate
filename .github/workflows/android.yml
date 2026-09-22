@@ -115,13 +115,25 @@ jobs:
           ANDROID_KEYSTORE_PATH="$keystore" ./gradlew assembleRelease
           rm -f "$keystore"
 
+      # Checked with apksigner rather than by looking for META-INF/*.RSA: the
+      # module's minSdk is 36, so AGP signs with APK Signature Scheme v2 alone
+      # and puts nothing in META-INF. Looking there finds no signature on a
+      # perfectly signed APK.
       - name: Verify the APK is signed
         run: |
           set -eu
           apk=$(find app/build/outputs/apk/release -name '*.apk' -print -quit)
           [ -n "$apk" ] || { echo "no release APK was produced" >&2; exit 1; }
-          unzip -l "$apk" | grep -q 'META-INF/.*\.\(RSA\|EC\|DSA\)' \
-            || { echo "$apk is not signed" >&2; exit 1; }
+          apksigner=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools" \
+            -name apksigner -type f 2>/dev/null | sort -V | tail -1)
+          if [ -n "$apksigner" ]; then
+            "$apksigner" verify --verbose "$apk"
+          else
+            # No build-tools on the runner: fall back to the APK Signing Block
+            # magic, which only a v2-or-later signed APK carries.
+            grep -qa 'APK Sig Block 42' "$apk" \
+              || { echo "$apk is not signed" >&2; exit 1; }
+          fi
           echo "APK=$apk" >> "$GITHUB_ENV"
 
       - name: Extract release notes from the changelog
