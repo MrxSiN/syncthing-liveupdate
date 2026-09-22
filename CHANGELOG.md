@@ -91,7 +91,9 @@ Pixel 8 Pro, Android 17 (SDK 37), build `CP3A.260905.009`, Vector 2.2, Syncthing
 - One release signing path. Gradle signs from the environment in CI as well as locally, and
   the third-party signing Action, which was handed the keystore, is gone.
 - The CI workflow is split into a read-only build-and-test job and a release job that alone
-  holds `contents: write`. Actions are pinned to commit SHAs and updated off the deprecated
+  holds `contents: write`. The release job verifies the APK with `apksigner` before publishing
+  it: minSdk 36 means AGP signs with APK Signature Scheme v2 alone, so looking for
+  `META-INF/*.RSA` finds no signature on a perfectly signed APK. Actions are pinned to commit SHAs and updated off the deprecated
   Node 20 runtime, and the release upload uses the workflow's own token instead of a
   separately maintained one.
 - `Resolvers.open` reports how many dex files it indexed and how long it took, so the cost
