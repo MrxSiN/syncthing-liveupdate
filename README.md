@@ -8,7 +8,16 @@
 
 No second notification. No REST polling. No API key.
 
-**Android 17 QPR2 November update will crash System-UI. Uninstall the module to fix. Will fix it soon**
+
+> [!CAUTION]
+> ## CRITICAL WARNING — ANDROID 17 QPR2
+>
+> **The November update causes SystemUI to crash when this module is enabled.**
+>
+> **UNINSTALL THIS MODULE IMMEDIATELY** to prevent further SystemUI crashes.
+>
+> **A compatibility fix is coming soon.**
+
 
 <br>
 
