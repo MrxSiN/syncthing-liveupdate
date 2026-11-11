@@ -9,14 +9,10 @@
 No second notification. No REST polling. No API key.
 
 
-> [!CAUTION]
-> ## CRITICAL WARNING — ANDROID 17 QPR2
->
-> **The November update causes SystemUI to crash when this module is enabled.**
->
-> **UNINSTALL THIS MODULE IMMEDIATELY** to prevent further SystemUI crashes.
->
-> **A compatibility fix is coming soon.**
+> [!IMPORTANT]
+> **Android 17 QPR2 (November update):** v1.1.1 crash-loops SystemUI on this release.
+> **Update to v1.1.2**, which fixes it. If SystemUI is already crashing, uninstall the module
+> over adb first, then install v1.1.2.
 
 
 <br>
