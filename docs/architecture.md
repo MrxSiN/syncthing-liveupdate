@@ -11,18 +11,28 @@ where the method is expected to be declared, what it is expected to be called, w
 takes, and — where one exists — a string constant its body references.
 
 `Resolvers.open(...)` answers those queries with DexKit first and a plain name lookup
-second. DexKit searches the dex files already loaded in the process by shape, so a method
-that upstream renamed or moved can still be found by the constants it uses; the name lookup
+second. DexKit indexes the host's APK file by shape, so a method that upstream or R8 renamed
+or moved can still be found by its signature and the constants it uses; the name lookup
 answers whenever DexKit is unavailable or finds no unique match, which means the module is
 never worse off than it was before DexKit. The index is opened while a process's hooks are
 installed and closed immediately afterwards — nothing holds one past startup.
+
+DexKit is never pointed at process memory. Its in-memory mode faults natively on Android 17
+QPR2, which no Java handler can catch. SystemUI uses the name lookup only: the widgets it
+hooks live in `framework.jar` on the boot class path, which an index of SystemUI's APK
+cannot contain anyway.
+
+Shrunk host builds (F-Droid mirrors) also unbox `SyncthingService.State` into an int field.
+`HostServiceState` finds that field as the one the persistent-notification method reads,
+and the static lookup R8 leaves for `name()` by the state names it references.
 
 ## In the Syncthing process
 
 1. The module entry class extends `io.github.libxposed.api.XposedModule` and installs its
    hooks from `onPackageReady()`.
 2. `NotificationHandler.updatePersistentNotification(SyncthingService, Boolean, int, int)`
-   is where the host hands over the figures it has just recalculated in
+   (`sn1.g` in the shrunk 2.1.7.0 build, found by its signature and the
+   `always_run_in_background` key it reads) is where the host hands over the figures it has just recalculated in
    `RestApi.onTotalSyncCompletionChange()`. Observing that one method yields the overall
    completion percentage without a single REST call. The values are read *before* the call
    proceeds, because the host posts its notification inside it.

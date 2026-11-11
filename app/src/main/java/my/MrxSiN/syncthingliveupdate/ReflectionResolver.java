@@ -19,6 +19,9 @@ final class ReflectionResolver implements MemberResolver {
 
     @Override
     public Method method(MemberQuery query) {
+        if (!query.isNamed()) {
+            return null;
+        }
         Class<?>[] parameterTypes =
                 Reflect.findTypes(classLoader, query.parameterTypeNames());
         if (parameterTypes == null) {

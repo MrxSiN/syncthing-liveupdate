@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
 }
 
-val appVersion = "1.1.1"
+val appVersion = "1.1.2"
 
 val envKeystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
 val envKeystoreAlias = System.getenv("ANDROID_KEYSTORE_ALIAS")
@@ -39,7 +39,7 @@ android {
         applicationId = "io.github.mrxsin.syncthingliveupdate"
         minSdk = 36
         targetSdk = 36
-        versionCode = 4
+        versionCode = 5
         versionName = appVersion
 
         /*
@@ -117,7 +117,7 @@ dependencies {
      * rename does not silently disable a feature. Ships a small native library
      * per ABI; see DexKitResolver for how and when it is used.
      */
-    implementation("org.luckypray:dexkit:2.0.6")
+    implementation("org.luckypray:dexkit:2.3.0")
 
     testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

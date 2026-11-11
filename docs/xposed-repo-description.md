@@ -57,8 +57,8 @@ server starts and cannot take effect until the next boot.
   Vector with Magisk or KernelSU and Zygisk enabled. LSPatch cannot run this module: the
   promotion flag has to be restored inside `system_server`, which a rootless patch cannot
   reach.
-- Syncthing-Fork (`com.github.catfriend1.syncthingfork`). Verified against 2.1.5.0 and
-  2.1.6.0-rc.1.
+- Syncthing-Fork (`com.github.catfriend1.syncthingfork`). Verified against 2.1.5.0,
+  2.1.6.0-rc.1 and 2.1.7.0, including R8-shrunk builds.
 
 ### Notes
 

@@ -61,13 +61,13 @@ fi
 unzip -qo "$WORK/host.apk" 'classes*.dex' -d "$WORK"
 
 # The one method the module cannot work without: the host publishes every sync
-# figure through it, and SyncProgressTracker hooks nothing else.
-assert_class com.nutomic.syncthingandroid.service.NotificationHandler
+# figure through it. Shrunk builds rename it and its class, so what is checked is
+# what DexKit finds it by: its parameter type and the preference key it reads.
 assert_class com.nutomic.syncthingandroid.service.SyncthingService
-assert_member updatePersistentNotification
+assert_member always_run_in_background
 
-# The channel the host's persistent notification is posted on, which is both what
-# LiveUpdatePromoter recognises and the string DexKit falls back to.
+# The channel the host's persistent notification is posted on, which is what
+# LiveUpdatePromoter recognises.
 assert_member 01_syncthing_persistent
 
 # The completion models the transfer direction is read from.
@@ -84,8 +84,11 @@ assert_member setFolderStatus
 # The folder states that mean data is moving.
 assert_member sync-preparing
 
-# The service state that means the host is running.
-assert_member getCurrentState
+# The service state names. Kept builds expose them through getCurrentState();
+# shrunk builds through a lookup DexKit finds by these same strings.
+for state in INIT STARTING ACTIVE DISABLED ERROR; do
+  assert_member "$state"
+done
 
 if [ "$failures" -ne 0 ]; then
   echo "check-host-contract: $failures member(s) missing from Syncthing-Fork $HOST_VERSION" >&2

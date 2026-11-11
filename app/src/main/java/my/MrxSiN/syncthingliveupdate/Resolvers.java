@@ -1,5 +1,6 @@
 package my.MrxSiN.syncthingliveupdate;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -22,10 +23,13 @@ final class Resolvers {
     private Resolvers() {
     }
 
-    /** A resolver for {@code classLoader}, to be closed once the hooks are installed. */
-    static MemberResolver open(ClassLoader classLoader) {
+    /**
+     * A resolver for the package whose APK is at {@code apkPath} and whose classes
+     * {@code classLoader} loaded, to be closed once the hooks are installed.
+     */
+    static MemberResolver open(String apkPath, ClassLoader classLoader) {
         MemberResolver fallback = new ReflectionResolver(classLoader);
-        DexKitResolver primary = DexKitResolver.open(classLoader);
+        DexKitResolver primary = DexKitResolver.open(apkPath, classLoader);
         return primary == null ? fallback : new FirstOf(primary, fallback);
     }
 
@@ -37,6 +41,12 @@ final class Resolvers {
         public Method method(MemberQuery query) {
             Method found = primary.method(query);
             return found != null ? found : fallback.method(query);
+        }
+
+        @Override
+        public Field fieldReadBy(Method reader, String ownerName, String typeName) {
+            Field found = primary.fieldReadBy(reader, ownerName, typeName);
+            return found != null ? found : fallback.fieldReadBy(reader, ownerName, typeName);
         }
 
         @Override

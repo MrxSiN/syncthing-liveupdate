@@ -17,7 +17,7 @@ import io.github.libxposed.api.XposedModule;
  */
 public final class ModuleMain extends XposedModule {
 
-    private static final String MODULE_VERSION = "1.1.1";
+    private static final String MODULE_VERSION = "1.1.2";
 
     private final PlatformContract contract = PlatformContracts.current();
     private final SyncProgressTracker tracker = new SyncProgressTracker();
@@ -63,7 +63,8 @@ public final class ModuleMain extends XposedModule {
             return;
         }
         if (HostApp.PACKAGE.equals(packageName)) {
-            try (MemberResolver resolver = Resolvers.open(param.getClassLoader())) {
+            try (MemberResolver resolver = Resolvers.open(
+                    param.getApplicationInfo().sourceDir, param.getClassLoader())) {
                 if (tracker.install(resolver)) {
                     promoter.install();
                 }
@@ -78,13 +79,17 @@ public final class ModuleMain extends XposedModule {
      * The SystemUI polish is optional, and only attempted on a release whose
      * SystemUI the module has been read against. On anything else the Live Update
      * itself still works and the bar is simply the one the platform draws.
+     *
+     * Names are looked up directly here, without DexKit: the hooked widgets live in
+     * framework.jar on the boot class path, not in SystemUI's APK, so indexing
+     * SystemUI could never find them and would only cost its startup time.
      */
     private void styleSystemUi(ClassLoader classLoader) {
         if (!contract.systemUiPolishSupported()) {
             ModuleRuntime.log("SystemUI polish left off on " + contract.describe());
             return;
         }
-        try (MemberResolver resolver = Resolvers.open(classLoader)) {
+        try (MemberResolver resolver = new ReflectionResolver(classLoader)) {
             progressMotion.install(resolver);
             wavyTrack.install(classLoader, resolver);
             chipColors.install(classLoader);

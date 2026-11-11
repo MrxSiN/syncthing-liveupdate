@@ -36,6 +36,20 @@ final class HostApp {
     /** Channel the host posts its foreground-service notification on while running. */
     static final String PERSISTENT_CHANNEL = "01_syncthing_persistent";
 
+    /**
+     * Preference key {@link #UPDATE_PERSISTENT_NOTIFICATION} reads on every call.
+     * The channel id above is only referenced by the handler's constructor, so the
+     * key is what identifies the method itself once R8 has renamed it.
+     */
+    static final String PREF_ALWAYS_RUN_IN_BACKGROUND = "always_run_in_background";
+
+    /**
+     * {@code SyncthingService.State}, in declaration order. Only the names are
+     * relied on: R8 may unbox the enum into an int field and replace its
+     * {@code name()} with a static lookup that references exactly these strings.
+     */
+    static final String[] STATE_NAMES = {"INIT", "STARTING", "ACTIVE", "DISABLED", "ERROR"};
+
     /** Name of the {@code SyncthingService.State} value that means "running". */
     static final String STATE_ACTIVE = "ACTIVE";
 
@@ -52,7 +66,14 @@ final class HostApp {
     static final MemberQuery PERSISTENT_NOTIFICATION_QUERY = MemberQuery
             .of(NOTIFICATION_HANDLER, UPDATE_PERSISTENT_NOTIFICATION,
                     SYNCTHING_SERVICE, "java.lang.Boolean", "int", "int")
-            .using(PERSISTENT_CHANNEL);
+            .using(PREF_ALWAYS_RUN_IN_BACKGROUND);
+
+    /** {@code SyncthingService#getCurrentState()}, present while the enum is kept. */
+    static final MemberQuery CURRENT_STATE_QUERY =
+            MemberQuery.of(SYNCTHING_SERVICE, CURRENT_STATE_METHOD);
+
+    /** The static name lookup R8 leaves behind when it unboxes the state enum. */
+    static final MemberQuery STATE_NAME_QUERY = MemberQuery.byShape("int").using(STATE_NAMES);
 
     /** Overall completion of the local folders, read for the transfer direction. */
     static final MemberQuery FOLDER_COMPLETION_QUERY =
