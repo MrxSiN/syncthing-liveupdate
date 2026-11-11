@@ -2,22 +2,26 @@ package my.MrxSiN.syncthingliveupdate;
 
 import android.os.SystemClock;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.FieldUsingType;
 import org.luckypray.dexkit.result.MethodDataList;
+import org.luckypray.dexkit.result.UsingFieldData;
 
 /**
  * Finds a method by what it looks like rather than by what it is called.
  *
- * DexKit indexes the dex files already loaded in the process and can search them
- * by shape: which class declares the method, what it takes, and which string
- * constants its body references. The last of those is the useful one here,
- * because the host is an ordinary open-source app that gets refactored — a method
- * that was renamed, or moved to another class, still references the same
- * constants, and is still the only method that does.
+ * DexKit indexes a host's dex files and can search them by shape: which class
+ * declares the method, what it takes, and which string constants its body
+ * references. The last of those is the useful one here, because the host is
+ * shrunk by R8 in some of its distributions: a method that was renamed, or moved
+ * to another class, still references the same constants, and is still the only
+ * method that does.
  *
  * Two searches are made per query, narrowest first. The narrow one asks for the
  * exact class, name and signature and is therefore certain; the wide one drops
@@ -25,6 +29,11 @@ import org.luckypray.dexkit.result.MethodDataList;
  * is what survives a rename. A wide search that matches more than one method is
  * treated as no match at all, because guessing between candidates in someone
  * else's process is worse than doing nothing.
+ *
+ * The index is read from the host's APK file, never from the process's memory.
+ * DexKit's in-memory mode walks ART's own dex mappings, and on Android 17 QPR2 one
+ * of those mappings is not readable: the read faults inside libdexkit.so, which no
+ * Java handler can catch, and in SystemUI that became a boot-time crash loop.
  */
 final class DexKitResolver implements MemberResolver {
 
@@ -37,25 +46,20 @@ final class DexKitResolver implements MemberResolver {
     }
 
     /**
-     * Opens an index over the dex files {@code classLoader} loaded, or returns
-     * {@code null} when DexKit is unavailable in this process.
+     * Opens an index over the APK at {@code apkPath}, whose classes
+     * {@code classLoader} loaded, or returns {@code null} when DexKit is unavailable.
      */
-    static DexKitResolver open(ClassLoader classLoader) {
-        if (!DexKitLibrary.load()) {
+    static DexKitResolver open(String apkPath, ClassLoader classLoader) {
+        if (apkPath == null || !DexKitLibrary.load()) {
             return null;
         }
         try {
             long startedAt = SystemClock.uptimeMillis();
-            DexKitBridge bridge = DexKitBridge.create(classLoader, true);
-            if (bridge == null || !bridge.isValid()) {
+            DexKitBridge bridge = DexKitBridge.create(apkPath);
+            if (!bridge.isValid()) {
                 ModuleRuntime.log("DexKit index unavailable; falling back to name lookups");
                 return null;
             }
-            /*
-             * Indexing someone else's process costs them time at startup, so what it
-             * cost is reported rather than assumed. SystemUI is the process where
-             * this number matters.
-             */
             ModuleRuntime.log("DexKit indexed " + bridge.getDexNum() + " dex file(s) in "
                     + (SystemClock.uptimeMillis() - startedAt) + "ms");
             return new DexKitResolver(bridge, classLoader);
@@ -68,12 +72,14 @@ final class DexKitResolver implements MemberResolver {
 
     @Override
     public Method method(MemberQuery query) {
-        Method exact = search(MethodMatcher.create()
-                .declaredClass(query.ownerName())
-                .name(query.name())
-                .paramTypes(query.parameterTypeNames()));
-        if (exact != null) {
-            return exact;
+        if (query.isNamed()) {
+            Method exact = search(MethodMatcher.create()
+                    .declaredClass(query.ownerName())
+                    .name(query.name())
+                    .paramTypes(query.parameterTypeNames()));
+            if (exact != null) {
+                return exact;
+            }
         }
         if (query.usingStrings().isEmpty()) {
             return null;
@@ -82,10 +88,32 @@ final class DexKitResolver implements MemberResolver {
                 .paramTypes(query.parameterTypeNames())
                 .usingStrings(query.usingStrings()));
         if (renamed != null) {
-            ModuleRuntime.log("Resolved " + query.describe()
-                    + " by its constants instead: " + renamed);
+            ModuleRuntime.log("Resolved " + query.describe() + " by its constants: " + renamed);
         }
         return renamed;
+    }
+
+    @Override
+    public Field fieldReadBy(Method reader, String ownerName, String typeName) {
+        try {
+            List<UsingFieldData> read = bridge.getMethodData(reader).getUsingFields().stream()
+                    .filter(use -> use.getUsingType() == FieldUsingType.Read
+                            && ownerName.equals(use.getField().getDeclaredClassName())
+                            && typeName.equals(use.getField().getTypeName()))
+                    .distinct()
+                    .toList();
+            if (read.size() != 1) {
+                return null;
+            }
+            Field field = read.get(0).getField().getFieldInstance(classLoader);
+            field.setAccessible(true);
+            ModuleRuntime.log("Resolved " + ownerName + " " + typeName
+                    + " read by " + reader.getName() + ": " + field);
+            return field;
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError failure) {
+            ModuleRuntime.log("DexKit field search failed: " + Reflect.describe(failure));
+            return null;
+        }
     }
 
     /** The one method the matcher describes, or {@code null} when it is not unique. */

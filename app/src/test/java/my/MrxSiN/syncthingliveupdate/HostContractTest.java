@@ -77,8 +77,20 @@ class HostContractTest {
     @Test
     @DisplayName("the one method the module cannot do without can be found after a rename")
     void persistentNotificationIsRenameProof() {
-        assertEquals(List.of(HostApp.PERSISTENT_CHANNEL),
+        assertEquals(List.of(HostApp.PREF_ALWAYS_RUN_IN_BACKGROUND),
                 HostApp.PERSISTENT_NOTIFICATION_QUERY.usingStrings());
+    }
+
+    @Test
+    @DisplayName("the unboxed state lookup is found by shape and names ACTIVE among its states")
+    void stateNameQueryIsShapeOnly() {
+        MemberQuery query = HostApp.STATE_NAME_QUERY;
+
+        assertFalse(query.isNamed());
+        assertEquals(List.of("int"), query.parameterTypeNames());
+        assertTrue(query.usingStrings().contains(HostApp.STATE_ACTIVE));
+        assertTrue(new ReflectionResolver(getClass().getClassLoader()).method(query) == null,
+                "a name lookup cannot answer a query without a name");
     }
 
     @Test

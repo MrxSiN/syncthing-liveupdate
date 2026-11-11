@@ -35,8 +35,9 @@ No second notification. No REST polling. No API key.
 > **Compatible with the latest Syncthing-Fork.** Every class, method and field this module
 > hooks is verified present in **2.1.5.0** (latest stable) and **2.1.6.0-rc.1** (latest
 > pre-release) from [researchxxl/syncthing-android](https://github.com/researchxxl/syncthing-android),
-> by `scripts/check-host-contract.sh`, which CI re-runs weekly. 2.1.5.0 is also confirmed on a
-> physical device.
+> by `scripts/check-host-contract.sh`, which CI re-runs weekly. 2.1.5.0 and the R8-shrunk
+> 2.1.7.0 (F-Droid mirrors) are also confirmed on a physical device, where renamed members are
+> found by what they do.
 
 ## Why it works this way
 
@@ -159,11 +160,12 @@ failing scheduled run rather than as a surprise on someone's phone.
 
 ## Status
 
-**v1.1.1.** Compatible with **Android 16+ (API 36)** and **Syncthing-Fork 2.1.5.0 / 2.1.6.0-rc.1**.
+**v1.1.2.** Compatible with **Android 16+ (API 36)** and **Syncthing-Fork 2.1.5.0 – 2.1.7.0**, including R8-shrunk builds.
 
 | Component | Evidence |
 |---|---|
 | **Android 17 (SDK 37)** | Pixel 8 Pro, builds `CP2A.260805.005` and `CP3A.260905.009`, Vector 2.2. Full path confirmed on device |
+| **Android 17 QPR2** | Build `CP4A.261105.040.A1`: 1.1.2 confirmed on device: no crash, every hook resolved, a real download promoted |
 | **Android 16 (SDK 36)** | **Not tested on a device.** Its promotion path is covered by unit tests only |
 | **Syncthing-Fork 2.1.5.0** | Contract verified, and exercised on a device |
 | **Syncthing-Fork 2.1.6.0-rc.1** | Contract verified |
@@ -217,10 +219,10 @@ A healthy start logs the framework, the platform contract, the host method being
 the channel it will promote on:
 
 ```text
-Syncthing Live Update v1.1.1 loaded in com.github.catfriend1.syncthingfork,
+Syncthing Live Update v1.1.2 loaded in com.github.catfriend1.syncthingfork,
   framework=Vector 2.2, api=102, contract=Android 17 (API 37), …
-DexKit indexed 5 dex file(s) in 52ms
-Observing public void …NotificationHandler.updatePersistentNotification(…)
+DexKit indexed 1 dex file(s) in 30ms
+Observing public final void sn1.g(…SyncthingService, java.lang.Boolean, int, int)
 Promoting the host notification on channel 05_syncthing_live_update
 ```
 

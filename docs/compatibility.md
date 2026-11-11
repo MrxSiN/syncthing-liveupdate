@@ -39,7 +39,9 @@ Syncthing Live Update v1.1.0 loaded in …, contract=Android 17 (API 37), …
 | Android 16 (SDK 36) | **Not tested on a device.** The contract is written from the documented promotion rule; the selection logic is covered by unit tests, the runtime behaviour is not. |
 | Syncthing-Fork 2.1.3.0 | Validated on-device, and every hooked member confirmed present by `scripts/check-host-contract.sh`. |
 | Syncthing-Fork 2.1.5.0 | Every hooked member confirmed present by `scripts/check-host-contract.sh`, and exercised on a device: DexKit resolved `updatePersistentNotification` and a real upload was promoted. |
-| DexKit resolution | On device, 5 dex files indexed in ~50ms in the host and 3 in ~78ms in SystemUI, once per process at hook-installation time. |
+| Android 17 QPR2 | Pixel 8 Pro, build `CP4A.261105.040.A1`. v1.1.1 crash-looped SystemUI: DexKit's in-memory index faulted (SIGSEGV in `libdexkit.so`). 1.1.2 reads the APK file and leaves SystemUI to name lookups. Confirmed on device: SystemUI restarts cleanly with the wavy bar, animation and chip hooks installed, and a real download was promoted (`PROMOTED_ONGOING`, `ProgressStyle`, tracker colour `0xff8ccdff`). |
+| Syncthing-Fork 2.1.7.0 (F-Droid, R8-shrunk) | `NotificationHandler` is `sn1`, `updatePersistentNotification` is `g`, and `State` is an unboxed int. Confirmed in the installed APK's dex that the signature plus `always_run_in_background` and the state-name lookup each match exactly one method. Confirmed on device: DexKit resolved `sn1.g`, `SyncthingService.v` and `ft2.f` in 30ms, and the running state was read correctly. |
+| DexKit resolution | Host only, from its APK file, once per process at hook-installation time. |
 | Promotion through the contracts | Confirmed after a framework restart: `PromotionPolicyPatch` driven by `Android37Contract` set `PROMOTED_ONGOING` on a real upload. |
 
 Android 16 is the boundary worth closing next, because it is the one release where the

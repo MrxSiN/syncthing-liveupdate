@@ -25,6 +25,7 @@ final class SyncProgressTracker implements SyncProgressSource {
 
     private final AtomicBoolean installed = new AtomicBoolean(false);
     private final SyncingFolders folders = new SyncingFolders();
+    private final HostServiceState serviceState = new HostServiceState();
 
     private volatile SyncSnapshot snapshot = SyncSnapshot.IDLE;
 
@@ -61,6 +62,9 @@ final class SyncProgressTracker implements SyncProgressSource {
             return false;
         }
         ModuleRuntime.log("Observing " + origin);
+        if (!serviceState.install(resolver, origin)) {
+            ModuleRuntime.log("Host service state unavailable; the Live Update stays off");
+        }
         installDirectionHooks(resolver);
         if (!folders.install(resolver)) {
             ModuleRuntime.log("Folder names unavailable; the Live Update omits them");
@@ -125,7 +129,7 @@ final class SyncProgressTracker implements SyncProgressSource {
             lastCompletion = completion;
         }
 
-        boolean running = isRunning(args.get(0));
+        boolean running = serviceState.isActive(args.get(0));
         if (!running) {
             lastCompletion = SyncSnapshot.COMPLETION_UNKNOWN;
         }
@@ -141,11 +145,6 @@ final class SyncProgressTracker implements SyncProgressSource {
     /** A figure of -1 means the host considers it inapplicable, not pending. */
     private static boolean isIncomplete(int completion) {
         return completion >= 0 && completion < SyncSnapshot.COMPLETION_COMPLETE;
-    }
-
-    private static boolean isRunning(Object service) {
-        Object state = Reflect.invoke(service, HostApp.CURRENT_STATE_METHOD);
-        return state instanceof Enum<?> value && HostApp.STATE_ACTIVE.equals(value.name());
     }
 
     /** Receives a completion percentage observed on the host. */

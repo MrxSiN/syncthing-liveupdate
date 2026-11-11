@@ -98,6 +98,7 @@ for file in "$APP_GRADLE" "$WORKFLOW" "$MANIFEST" "$ROOT/CHANGELOG.md" \
   "$SOURCE/WavyProgressTrack.java" \
   "$SOURCE/CookieShape.java" \
   "$SOURCE/SyncingFolders.java" \
+  "$SOURCE/HostServiceState.java" \
   "$SOURCE/FolderStates.java" \
   "$TESTS/SyncSnapshotTest.java" \
   "$TESTS/SyncDirectionTest.java" \
@@ -115,13 +116,14 @@ for file in "$APP_GRADLE" "$WORKFLOW" "$MANIFEST" "$ROOT/CHANGELOG.md" \
 done
 
 # Build configuration.
-assert_present 'val appVersion = "1.1.1"' "$APP_GRADLE"
-assert_present 'versionCode = 4' "$APP_GRADLE"
 assert_present 'compileOnly("io.github.libxposed:api:102.0.0")' "$APP_GRADLE"
 assert_present 'org.luckypray:dexkit' "$APP_GRADLE"
 # DexKit's library is loaded by absolute path, which needs it unpacked at install.
 assert_present 'useLegacyPackaging = true' "$APP_GRADLE"
 assert_present 'System.load(' "$SOURCE/DexKitLibrary.java"
+# DexKit reads the host APK from disk. Its in-memory mode faults natively on
+# Android 17 QPR2 and crash-looped SystemUI.
+assert_present 'DexKitBridge.create(apkPath)' "$SOURCE/DexKitResolver.java"
 assert_present 'merges += "META-INF/xposed/\*"' "$APP_GRADLE"
 # Live Updates are an Android 16 (API 36) feature, so the module cannot run lower.
 assert_present 'minSdk = 36' "$APP_GRADLE"

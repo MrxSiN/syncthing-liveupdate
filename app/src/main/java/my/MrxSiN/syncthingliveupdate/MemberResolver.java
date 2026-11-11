@@ -1,6 +1,7 @@
 package my.MrxSiN.syncthingliveupdate;
 
 import java.io.Closeable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -18,6 +19,15 @@ interface MemberResolver extends Closeable {
 
     /** The method {@code query} describes, or {@code null} when it cannot be found. */
     Method method(MemberQuery query);
+
+    /**
+     * The one field of type {@code typeName}, declared by {@code ownerName}, that
+     * {@code reader}'s body reads, or {@code null} when it is not unique or the
+     * resolver cannot see method bodies.
+     */
+    default Field fieldReadBy(Method reader, String ownerName, String typeName) {
+        return null;
+    }
 
     @Override
     void close();

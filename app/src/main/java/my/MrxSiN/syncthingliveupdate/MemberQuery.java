@@ -13,8 +13,10 @@ import java.util.List;
  * only look a name up, such as {@link ReflectionResolver}, uses the first two and
  * ignores the third.
  *
- * @param ownerName          fully qualified name of the declaring class
- * @param name               the method name the module was written against
+ * @param ownerName          fully qualified name of the declaring class, or
+ *                           {@code null} when the host never kept one
+ * @param name               the method name the module was written against, or
+ *                           {@code null} when the host never kept one
  * @param parameterTypeNames parameter types in order, as {@code int} or
  *                           {@code java.lang.String}
  * @param usingStrings       string constants the method's body is known to
@@ -37,6 +39,20 @@ record MemberQuery(
         return new MemberQuery(ownerName, name, List.of(parameterTypeNames), List.of());
     }
 
+    /**
+     * A method known only by its signature and its constants, for host code that
+     * has no stable name in any build: R8 creates it, as it does the name lookup
+     * that replaces an unboxed enum's {@code name()}.
+     */
+    static MemberQuery byShape(String... parameterTypeNames) {
+        return new MemberQuery(null, null, List.of(parameterTypeNames), List.of());
+    }
+
+    /** Whether the query names a class and a method, which a name lookup needs. */
+    boolean isNamed() {
+        return ownerName != null && name != null;
+    }
+
     /** This query with the string constants that identify the method after a rename. */
     MemberQuery using(String... strings) {
         return new MemberQuery(ownerName, name, parameterTypeNames, List.of(strings));
@@ -44,6 +60,9 @@ record MemberQuery(
 
     /** The query as it reads in a log line. */
     String describe() {
-        return ownerName + "#" + name + "(" + String.join(", ", parameterTypeNames) + ")";
+        String signature = "(" + String.join(", ", parameterTypeNames) + ")";
+        return isNamed()
+                ? ownerName + "#" + name + signature
+                : "method" + signature + " using " + usingStrings;
     }
 }

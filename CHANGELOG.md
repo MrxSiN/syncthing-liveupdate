@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+## 1.1.2 — 2026-11-11
+
+Fixes a SystemUI crash loop on the Android 17 November QPR2 update (`CP4A.261105.040.A1`).
+
+### Fixed
+
+- **SystemUI no longer crashes on start.** The module's code finder (DexKit) read SystemUI's
+  code straight out of memory, and on QPR2 that read crashed natively, about once a second.
+  It now reads the app's APK file instead, and SystemUI is not scanned at all: the parts it
+  hooks there are found by name, which works on QPR2.
+- **Works with shrunk Syncthing-Fork builds**, such as 2.1.7.0 from F-Droid mirrors, where the
+  hooked method and the service state have no readable names. Both are now found by what
+  they do instead.
+- DexKit updated to 2.3.0.
+
 ## 1.1.1 — 2026-09-22
 
 Compatibility and correctness release. Verified against the latest Syncthing-Fork, and tested
