@@ -8,6 +8,8 @@
 
 No second notification. No REST polling. No API key.
 
+**Android 17 QPR2 November update will crash System-UI. Uninstall the module to fix. Will fix it soon**
+
 <br>
 
 [![Release](https://img.shields.io/github/v/release/MrxSiN/syncthing-liveupdate?include_prereleases&color=0891D1&label=release&style=for-the-badge)](https://github.com/MrxSiN/syncthing-liveupdate/releases)
