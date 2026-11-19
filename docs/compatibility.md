@@ -6,15 +6,15 @@ observed, because those are not the same thing.
 
 ## Android releases
 
-Every assumption about a release lives in one `PlatformContract` implementation rather than
-spread through the module, so adding a release is a new implementation rather than edits in
-several files.
+Every assumption about a release lives in the platform-contract functions of the XAX source
+(`sdk`, `contract_describe`, `polish_supported`, `request_promotion`) rather than spread
+through the module, so adding a release is an edit in one place.
 
-| Release | Contract | Promotion requested through | SystemUI polish |
-| --- | --- | --- | --- |
-| Android 16 (API 36) | `Android36Contract` | `setColorized(true)` | attempted |
-| Android 17 (API 37) | `Android37Contract` | `setRequestPromotedOngoing(true)` | attempted |
-| Anything else | `UnknownContract` | as API 37 | **off** |
+| Release | Promotion requested through | SystemUI polish |
+| --- | --- | --- |
+| Android 16 (API 36) | `setColorized(true)` | attempted |
+| Android 17 (API 37) | `setRequestPromotedOngoing(true)` | attempted |
+| Anything else | as API 37 | **off** |
 
 The rule for what may be promoted changed between the two releases and the two forms are
 mutually exclusive: Android 17 refuses to promote a colorized notification, and Android 16
@@ -36,7 +36,8 @@ Syncthing Live Update v1.1.0 loaded in …, contract=Android 17 (API 37), …
 | Component | Evidence |
 | --- | --- |
 | Android 17 (SDK 37) | Pixel 8 Pro, builds `CP2A.260805.005` and `CP3A.260905.009`, KernelSU, Vector 2.2. Full path confirmed on device: `channel=05_syncthing_live_update`, `flags=…|PROMOTED_ONGOING`, `template=Notification$ProgressStyle`, tracker colour `0xff8ccdff`, wavy bar, spring animation, chip colour. |
-| Android 16 (SDK 36) | **Not tested on a device.** The contract is written from the documented promotion rule; the selection logic is covered by unit tests, the runtime behaviour is not. |
+| 2.0.0 (XAX) | Pixel 8 Pro, `CP4A.261105.040.A1`, Vector 2.2, Syncthing-Fork 2.1.7.0, 2026-11-19. The module loads in `system_server`, Syncthing-Fork and SystemUI; DexKit resolved `sn1.g`, `SyncthingService.v` and `ft2.f`; all three SystemUI hooks installed. A real 1 GB upload was promoted: `channel=05_syncthing_live_update`, `PROMOTED_ONGOING`, `ProgressStyle`, colour `0xff8ccdff`, short text `82%`, with the wavy bar, cookie tracker, endpoint icons, upload badge and blue chip on screen and no crash. Not observed: folder names (download only) and the spring's motion. |
+| Android 16 (SDK 36) | **Not tested on a device.** The contract is written from the documented promotion rule; the runtime behaviour is not tested. |
 | Syncthing-Fork 2.1.3.0 | Validated on-device, and every hooked member confirmed present by `scripts/check-host-contract.sh`. |
 | Syncthing-Fork 2.1.5.0 | Every hooked member confirmed present by `scripts/check-host-contract.sh`, and exercised on a device: DexKit resolved `updatePersistentNotification` and a real upload was promoted. |
 | Android 17 QPR2 | Pixel 8 Pro, build `CP4A.261105.040.A1`. v1.1.1 crash-looped SystemUI: DexKit's in-memory index faulted (SIGSEGV in `libdexkit.so`). 1.1.2 reads the APK file and leaves SystemUI to name lookups. Confirmed on device: SystemUI restarts cleanly with the wavy bar, animation and chip hooks installed, and a real download was promoted (`PROMOTED_ONGOING`, `ProgressStyle`, tracker colour `0xff8ccdff`). |
@@ -68,17 +69,15 @@ up as a failing scheduled run rather than as a network flake on an unrelated cha
 
 ## Updating the module without a reboot
 
-The module declares `autoHotReload=true` in `module.prop`, which asks the
-framework to load an updated build into already-running processes. In the host
-process this was confirmed on device: installing an update and restarting only
-Syncthing brought up the new version immediately, with DexKit resolving from the
-new install path.
+From 2.0.0 the module no longer declares `autoHotReload=true`: the XAX compiler cannot emit it
+yet ([XAX#133](https://github.com/MrxSiN/XAX/issues/133)). On Vector 2.2 a newly started
+Syncthing-Fork or SystemUI process still picked up each new build (confirmed on device while
+building 2.0.0, by force-stopping Syncthing and killing SystemUI). `system_server` keeps the
+build it started with, so after an update the promotion rules in force are the old ones until
+the framework restarts.
 
-`system_server` is the half that lags. Until the framework has reloaded it, the
-promotion rules in force are the ones loaded earlier, so an update can leave the
-two halves at different versions. Upgrading to the first build that declares the
-flag necessarily needs a framework restart, because the build being replaced did
-not declare it.
+Versions 1.1.0 to 1.1.2 declared the flag; what follows describes that and still applies to
+the stale-`system_server` detection.
 
 The module detects this itself and says so once, in the log, rather than leaving
 the Live Update silently unpromoted. Restarting the framework is enough, and is

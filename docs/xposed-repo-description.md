@@ -68,9 +68,9 @@ server starts and cannot take effect until the next boot.
   other notification on the device, including Syncthing's own, keeps the platform's verdict.
 - A hook that cannot install is logged and skipped, and Syncthing is left exactly as it was.
 - Logs are tagged `SyncthingLiveUpdate`.
-- The module declares `autoHotReload`, so an update is loaded into running processes instead
-  of waiting for a reboot. `system_server` is the slower half; until it holds the new build
-  the module says so in the log rather than leaving the Live Update silently unpromoted.
+- After an update, restart the framework (`su -c 'stop; start'`) or reboot so `system_server`
+  loads it; until it does, the module says so in the log rather than leaving the Live Update
+  silently unpromoted.
 
 Source, full documentation and troubleshooting:
 https://github.com/MrxSiN/syncthing-liveupdate

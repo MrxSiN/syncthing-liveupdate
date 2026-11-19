@@ -1,0 +1,70 @@
+R 9e704c089573790ce1d50811c17ee799d32e017fe26c91c07e219a521593600a
+F82
+define @f32
+object 4 0x0701
+end
+define @f64
+object 4 0x0702
+end
+define @sqrt
+object 6 0x7e666f726569676e2d66756e6374696f6e2d7631106a766d2d696e766f6b657374617469630e6a6176612f6c616e672f4d61746808737172742844294401ffd556bdc33ed8732ea145fbe165d6e7eb440b5ba66d50b0cbb94ff83a12083601ffd556bdc33ed8732ea145fbe165d6e7eb440b5ba66d50b0cbb94ff83a120836
+end
+define @exp
+object 6 0x7d666f726569676e2d66756e6374696f6e2d7631106a766d2d696e766f6b657374617469630e6a6176612f6c616e672f4d617468076578702844294401ffd556bdc33ed8732ea145fbe165d6e7eb440b5ba66d50b0cbb94ff83a12083601ffd556bdc33ed8732ea145fbe165d6e7eb440b5ba66d50b0cbb94ff83a120836
+end
+define @toTI
+object 6 0x9001666f726569676e2d66756e6374696f6e2d76310d6a766d2d636865636b6361737422616e64726f69642f616e696d6174696f6e2f54696d65496e746572706f6c61746f7209636865636b636173740197667e035161e49481f81267b8890e14c8b08a35f5b341ff1d37792bb000ee81016e49763ab6b82aded38d1d86074b90967f2f478c2cbae6e52b16b9c5404ef00a
+end
+define @position
+(T0)->(T0)
+B0(P0:T0)
+N0 constant 0x4072c00000000000 -> T1
+N1 call.foreign entity=@sqrt N0 -> T1
+N2 float.convert N1 -> T0
+N3 float.mul N2 P0 -> T0
+N4 float.convert N3 -> T1
+N5 constant 0x3ff0000000000000 -> T1
+N6 float.add N5 N4 -> T1
+N7 constant 0x0000000000000000 -> T1
+N8 float.sub N7 N4 -> T1
+N9 call.foreign entity=@exp N8 -> T1
+N10 float.mul N6 N9 -> T1
+N11 float.sub N5 N10 -> T1
+N12 float.convert N11 -> T0
+ret N12
+T0 form7 3fbb0e678f0dae29d67290db8f4f948c1b2179773397452af193040a369aecd8
+T1 form7 ffd556bdc33ed8732ea145fbe165d6e7eb440b5ba66d50b0cbb94ff83a120836
+end
+define @settle
+()->(T0)
+B0()
+N0 constant 0x4072c00000000000 -> T1
+N1 call.foreign entity=@sqrt N0 -> T1
+N2 float.convert N1 -> T0
+N3 constant 0x41133333 -> T0
+N4 float.div N3 N2 -> T0
+ret N4
+T0 form7 3fbb0e678f0dae29d67290db8f4f948c1b2179773397452af193040a369aecd8
+T1 form7 ffd556bdc33ed8732ea145fbe165d6e7eb440b5ba66d50b0cbb94ff83a120836
+end
+define @spring
+(T0)->(T0)
+B0(P0:T0)
+N0 call.direct entity=@settle -> T0
+N1 call.direct entity=@position N0 -> T0
+N2 float.mul P0 N0 -> T0
+N3 call.direct entity=@position N2 -> T0
+N4 float.div N3 N1 -> T0
+ret N4
+T0 form7 3fbb0e678f0dae29d67290db8f4f948c1b2179773397452af193040a369aecd8
+end
+define @make_interpolator
+()->(T0)
+B0()
+N0 function.address entity=@spring -> T1
+N1 call.foreign entity=@toTI N0 -> T0
+ret N1
+T0 form2 6e49763ab6b82aded38d1d86074b90967f2f478c2cbae6e52b16b9c5404ef00a
+T1 form2 97667e035161e49481f81267b8890e14c8b08a35f5b341ff1d37792bb000ee81
+end
+replace F82 @make_interpolator

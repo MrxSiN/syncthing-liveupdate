@@ -3,14 +3,17 @@
 Two problems have to be solved, and they live in different processes. A third process,
 SystemUI, only adds polish.
 
+The module is XAX (`source/xax/`, built as described in [build.md](build.md)). Names in
+backticks below are XAX functions unless they are Android or host members.
+
 ## Finding what to hook
 
-The module hooks members of other people's code, so every one of them is declared once, as
-a `MemberQuery`, in `HostApp` for Syncthing-Fork and `SystemUi` for SystemUI. A query says
-where the method is expected to be declared, what it is expected to be called, what it
-takes, and — where one exists — a string constant its body references.
+The module hooks members of other people's code, so every one of them is declared once, by a
+query function (`q_persistent`, `q_folder_status`, … in `host.json`). A query says where the
+method is expected to be declared, what it is expected to be called, what it takes, and —
+where one exists — a string constant its body references.
 
-`Resolvers.open(...)` answers those queries with DexKit first and a plain name lookup
+`resolve` answers those queries with DexKit first and a plain name lookup
 second. DexKit indexes the host's APK file by shape, so a method that upstream or R8 renamed
 or moved can still be found by its signature and the constants it uses; the name lookup
 answers whenever DexKit is unavailable or finds no unique match, which means the module is
@@ -23,13 +26,15 @@ hooks live in `framework.jar` on the boot class path, which an index of SystemUI
 cannot contain anyway.
 
 Shrunk host builds (F-Droid mirrors) also unbox `SyncthingService.State` into an int field.
-`HostServiceState` finds that field as the one the persistent-notification method reads,
+`service_state_install` finds that field as the one the persistent-notification method reads,
 and the static lookup R8 leaves for `name()` by the state names it references.
 
 ## In the Syncthing process
 
-1. The module entry class extends `io.github.libxposed.api.XposedModule` and installs its
-   hooks from `onPackageReady()`.
+1. The XAX compiler generates the entry class `ModuleMain`, which extends
+   `io.github.libxposed.api.XposedModule` and forwards `onModuleLoaded`,
+   `onSystemServerStarting` and `onPackageReady` to the XAX entries in `entry.json`. Hooks
+   are installed from `onPackageReady()`.
 2. `NotificationHandler.updatePersistentNotification(SyncthingService, Boolean, int, int)`
    (`sn1.g` in the shrunk 2.1.7.0 build, found by its signature and the
    `always_run_in_background` key it reads) is where the host hands over the figures it has just recalculated in
@@ -45,14 +50,14 @@ and the static lookup R8 leaves for `name()` by the state names it references.
    `updateFromConfig(List<Folder>)`. A folder counts as transferring in the `syncing` and
    `sync-preparing` states — not while it is merely `scanning`, `scan-waiting` or `starting`,
    which is why a plain rescan never puts a folder name on the notification. The bookkeeping
-   itself is in `FolderStates`, apart from the hooks, and is covered by unit tests.
+   itself is in `remember_labels`, `remember_state` and `folders_current`, apart from the hooks.
 5. The rewrite itself happens on `Service.startForeground(...)`, filtered to the host's
    persistent channel. `Notification.Builder.recoverBuilder(...)` reopens the notification
    the host just built, so nothing has to be reconstructed from scratch, and the module only
    adds what promotion requires.
-6. The look is kept apart from the promotion. `LiveUpdatePromoter` sets only what the
-   platform needs to promote the notification, and hands the builder to a
-   `LiveUpdateAppearance`. The shipped `ExpressiveAppearance` works entirely through
+6. The look is kept apart from the promotion. `promoted` sets only what the
+   platform needs to promote the notification, and hands the builder to
+   `appearance_apply`, which works entirely through
    `ProgressStyle`, because a promoted notification may not carry custom views. SystemUI
    draws the tracker, start and end icons untinted, so each shape and its glyph are rendered
    into a bitmap once per theme. The endpoint glyphs live in the module's own resources and
@@ -67,13 +72,9 @@ module restores that single flag inside
 `NotificationManagerService.fixNotificationWithChannel(Notification, NotificationChannel, int, String)`,
 and only when the package is Syncthing-Fork **and** the channel is the module's own:
 
-```java
-if (args.get(0) instanceof Notification notification
-        && args.get(1) instanceof NotificationChannel channel
-        && LiveUpdateChannel.ID.equals(channel.getId())) {
-    notification.flags |= contract.flagPromotedOngoing();
-}
-```
+That is the hooker `promote` in `module.json`: after the call proceeds it checks argument 3
+is the host package, argument 0 a `Notification`, argument 1 a `NotificationChannel` whose id
+is `05_syncthing_live_update`, and only then ORs `0x00040000` into `Notification.flags`.
 
 Nothing else about the platform's promotion policy is touched.
 
@@ -89,7 +90,8 @@ is switched off on a release the module has not been read against — see
   layout of the bar is kept and only its painting changes: the filled part becomes a wave
   (4dp stroke, 3dp amplitude, 40dp wavelength) that travels one wavelength per second and
   flattens near either end, and the rest becomes a flat 4dp track ending in a stop dot. The
-  wave holds still when animations are turned off. Frames are scheduled at most every 16ms,
+  wave holds still when animations are turned off. Frames are requested with
+  `View.postInvalidateDelayed(16)`, at most every 16ms,
   so a 120Hz panel does not double the work, and three failed draws disable the wave for the
   rest of the process rather than retrying it on every frame.
 - `NotificationProgressBar.setProgressModel(Bundle)` is where each update reaches the bar.
@@ -98,9 +100,9 @@ is switched off on a release the module has not been read against — see
   travel is smooth rather than stepped.
 - Android 17 always paints a notification chip in the system surface colour. The constructor
   of `OngoingActivityChipModel.Active` is intercepted for Syncthing's notification key, and
-  its colours are swapped for Syncthing's primary and on-primary pair. Each hooked
-  constructor carries its own argument index, so a build that exposes several constructors
-  cannot have one hook rewriting another's argument.
+  its colours are swapped for Syncthing's primary and on-primary pair. The hooker reads the
+  colours argument's index from the constructor it is running for, so a build that exposes
+  several constructors cannot have one hook rewriting another's argument.
 
 ## The channel
 
@@ -113,11 +115,14 @@ refuses to promote anything posted there. During a transfer the notification is 
 
 A module that patches private code will eventually meet a build it does not fit, and the
 only acceptable outcome is that a feature disappears rather than the host breaking. That is
-enforced in two places rather than by habit at each call site:
+enforced in three places rather than by habit at each call site:
 
-- `ModuleRuntime.hook(...)` is the single path to the framework, and it catches a failed
-  installation and returns `null`. Every feature therefore inherits the same policy.
-- `Reflect` returns `null` or `false` for anything it cannot reach, and hands the reason to
-  `ReflectionDiagnostics` first. A missing member, a denied access and a call that threw
+- `hook` is the single path to the framework, and it catches a failed installation and
+  returns false. Every feature therefore inherits the same policy.
+- Every call inside a hook that can throw is a catching JVM call; on a throwable the hook falls
+  back to the host's own arguments or result.
+- The reflection helpers (`find_class_diag`, `find_method`, `read_field`, …) return null or
+  false for anything they cannot reach, and hand the reason to `diag` first. A missing member, a
+  denied access and a call that threw
   read the same to the caller and differently in the log, together with the SDK level and
   the build fingerprint, reported once per distinct failure.
