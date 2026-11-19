@@ -156,13 +156,14 @@ failing scheduled run rather than as a surprise on someone's phone.
 
 ## Status
 
-**v1.1.2.** Compatible with **Android 16+ (API 36)** and **Syncthing-Fork 2.1.5.0 – 2.1.7.0**, including R8-shrunk builds.
+**v2.0.0 (unreleased), written in XAX.** Compatible with **Android 16+ (API 36)** and **Syncthing-Fork 2.1.5.0 – 2.1.7.0**, including R8-shrunk builds. arm64 devices only.
 
 | Component | Evidence |
 |---|---|
+| **2.0.0 (XAX)** | Pixel 8 Pro, `CP4A.261105.040.A1`, Syncthing-Fork 2.1.7.0: a real upload promoted, with wavy bar, icons and chip colour. See [compatibility](docs/compatibility.md) |
 | **Android 17 (SDK 37)** | Pixel 8 Pro, builds `CP2A.260805.005` and `CP3A.260905.009`, Vector 2.2. Full path confirmed on device |
 | **Android 17 QPR2** | Build `CP4A.261105.040.A1`: 1.1.2 confirmed on device: no crash, every hook resolved, a real download promoted |
-| **Android 16 (SDK 36)** | **Not tested on a device.** Its promotion path is covered by unit tests only |
+| **Android 16 (SDK 36)** | **Not tested on a device.** Its promotion path is written from the documented rule and not yet run |
 | **Syncthing-Fork 2.1.5.0** | Contract verified, and exercised on a device |
 | **Syncthing-Fork 2.1.6.0-rc.1** | Contract verified |
 
@@ -179,7 +180,7 @@ Known limits:
 |---|---|
 | **Android** | 16 or newer (API 36). Live Updates do not exist before that |
 | **Host** | [Syncthing-Fork](https://github.com/researchxxl/syncthing-android) (`com.github.catfriend1.syncthingfork`) |
-| **Framework** | [Vector](https://github.com/JingMatrix/Vector) v2.2+ with Magisk or KernelSU and Zygisk. LSPatch cannot run this module — the promotion flag has to be restored inside `system_server`, which a rootless patch cannot reach |
+| **Framework** | [Vector](https://github.com/JingMatrix/Vector) v2.2+ (libxposed API 102) with Magisk or KernelSU and Zygisk. LSPatch cannot run this module — the promotion flag has to be restored inside `system_server`, which a rootless patch cannot reach |
 | **Root** | Required by the framework; the module itself asks for none |
 
 Built against the modern [libxposed API](https://github.com/libxposed/api)
@@ -203,19 +204,21 @@ su -c '/data/adb/lspd/cli modules enable io.github.mrxsin.syncthingliveupdate'
 su -c '/data/adb/lspd/cli scope set io.github.mrxsin.syncthingliveupdate system/0 com.github.catfriend1.syncthingfork/0 com.android.systemui/0'
 ```
 
-The module declares `autoHotReload`, so a new build is loaded into running processes rather
-than waiting for a reboot. Installing an update was confirmed to take effect in the Syncthing
-process immediately, without restarting anything. `system_server` is the slower half: until it
-holds the new build, the module says so in the log rather than leaving the Live Update
-silently unpromoted, and `su -c 'stop; start'` forces it in about a boot animation's time.
-Upgrading *to* this version is the one case that still needs that, because the version being
-replaced never declared the flag.
+After installing an update, restart the framework so `system_server` loads it:
+
+```sh
+su -c 'stop; start'
+```
+
+The module cannot declare `autoHotReload` yet ([XAX#133](https://github.com/MrxSiN/XAX/issues/133)),
+so the framework keeps running the previous build until it restarts. Until then the module says
+so in the log rather than leaving the Live Update silently unpromoted.
 
 A healthy start logs the framework, the platform contract, the host method being observed and
 the channel it will promote on:
 
 ```text
-Syncthing Live Update v1.1.2 loaded in com.github.catfriend1.syncthingfork,
+Syncthing Live Update v2.0.0 loaded in com.github.catfriend1.syncthingfork,
   framework=Vector 2.2, api=102, contract=Android 17 (API 37), …
 DexKit indexed 1 dex file(s) in 30ms
 Observing public final void sn1.g(…SyncthingService, java.lang.Boolean, int, int)
@@ -224,36 +227,39 @@ Promoting the host notification on channel 05_syncthing_live_update
 
 ## Build
 
-```bash
-./gradlew test assemble
+The module is written in [XAX](https://github.com/MrxSiN/XAX). Its canonical source is the store
+`source/xax/syncthingliveupdate.xax`; `toolchains.json` pins the compiler. With a checkout of XAX
+at that commit:
+
+```sh
+xaxc=path/to/XAX/compiler/bootstrap/seed/xaxc-linux-x86_64   # or windows/xaxc-windows-x86_64.exe
+"$xaxc" verify  source/xax/syncthingliveupdate.xax verify.rec
+"$xaxc" resolve source/xax/syncthingliveupdate.xax snapshot.xax source/inputs/*
+"$xaxc" build   snapshot.xax SyncthingLiveUpdate-unsigned.apk provenance source/inputs/*
+apksigner sign --ks release.jks --out SyncthingLiveUpdate.apk SyncthingLiveUpdate-unsigned.apk
 ```
 
-```powershell
-.\gradlew.bat test assemble
-```
+Both seeds build the same APK bytes. Release signing stays outside the build: CI signs with
+`apksigner` from repository secrets, and nothing is stored here. How the store is edited, and
+what `source/inputs/` holds, is in [docs/build.md](docs/build.md).
 
-The APK lands in `app/build/outputs/apk/release/`. Release signing is read from the
-environment — `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_ALIAS`, `ANDROID_KEYSTORE_PASSWORD`
-and `ANDROID_KEY_PASSWORD` — so no credential reaches version control, and leaving them unset
-produces an unsigned build. CI uses the same single path.
-
-`scripts/check-project.sh` validates the build configuration, the module declaration and the
-shape of the code the hooks depend on. It runs first in CI and is worth running before a commit.
+`scripts/check-project.sh` checks the sources and pins. It runs first in CI and is worth running
+before a commit.
 
 ---
 
 ## How it works
 
 ```
-Syncthing-Fork ──NotificationHandler.updatePersistentNotification──▶ SyncProgressTracker
+Syncthing-Fork ──NotificationHandler.updatePersistentNotification──▶ hk_progress (host.json)
                                                                      │
-                                       Service.startForeground ◀─────┴─▶ LiveUpdatePromoter ─▶ ExpressiveAppearance
+                                       Service.startForeground ◀─────┴─▶ hk_start_foreground ─▶ appearance_apply (promoter.json)
                                                 │
-system_server ──NotificationManagerService.fixNotificationWithChannel──▶ FLAG_PROMOTED_ONGOING
+system_server ──NotificationManagerService.fixNotificationWithChannel──▶ promote: FLAG_PROMOTED_ONGOING (module.json)
                                                 │
-SystemUI ──NotificationProgressDrawable.draw───▶ WavyProgressTrack
-         ──NotificationProgressBar.setProgressModel──▶ ProgressBarMotion
-         ──OngoingActivityChipModel$Active──▶ StatusBarChipColors
+SystemUI ──NotificationProgressDrawable.draw───▶ hk_wavy_draw ─▶ wave_draw (06-wave.batch)
+         ──NotificationProgressBar.setProgressModel──▶ hk_progress_model (systemui.json)
+         ──OngoingActivityChipModel$Active──▶ hk_chip (systemui.json)
 ```
 
 Full detail, per process, is in [docs/architecture.md](docs/architecture.md).

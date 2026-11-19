@@ -1,0 +1,26 @@
+{
+  "schema": "syncthingliveupdate-toolchains-v1",
+  "xax": {
+    "repository": "https://github.com/MrxSiN/XAX",
+    "commit": "28ddb813f1b4f66d97967a3f11d265247133fed1",
+    "seeds": {
+      "linux": {"path": "compiler/bootstrap/seed/xaxc-linux-x86_64", "sha256": "15b6c6d9394aa0114c1a209e8c01f4cab5fc271aa2e098df9f7df0faa232b3bd"},
+      "windows": {"path": "compiler/bootstrap/windows/xaxc-windows-x86_64.exe", "sha256": "1aa1f9dca30c4989162089f96368d44c7d3dddcfd8c1c4cb605b1a036b8a976a"}
+    },
+    "reason": "Latest main on 2026-11-19 (release 0038). First pin with libxposed lifecycle entries (XAX#48) and catching JVM calls (ADR-406/409). Both seeds build the store to the same APK bytes."
+  },
+  "xax_mcp": {
+    "repository": "https://github.com/MrxSiN/XAX-MCP",
+    "commit": "abc12e43150befffe32a1f3957e2b9d984e8fb8c",
+    "use": "Not used for the build: its android-libxposed target pins an older XAX (acd4046) without lifecycle entries."
+  },
+  "store": {
+    "path": "source/xax/syncthingliveupdate.xax",
+    "sha256": "be868792761e2011606171b020f1476710bb73d885d49fe1eb00428fa87676f8"
+  },
+  "inputs": {
+    "source/inputs/branding.apk": {"blake3": "107000b3e45df1501ac26765954d8db324650fb0dbc1557636d5122116873b87", "origin": "aapt2 2.20-13193326 (build-tools 36.0.0) over source/branding, linked against android-36 android.jar"},
+    "source/inputs/dexkit.dex": {"blake3": "07f22ff643ac6c650036550355084f3b02034493201a2e5a8c8e487a393d4b90", "origin": "DexKit 2.3.0, flatbuffers-java 23.5.26 and kotlin-stdlib as one D8 dex; the same pinned file YouTubeHideAds ships"},
+    "source/inputs/libdexkit.so": {"blake3": "69e142100d6599c48b7315941ce4c3fea72784a55f6ed013177efb5ec015a159", "origin": "jni/arm64-v8a/libdexkit.so from org.luckypray:dexkit:2.3.0 (Maven Central AAR), byte-identical"}
+  }
+}

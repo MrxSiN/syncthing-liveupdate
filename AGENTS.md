@@ -6,41 +6,37 @@ SystemUI. See `docs/architecture.md`.
 
 ## Principles
 
-- **SOLID.** One reason to change per class (SRP); extend through new implementations, not
-  edits (OCP, e.g. a new `PlatformContract` per Android release); implementations must stand
-  in for their interface (LSP); small interfaces (ISP); depend on `MemberResolver`,
-  `PlatformContract`, not concrete classes (DIP).
-- **DRY, KISS, YAGNI, Law of Demeter, Separation of Concerns, Boy Scout Rule.**
-- **No hardcoding.** Hooked members are declared once as a `MemberQuery` (`HostApp`,
-  `SystemUi`) and found dynamically: DexKit by shape first, name lookup second. Identify a
-  member by what it does (signature, string constants, fields it reads), not only by name;
-  R8-shrunk host builds rename everything.
+- **SOLID, DRY, KISS, YAGNI, Law of Demeter, Separation of Concerns, Boy Scout Rule.** One
+  function per job; version assumptions live in the platform-contract functions
+  (`sdk`, `contract_describe`, `polish_supported`, `request_promotion`), not at call sites.
+- **No hardcoding.** Hooked members are described once per query function (`q_*` in
+  `source/xax/host.json`) and found dynamically: DexKit by shape first, name lookup second.
+  Identify a member by what it does (signature, string constants, fields it reads), not only by
+  name; R8-shrunk host builds rename everything.
 - **DexKit reads APK files, never process memory.** `DexKitBridge.create(ClassLoader, true)`
   faults natively on Android 17 QPR2 and crash-looped SystemUI. Never index SystemUI: its
   hooked widgets live in `framework.jar`.
+- **Fail open.** A call that can throw inside a hook uses a `-catch` JVM ABI and falls back to
+  the host's own behaviour; an uncaught throwable ends the hook in someone else's process.
 
 ## Language rule
 
-New or replaced code is written in **Brainfuck** (compiled with BBC) and **XAX** wherever the
-target supports it:
+The module is **XAX only** (owner's decision, 2026-11-19): no Java, Kotlin or Brainfuck. Source
+is the store `source/xax/syncthingliveupdate.xax`, edited with native `xaxc edit` batches; see
+`docs/build.md`. Brainfuck policies are out of scope for this repository.
 
-- BBC: Brainfuck compiler, emits Windows x86-64 and Android ARM64 executables.
-- XAX and XAX-MCP (the `xax` MCP server). Call
-  `xax_capabilities` first and use the latest revision of each.
-
-Limit, checked 2026-11-11: module code runs as classes inside other apps' JVM processes and
-calls libxposed and DexKit. XAX-MCP reports its JVM/Android targets as UNIMPLEMENTED, and BBC
-only emits standalone executables, so neither can produce hook code yet. Module code therefore
-stays Java. Re-check before each change and switch when a target lands; standalone tooling
-(scripts, analyzers) is the first candidate. Report an unsupported case instead of silently
-using another language.
+The XAX pin lives in `toolchains.json`. Check XAX's latest `main` before nontrivial work. Where
+XAX lacks something, reproduce it, then link or open an XAX issue (open ones: #133-#137) rather
+than adding another language or a local workaround in the toolchain.
 
 ## Tooling
 
 - ADB: in Git Bash set `MSYS_NO_PATHCONV=1` or device
   paths like `/system/...` get rewritten to Windows paths.
-- Gradle: set `JAVA_HOME` to Android Studio's bundled JBR, then
-  `./gradlew testDebugUnitTest assembleRelease`.
+- Build: `xaxc verify`, `resolve` and `build` of the store with `source/inputs/*` (README,
+  Build), then `apksigner` with the release keystore from the environment.
+- Framework restart after installing an update: `su -c 'stop; start'` (no `autoHotReload` yet).
+  It can drop wireless adb; reconnect from `adb mdns services`.
 - Checks: `sh scripts/check-project.sh`; `scripts/check-host-contract.sh <host version>`.
 - Verify hook targets on a device: pull the APK/jar, unzip `classes*.dex`, run
   `dexdump` from `build-tools`.
