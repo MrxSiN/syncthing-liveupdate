@@ -1,0 +1,679 @@
+{
+ "functions": [
+  {"name": "channel_ensure", "params": ["nm"], "returns": [], "blocks": [
+   {"params": ["nm"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "05_syncthing_live_update"]}}],
+    ["call.foreign", ["p0", "n0"], ["chan"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationManager", "getNotificationChannel(Ljava/lang/String;)Landroid/app/NotificationChannel;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/app/NotificationChannel", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 2, [], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Sync progress"]}}],
+    ["call.foreign", ["n0"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["const", "b32", 2],
+    ["call.foreign", ["B0.n0", "n1", "n2"], ["chan"], {"entity": {"jvm": ["jvm-new", "android/app/NotificationChannel", "<init>(Ljava/lang/String;Ljava/lang/CharSequence;I)V"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Live Update showing Syncthing transfer progress in the status bar"]}}],
+    ["call.foreign", ["n3", "n4"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationChannel", "setDescription(Ljava/lang/String;)V"]}}],
+    ["const", "b1", 0],
+    ["call.foreign", ["n3", "n6"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationChannel", "enableLights(Z)V"]}}],
+    ["call.foreign", ["n3", "n6"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationChannel", "enableVibration(Z)V"]}}],
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n9"], ["uri"], {"entity": {"jvm": ["jvm-checkcast", "android/net/Uri", "checkcast"]}}],
+    ["call.foreign", ["n9"], ["aa"], {"entity": {"jvm": ["jvm-checkcast", "android/media/AudioAttributes", "checkcast"]}}],
+    ["call.foreign", ["n3", "n10", "n11"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationChannel", "setSound(Landroid/net/Uri;Landroid/media/AudioAttributes;)V"]}}],
+    ["call.foreign", ["n3", "n6"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationChannel", "setShowBadge(Z)V"]}}],
+    ["const", "b32", 1],
+    ["call.foreign", ["n3", "n14"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationChannel", "setLockscreenVisibility(I)V"]}}],
+    ["call.foreign", ["B0.p0", "n3"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/NotificationManager", "createNotificationChannel(Landroid/app/NotificationChannel;)V"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "is_night", "params": ["ctx"], "returns": ["b1"], "blocks": [
+   {"params": ["ctx"], "nodes": [
+    ["call.foreign", ["p0"], ["res"], {"entity": {"jvm": ["jvm-invokevirtual", "android/content/Context", "getResources()Landroid/content/res/Resources;"]}}],
+    ["call.foreign", ["n0"], ["rcfg"], {"entity": {"jvm": ["jvm-invokevirtual", "android/content/res/Resources", "getConfiguration()Landroid/content/res/Configuration;"]}}],
+    ["call.foreign", ["n1"], ["b32"], {"entity": {"jvm": ["jvm-getfield", "android/content/res/Configuration", "uiMode:I"]}}],
+    ["const", "b32", 48],
+    ["bit.and", ["n2", "n3"], ["b32"]],
+    ["const", "b32", 32],
+    ["int.compare", ["n4", "n5"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["ret", ["n6"]]}]},
+
+  {"name": "pal", "params": ["b1", "b32", "b32"], "returns": ["b32"], "blocks": [
+   {"params": ["b1", "b32", "b32"], "nodes": [], "end": ["cbr", "p0", 1, [], 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p2"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p1"]]}]},
+
+  {"name": "icon_nil", "params": [], "returns": ["icon"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["icon"], {"entity": {"jvm": ["jvm-checkcast", "android/graphics/drawable/Icon", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "dr_nil", "params": [], "returns": ["dr"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["dr"], {"entity": {"jvm": ["jvm-checkcast", "android/graphics/drawable/Drawable", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "is_icon", "params": ["icon"], "returns": ["b1"], "blocks": [
+   {"params": ["icon"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/graphics/drawable/Icon", "instanceof"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "cookie_outline", "params": ["path"], "returns": [], "blocks": [
+   {"params": ["path"], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "cookie_path", "params": [], "returns": ["path"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["path"], {"entity": {"jvm": ["jvm-new", "android/graphics/Path", "<init>()V"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "cookie_outline"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "circle_outline", "params": ["path", "jvm:Landroid/graphics/Path$Direction;"], "returns": [], "blocks": [
+   {"params": ["path", "jvm:Landroid/graphics/Path$Direction;"], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "circle_path", "params": [], "returns": ["path"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["path"], {"entity": {"jvm": ["jvm-new", "android/graphics/Path", "<init>()V"]}}],
+    ["call.foreign", [], ["jvm:Landroid/graphics/Path$Direction;"], {"entity": {"jvm": ["jvm-getstatic", "android/graphics/Path$Direction", "CW:Landroid/graphics/Path$Direction;"]}}],
+    ["call.direct", ["n0", "n1"], [], {"entity": {"fn": "circle_outline"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "badge_geometry", "params": ["canvas", "paint", "paint", "b32"], "returns": [], "blocks": [
+   {"params": ["canvas", "paint", "paint", "b32"], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "badge_draw", "params": ["canvas", "b32"], "returns": [], "blocks": [
+   {"params": ["canvas", "b32"], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["n0"], ["paint"], {"entity": {"jvm": ["jvm-new", "android/graphics/Paint", "<init>(I)V"]}}],
+    ["call.foreign", [], ["jvm:Landroid/graphics/PorterDuff$Mode;"], {"entity": {"jvm": ["jvm-getstatic", "android/graphics/PorterDuff$Mode", "CLEAR:Landroid/graphics/PorterDuff$Mode;"]}}],
+    ["call.foreign", ["n2"], ["jvm:Landroid/graphics/PorterDuffXfermode;"], {"entity": {"jvm": ["jvm-new", "android/graphics/PorterDuffXfermode", "<init>(Landroid/graphics/PorterDuff$Mode;)V"]}}],
+    ["call.foreign", ["n3"], ["jvm:Landroid/graphics/Xfermode;"], {"entity": {"jvm": ["jvm-checkcast", "android/graphics/Xfermode", "checkcast"]}}],
+    ["call.foreign", ["n1", "n4"], ["jvm:Landroid/graphics/Xfermode;"], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/Paint", "setXfermode(Landroid/graphics/Xfermode;)Landroid/graphics/Xfermode;"]}}],
+    ["call.foreign", ["n0"], ["paint"], {"entity": {"jvm": ["jvm-new", "android/graphics/Paint", "<init>(I)V"]}}],
+    ["const", "b32", 4294967295],
+    ["call.foreign", ["n6", "n7"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/Paint", "setColor(I)V"]}}],
+    ["call.direct", ["p0", "n1", "n6", "p1"], [], {"entity": {"fn": "badge_geometry"}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "new_canvas", "params": ["bmp"], "returns": ["canvas"], "blocks": [
+   {"params": ["bmp"], "nodes": [
+    ["call.foreign", ["p0"], ["canvas"], {"entity": {"jvm": ["jvm-new", "android/graphics/Canvas", "<init>(Landroid/graphics/Bitmap;)V"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "new_bitmap", "params": [], "returns": ["bmp"], "blocks": [
+   {"params": [], "nodes": [
+    ["const", "b32", 96],
+    ["call.foreign", [], ["bcfg"], {"entity": {"jvm": ["jvm-getstatic", "android/graphics/Bitmap$Config", "ARGB_8888:Landroid/graphics/Bitmap$Config;"]}}],
+    ["call.foreign", ["n0", "n0", "n1"], ["bmp"], {"entity": {"jvm": ["jvm-invokestatic", "android/graphics/Bitmap", "createBitmap(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;"]}}]
+   ], "end": ["ret", ["n2"]]}]},
+
+  {"name": "shaped_icon", "params": ["b32", "b32", "dr", "b32", "b32"], "returns": ["icon"], "blocks": [
+   {"params": ["b32", "b32", "dr", "b32", "b32"], "nodes": [
+    ["call.foreign", ["p2"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/graphics/drawable/Drawable", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["bmp"], {"entity": {"fn": "new_bitmap"}}],
+    ["call.direct", ["n0"], ["canvas"], {"entity": {"fn": "new_canvas"}}],
+    ["const", "b32", 1],
+    ["call.foreign", ["n2"], ["paint"], {"entity": {"jvm": ["jvm-new", "android/graphics/Paint", "<init>(I)V"]}}],
+    ["call.foreign", ["n3", "B0.p1"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/Paint", "setColor(I)V"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["B0.p0", "n5"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n6", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["path"], {"entity": {"fn": "cookie_path"}}]
+   ], "end": ["br", 5, ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["path"], {"entity": {"fn": "circle_path"}}]
+   ], "end": ["br", 5, ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["icon"], {"entity": {"fn": "icon_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": ["path"], "nodes": [
+    ["call.foreign", ["B1.n1", "p0", "B1.n3"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/Canvas", "drawPath(Landroid/graphics/Path;Landroid/graphics/Paint;)V"]}}],
+    ["call.foreign", ["B0.p2"], ["dr"], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/drawable/Drawable", "mutate()Landroid/graphics/drawable/Drawable;"]}}],
+    ["call.foreign", ["n1", "B0.p3"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/drawable/Drawable", "setTint(I)V"]}}],
+    ["const", "b32", 96],
+    ["sub.wrap", ["n3", "B0.p4"], ["b32"]],
+    ["call.foreign", ["n1", "B0.p4", "B0.p4", "n4", "n4"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/drawable/Drawable", "setBounds(IIII)V"]}}],
+    ["call.foreign", ["n1", "B1.n1"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/graphics/drawable/Drawable", "draw(Landroid/graphics/Canvas;)V"]}}],
+    ["call.direct", ["n6"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n7", 4, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n0"], ["icon"], {"entity": {"jvm": ["jvm-invokestatic", "android/graphics/drawable/Icon", "createWithBitmap(Landroid/graphics/Bitmap;)Landroid/graphics/drawable/Icon;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "cached_icon", "params": ["str"], "returns": ["icon"], "blocks": [
+   {"params": ["str"], "nodes": [
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "icons:Ljava/util/Map;"]}}],
+    ["call.direct", ["p0"], ["obj"], {"entity": {"fn": "so"}}],
+    ["call.foreign", ["n0", "n1"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "get(Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n2"], ["icon"], {"entity": {"jvm": ["jvm-checkcast", "android/graphics/drawable/Icon", "checkcast"]}}]
+   ], "end": ["ret", ["n3"]]}]},
+
+  {"name": "cache_icon", "params": ["str", "icon"], "returns": [], "blocks": [
+   {"params": ["str", "icon"], "nodes": [
+    ["call.direct", ["p1"], ["b1"], {"entity": {"fn": "is_icon"}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "icons:Ljava/util/Map;"]}}],
+    ["call.direct", ["B0.p0"], ["obj"], {"entity": {"fn": "so"}}],
+    ["call.foreign", ["B0.p1"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["n0", "n1", "n2"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "load_drawable", "params": ["icon", "ctx"], "returns": ["dr"], "blocks": [
+   {"params": ["icon", "ctx"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_icon"}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B0.p1"], ["dr", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/graphics/drawable/Icon", "loadDrawable(Landroid/content/Context;)Landroid/graphics/drawable/Drawable;"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["dr"], {"entity": {"fn": "dr_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "icon_key", "params": ["str", "b32", "b1"], "returns": ["str"], "blocks": [
+   {"params": ["str", "b32", "b1"], "nodes": [
+    ["call.direct", ["p1"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["int.zero.extend", ["p2"], ["b32"]],
+    ["call.direct", ["n1"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.direct", ["p0", "n0", "n2"], ["str"], {"entity": {"fn": "cat3"}}]
+   ], "end": ["ret", ["n3"]]}]},
+
+  {"name": "tracker_icon", "params": ["ctx", "icon", "b1"], "returns": ["icon"], "blocks": [
+   {"params": ["ctx", "icon", "b1"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "tracker"]}}],
+    ["const", "b32", 0],
+    ["call.direct", ["n0", "n1", "p2"], ["str"], {"entity": {"fn": "icon_key"}}],
+    ["call.direct", ["n2"], ["icon"], {"entity": {"fn": "cached_icon"}}],
+    ["call.direct", ["n3"], ["b1"], {"entity": {"fn": "is_icon"}}]
+   ], "end": ["cbr", "n4", 1, [], 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n3"]]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p1", "B0.p0"], ["dr"], {"entity": {"fn": "load_drawable"}}],
+    ["const", "b32", 0],
+    ["const", "b32", 4278215311],
+    ["const", "b32", 4287417855],
+    ["call.direct", ["B0.p2", "n2", "n3"], ["b32"], {"entity": {"fn": "pal"}}],
+    ["const", "b32", 4294967295],
+    ["const", "b32", 4278203470],
+    ["call.direct", ["B0.p2", "n5", "n6"], ["b32"], {"entity": {"fn": "pal"}}],
+    ["const", "b32", 19],
+    ["call.direct", ["n1", "n4", "n0", "n7", "n8"], ["icon"], {"entity": {"fn": "shaped_icon"}}],
+    ["call.direct", ["B0.n2", "n9"], [], {"entity": {"fn": "cache_icon"}}]
+   ], "end": ["ret", ["n9"]]}]},
+
+  {"name": "module_drawable", "params": ["ctx", "str"], "returns": ["dr"], "blocks": [
+   {"params": ["ctx", "str"], "nodes": [
+    ["call.foreign", [], ["api"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "api:Lio/github/libxposed/api/XposedInterface;"]}}],
+    ["call.foreign", ["n0"], ["ai", "thr"], {"entity": {"jvm": ["jvm-invokeinterface-catch", "io/github/libxposed/api/XposedInterface", "getModuleApplicationInfo()Landroid/content/pm/ApplicationInfo;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/content/pm/ApplicationInfo", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 1, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["pm"], {"entity": {"jvm": ["jvm-invokevirtual", "android/content/Context", "getPackageManager()Landroid/content/pm/PackageManager;"]}}],
+    ["call.foreign", ["n0", "B0.n1"], ["res", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/content/pm/PackageManager", "getResourcesForApplication(Landroid/content/pm/ApplicationInfo;)Landroid/content/res/Resources;"]}}],
+    ["call.direct", ["n1.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n2", 4, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n1"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "packageName:Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "drawable"]}}],
+    ["call.foreign", ["B1.n1", "B0.p1", "n1", "n0"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "android/content/res/Resources", "getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["n2", "n3"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n4", 4, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["theme"], {"entity": {"jvm": ["jvm-checkcast", "android/content/res/Resources$Theme", "checkcast"]}}],
+    ["call.foreign", ["B1.n1", "B2.n2", "n1"], ["dr", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/content/res/Resources", "getDrawable(ILandroid/content/res/Resources$Theme;)Landroid/graphics/drawable/Drawable;"]}}]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["dr"], {"entity": {"fn": "dr_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "endpoint_icon", "params": ["ctx", "b32", "b1"], "returns": ["icon"], "blocks": [
+   {"params": ["ctx", "b32", "b1"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "endpoint"]}}],
+    ["call.direct", ["n0", "p1", "p2"], ["str"], {"entity": {"fn": "icon_key"}}],
+    ["call.direct", ["n1"], ["icon"], {"entity": {"fn": "cached_icon"}}],
+    ["call.direct", ["n2"], ["b1"], {"entity": {"fn": "is_icon"}}]
+   ], "end": ["cbr", "n3", 1, [], 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n2"]]},
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["int.compare", ["B0.p1", "n0"], ["b1"], {"attrs": ["eq"]}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ic_endpoint_this_device"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ic_endpoint_remote_device"]}}]
+   ], "end": ["cbr", "n1", 3, ["n2"], 3, ["n3"]]},
+   {"params": ["str"], "nodes": [
+    ["call.direct", ["B0.p0", "p0"], ["dr"], {"entity": {"fn": "module_drawable"}}],
+    ["const", "b32", 1],
+    ["const", "b32", 4290699775],
+    ["const", "b32", 4280962149],
+    ["call.direct", ["B0.p2", "n2", "n3"], ["b32"], {"entity": {"fn": "pal"}}],
+    ["const", "b32", 4278197807],
+    ["const", "b32", 4291421951],
+    ["call.direct", ["B0.p2", "n5", "n6"], ["b32"], {"entity": {"fn": "pal"}}],
+    ["const", "b32", 18],
+    ["call.direct", ["n1", "n4", "n0", "n7", "n8"], ["icon"], {"entity": {"fn": "shaped_icon"}}],
+    ["call.direct", ["B0.n1", "n9"], [], {"entity": {"fn": "cache_icon"}}]
+   ], "end": ["ret", ["n9"]]}]},
+
+  {"name": "badge_icon", "params": ["ctx", "icon", "b32"], "returns": ["icon"], "blocks": [
+   {"params": ["ctx", "icon", "b32"], "nodes": [
+    ["const", "b32", 0],
+    ["int.compare", ["p2", "n0"], ["b1"], {"attrs": ["eq"]}],
+    ["call.direct", ["p1"], ["b1"], {"entity": {"fn": "is_icon"}}],
+    ["const", "b1", 1],
+    ["bit.xor", ["n2", "n3"], ["b1"]],
+    ["bit.or", ["n1", "n4"], ["b1"]]
+   ], "end": ["cbr", "n5", 5, [], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "badge"]}}],
+    ["const", "b1", 0],
+    ["call.direct", ["n0", "B0.p2", "n1"], ["str"], {"entity": {"fn": "icon_key"}}],
+    ["call.direct", ["n2"], ["icon"], {"entity": {"fn": "cached_icon"}}],
+    ["call.direct", ["n3"], ["b1"], {"entity": {"fn": "is_icon"}}]
+   ], "end": ["cbr", "n4", 6, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p1", "B0.p0"], ["dr"], {"entity": {"fn": "load_drawable"}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/graphics/drawable/Drawable", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 3, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["bmp"], {"entity": {"fn": "new_bitmap"}}],
+    ["call.direct", ["n0"], ["canvas"], {"entity": {"fn": "new_canvas"}}],
+    ["call.foreign", ["B2.n0"], ["dr"], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/drawable/Drawable", "mutate()Landroid/graphics/drawable/Drawable;"]}}],
+    ["const", "b32", 4294967295],
+    ["call.foreign", ["n2", "n3"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/drawable/Drawable", "setTint(I)V"]}}],
+    ["const", "b32", 0],
+    ["const", "b32", 96],
+    ["call.foreign", ["n2", "n5", "n5", "n6", "n6"], [], {"entity": {"jvm": ["jvm-invokevirtual", "android/graphics/drawable/Drawable", "setBounds(IIII)V"]}}],
+    ["call.foreign", ["n2", "n1"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/graphics/drawable/Drawable", "draw(Landroid/graphics/Canvas;)V"]}}],
+    ["call.direct", ["n8"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n9", 5, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B3.n1", "B0.p2"], [], {"entity": {"fn": "badge_draw"}}],
+    ["call.foreign", ["B3.n0"], ["icon"], {"entity": {"jvm": ["jvm-invokestatic", "android/graphics/drawable/Icon", "createWithBitmap(Landroid/graphics/Bitmap;)Landroid/graphics/drawable/Icon;"]}}],
+    ["call.direct", ["B1.n2", "n1"], [], {"entity": {"fn": "cache_icon"}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p1"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B1.n3"]]}]},
+
+  {"name": "folder_line", "params": ["list"], "returns": ["str"], "blocks": [
+   {"params": ["list"], "nodes": [
+    ["call.foreign", ["p0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["eq"]}],
+    ["const", "b32", 2],
+    ["int.compare", ["n0", "n3"], ["b1"], {"attrs": ["sle"]}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", "]}}]
+   ], "end": ["cbr", "n2", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.n5", "B0.p0"], ["str"], {"entity": {"fn": "join"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B0.n1", "B0.n3"], ["list"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "subList(II)Ljava/util/List;"]}}],
+    ["call.direct", ["B0.n5", "n0"], ["str"], {"entity": {"fn": "join"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " +"]}}],
+    ["sub.wrap", ["B0.n0", "B0.n3"], ["b32"]],
+    ["call.direct", ["n3"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.direct", ["n1", "n2", "n4"], ["str"], {"entity": {"fn": "cat3"}}]
+   ], "end": ["ret", ["n5"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [], "end": ["cbr", "B0.n4", 1, [], 2, []]}]},
+
+  {"name": "appearance_apply", "params": ["ctx", "notif", "nb", "b32", "b32", "list"], "returns": [], "blocks": [
+   {"params": ["ctx", "notif", "nb", "b32", "b32", "list"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_night"}}],
+    ["const", "b32", 4278215311],
+    ["const", "b32", 4287417855],
+    ["call.direct", ["n0", "n1", "n2"], ["b32"], {"entity": {"fn": "pal"}}],
+    ["call.foreign", ["p2", "n3"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setColor(I)Landroid/app/Notification$Builder;"]}}],
+    ["const", "b32", 1000],
+    ["call.foreign", ["n5"], ["seg"], {"entity": {"jvm": ["jvm-new", "android/app/Notification$ProgressStyle$Segment", "<init>(I)V"]}}],
+    ["call.foreign", ["n6", "n3"], ["seg"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$ProgressStyle$Segment", "setColor(I)Landroid/app/Notification$ProgressStyle$Segment;"]}}],
+    ["call.foreign", ["n6"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["n8"], ["list"], {"entity": {"jvm": ["jvm-invokestatic-interface", "java/util/List", "of(Ljava/lang/Object;)Ljava/util/List;"]}}],
+    ["call.foreign", [], ["ps"], {"entity": {"jvm": ["jvm-new", "android/app/Notification$ProgressStyle", "<init>()V"]}}],
+    ["call.foreign", ["n10", "n9"], ["ps"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$ProgressStyle", "setProgressSegments(Ljava/util/List;)Landroid/app/Notification$ProgressStyle;"]}}],
+    ["const", "b32", 10],
+    ["mul.wrap", ["p3", "n12"], ["b32"]],
+    ["call.foreign", ["n10", "n13"], ["ps"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$ProgressStyle", "setProgress(I)Landroid/app/Notification$ProgressStyle;"]}}],
+    ["call.foreign", ["p1"], ["icon"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification", "getSmallIcon()Landroid/graphics/drawable/Icon;"]}}],
+    ["call.direct", ["p0", "n15", "n0"], ["icon"], {"entity": {"fn": "tracker_icon"}}],
+    ["call.foreign", ["n10", "n16"], ["ps"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$ProgressStyle", "setProgressTrackerIcon(Landroid/graphics/drawable/Icon;)Landroid/app/Notification$ProgressStyle;"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["p4", "n18"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n19", 3, [], 1, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["int.compare", ["B0.p4", "n0"], ["b1"], {"attrs": ["eq"]}],
+    ["const", "b32", 0]
+   ], "end": ["cbr", "n1", 2, ["n0", "n2"], 2, ["n2", "n0"]]},
+   {"params": ["b32", "b32"], "nodes": [
+    ["call.direct", ["B0.p0", "p0", "B0.n0"], ["icon"], {"entity": {"fn": "endpoint_icon"}}],
+    ["call.foreign", ["B0.n10", "n0"], ["ps"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$ProgressStyle", "setProgressStartIcon(Landroid/graphics/drawable/Icon;)Landroid/app/Notification$ProgressStyle;"]}}],
+    ["call.direct", ["B0.p0", "p1", "B0.n0"], ["icon"], {"entity": {"fn": "endpoint_icon"}}],
+    ["call.foreign", ["B0.n10", "n2"], ["ps"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$ProgressStyle", "setProgressEndIcon(Landroid/graphics/drawable/Icon;)Landroid/app/Notification$ProgressStyle;"]}}]
+   ], "end": ["br", 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n10"], ["nstyle"], {"entity": {"jvm": ["jvm-checkcast", "android/app/Notification$Style", "checkcast"]}}],
+    ["call.foreign", ["B0.p2", "n0"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setStyle(Landroid/app/Notification$Style;)Landroid/app/Notification$Builder;"]}}],
+    ["call.direct", ["B0.p5"], ["str"], {"entity": {"fn": "folder_line"}}],
+    ["call.direct", ["n2"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n3", 4, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B3.n2"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["B0.p2", "n0"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setContentText(Ljava/lang/CharSequence;)Landroid/app/Notification$Builder;"]}}]
+   ], "end": ["br", 5, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.n15", "B0.p4"], ["icon"], {"entity": {"fn": "badge_icon"}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_icon"}}]
+   ], "end": ["cbr", "n1", 6, [], 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p2", "B5.n0"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setSmallIcon(Landroid/graphics/drawable/Icon;)Landroid/app/Notification$Builder;"]}}]
+   ], "end": ["br", 7, []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "request_promotion", "params": ["nb"], "returns": ["b1"], "blocks": [
+   {"params": ["nb"], "nodes": [
+    ["call.direct", [], ["b32"], {"entity": {"fn": "sdk"}}],
+    ["const", "b32", 36],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n2", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["const", "b1", 1],
+    ["call.foreign", ["B0.p0", "n0"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setColorized(Z)Landroid/app/Notification$Builder;"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["cls"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Object", "getClass()Ljava/lang/Class;"]}}],
+    ["const", "b32", 1],
+    ["call.foreign", ["n2"], ["carr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/Class;", "newarray"]}}],
+    ["call.foreign", [], ["cls"], {"entity": {"jvm": ["jvm-getstatic", "java/lang/Boolean", "TYPE:Ljava/lang/Class;"]}}],
+    ["const", "b32", 0],
+    ["call.foreign", ["n3", "n5", "n4"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Class;", "arraystore"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "setRequestPromotedOngoing"]}}],
+    ["call.foreign", ["n1", "n7", "n3"], ["meth", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/Class", "getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;"]}}],
+    ["call.direct", ["n8.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n9", 4, ["n8.r1"], 3, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["n0"], ["oarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/Object;", "newarray"]}}],
+    ["call.foreign", [], ["boolean"], {"entity": {"jvm": ["jvm-getstatic", "java/lang/Boolean", "TRUE:Ljava/lang/Boolean;"]}}],
+    ["call.foreign", ["n2"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["const", "b32", 0],
+    ["call.foreign", ["n1", "n4", "n3"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.foreign", ["B2.n8", "B2.n0", "n1"], ["obj", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Method", "invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n6.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n7", 4, ["n6.r1"], 5, []]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", ["B2.n1"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "#setRequestPromotedOngoing"]}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["B2.n3"], ["str"], {"entity": {"fn": "sig"}}],
+    ["call.direct", ["n2", "n3", "p0"], [], {"entity": {"fn": "diag"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n5"]]},
+   {"params": [], "nodes": [["const", "b1", 1]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "notif_nil", "params": [], "returns": ["notif"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["notif"], {"entity": {"jvm": ["jvm-checkcast", "android/app/Notification", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "promoted", "params": ["ctx", "notif", "b32", "b32", "list"], "returns": ["notif"], "blocks": [
+   {"params": ["ctx", "notif", "b32", "b32", "list"], "nodes": [
+    ["call.foreign", ["p0", "p1"], ["nb", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "android/app/Notification$Builder", "recoverBuilder(Landroid/content/Context;Landroid/app/Notification;)Landroid/app/Notification$Builder;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 3, ["n0.r1"], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "05_syncthing_live_update"]}}],
+    ["call.foreign", ["B0.n0", "n0"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setChannelId(Ljava/lang/String;)Landroid/app/Notification$Builder;"]}}],
+    ["call.direct", ["B0.p2"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "%"]}}],
+    ["call.direct", ["n2", "n3"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.foreign", ["B0.n0", "n4"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setShortCriticalText(Ljava/lang/String;)Landroid/app/Notification$Builder;"]}}],
+    ["const", "b1", 1],
+    ["call.foreign", ["B0.n0", "n6"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setOngoing(Z)Landroid/app/Notification$Builder;"]}}],
+    ["call.foreign", ["B0.n0", "n6"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setOnlyAlertOnce(Z)Landroid/app/Notification$Builder;"]}}],
+    ["call.direct", ["B0.n0"], ["b1"], {"entity": {"fn": "request_promotion"}}],
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "requestFailLogged:I"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["n10", "n11"], ["b1"], {"attrs": ["eq"]}],
+    ["bit.xor", ["n9", "n6"], ["b1"]],
+    ["bit.and", ["n12", "n13"], ["b1"]]
+   ], "end": ["cbr", "n14", 4, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p1", "B0.n0", "B0.p2", "B0.p3", "B0.p4"], [], {"entity": {"fn": "appearance_apply"}}],
+    ["call.foreign", ["B0.n0"], ["notif", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/app/Notification$Builder", "build()Landroid/app/Notification;"]}}],
+    ["call.direct", ["n1.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n2", 3, ["n1.r1"], 5, []]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Live Update skipped: "]}}],
+    ["call.direct", ["p0"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}],
+    ["call.direct", [], ["notif"], {"entity": {"fn": "notif_nil"}}]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "requestFailLogged:I"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Promotion could not be requested on "]}}],
+    ["call.direct", [], ["str"], {"entity": {"fn": "contract_describe"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "; the Live Update stays an ordinary notification"]}}],
+    ["call.direct", ["n2", "n3", "n4"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n5"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B2.n1"]]}]},
+
+  {"name": "oarr_nil", "params": [], "returns": ["oarr"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["oarr"], {"entity": {"jvm": ["jvm-checkcast", "[Ljava/lang/Object;", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "rewritten", "params": ["chain"], "returns": ["oarr"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", [], ["oarr"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "snapshot:[Ljava/lang/Object;"]}}],
+    ["const", "b32", 0],
+    ["call.direct", ["n0", "n1", "n1"], ["b32"], {"entity": {"fn": "snap_int"}}],
+    ["const", "b32", 1],
+    ["const", "b32", 4294967295],
+    ["call.direct", ["n0", "n3", "n4"], ["b32"], {"entity": {"fn": "snap_int"}}],
+    ["int.compare", ["n2", "n1"], ["b1"], {"attrs": ["ne"]}],
+    ["int.compare", ["n5", "n1"], ["b1"], {"attrs": ["sge"]}],
+    ["const", "b32", 100],
+    ["int.compare", ["n5", "n8"], ["b1"], {"attrs": ["slt"]}],
+    ["bit.and", ["n6", "n7"], ["b1"]],
+    ["bit.and", ["n10", "n9"], ["b1"]]
+   ], "end": ["cbr", "n11", 1, [], 9, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["list"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "getArgs()Ljava/util/List;"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["const", "b32", 1],
+    ["int.compare", ["n1", "n2"], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n3", 2, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n0", "B1.n2"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/app/Notification", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 3, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.n0"], ["notif"], {"entity": {"jvm": ["jvm-checkcast", "android/app/Notification", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification", "getChannelId()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "01_syncthing_persistent"]}}],
+    ["call.direct", ["n2", "n1"], ["b1"], {"entity": {"fn": "str_eq"}}]
+   ], "end": ["cbr", "n3", 4, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "getThisObject()Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/content/Context", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 5, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B4.n0"], ["ctx"], {"entity": {"jvm": ["jvm-checkcast", "android/content/Context", "checkcast"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "notification"]}}],
+    ["call.foreign", ["n0", "n1"], ["obj"], {"entity": {"jvm": ["jvm-invokevirtual", "android/content/Context", "getSystemService(Ljava/lang/String;)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n2"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/app/NotificationManager", "instanceof"]}}]
+   ], "end": ["cbr", "n3", 6, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B5.n2"], ["nm"], {"entity": {"jvm": ["jvm-checkcast", "android/app/NotificationManager", "checkcast"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "channel_ensure"}}],
+    ["call.foreign", ["B1.n0"], ["oarr"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "toArray()[Ljava/lang/Object;"]}}],
+    ["const", "b32", 2],
+    ["const", "b32", 0],
+    ["call.direct", ["B0.n0", "n3", "n4"], ["b32"], {"entity": {"fn": "snap_int"}}],
+    ["call.direct", ["B0.n0"], ["list"], {"entity": {"fn": "snap_folders"}}],
+    ["call.direct", ["B5.n0", "B3.n0", "B0.n5", "n5", "n6"], ["notif"], {"entity": {"fn": "promoted"}}],
+    ["call.foreign", ["n7"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/app/Notification", "instanceof"]}}]
+   ], "end": ["cbr", "n8", 7, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B6.n7"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B6.n2", "B1.n2", "n0"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "lastPromoted:I"]}}],
+    ["int.compare", ["n2", "B0.n5"], ["b1"], {"attrs": ["ne"]}]
+   ], "end": ["cbr", "n3", 10, [], 11, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["oarr"], {"entity": {"fn": "oarr_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["const", "b32", 4294967295],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "lastPromoted:I"]}}],
+    ["call.direct", [], ["oarr"], {"entity": {"fn": "oarr_nil"}}]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n5"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "lastPromoted:I"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Live Update at "]}}],
+    ["call.direct", ["B0.n5"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "%, direction="]}}],
+    ["call.direct", ["B6.n5"], ["str"], {"entity": {"fn": "dir_name"}}],
+    ["call.direct", ["n1", "n2", "n3", "n4"], ["str"], {"entity": {"fn": "cat4"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", folders="]}}],
+    ["call.foreign", ["B6.n6"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["n7"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.direct", ["n5", "n6", "n8"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n9"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["br", 11, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B6.n2"]]}]},
+
+  {"name": "hk_start_foreground", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.direct", ["p0"], ["oarr"], {"entity": {"fn": "rewritten"}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "[Ljava/lang/Object;", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B0.n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed([Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "ss_start_elapsed", "params": [], "returns": ["b64"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "sys.system_server.start_elapsed"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-new", "java/lang/String", "<init>()V"]}}],
+    ["call.foreign", ["n0", "n1"], ["str", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "android/os/SystemProperties", "get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"]}}],
+    ["call.direct", ["n2"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n3", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n2"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "isEmpty()Z"]}}]
+   ], "end": ["cbr", "n0", 3, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n2"], ["b64", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "java/lang/Long", "parseLong(Ljava/lang/String;)J"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [["const", "b64", 0]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "promotion_status_report", "params": [], "returns": [], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["api"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "api:Lio/github/libxposed/api/XposedInterface;"]}}],
+    ["call.foreign", ["n0"], ["ai", "thr"], {"entity": {"jvm": ["jvm-invokeinterface-catch", "io/github/libxposed/api/XposedInterface", "getModuleApplicationInfo()Landroid/content/pm/ApplicationInfo;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/content/pm/ApplicationInfo", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 1, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n1"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "sourceDir:Ljava/lang/String;"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n1", 2, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n0"], ["file"], {"entity": {"jvm": ["jvm-new", "java/io/File", "<init>(Ljava/lang/String;)V"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/io/File", "exists()Z"]}}],
+    ["call.foreign", ["n0"], ["b64"], {"entity": {"jvm": ["jvm-invokevirtual", "java/io/File", "lastModified()J"]}}],
+    ["call.foreign", [], ["b64"], {"entity": {"jvm": ["jvm-invokestatic", "android/os/SystemClock", "elapsedRealtime()J"]}}],
+    ["call.foreign", [], ["b64"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/System", "currentTimeMillis()J"]}}],
+    ["sub.wrap", ["n4", "n3"], ["b64"]],
+    ["call.direct", [], ["b64"], {"entity": {"fn": "ss_start_elapsed"}}],
+    ["sub.wrap", ["n2", "n5"], ["b64"]],
+    ["const", "b64", 0],
+    ["int.compare", ["n2", "n8"], ["b1"], {"attrs": ["sgt"]}],
+    ["int.compare", ["n6", "n8"], ["b1"], {"attrs": ["sgt"]}],
+    ["int.compare", ["n7", "n6"], ["b1"], {"attrs": ["sgt"]}],
+    ["int.compare", ["n7", "n8"], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n1", 3, [], 4, []]},
+   {"params": [], "nodes": [], "end": ["cbr", "B2.n9", 6, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "This module is newer than the running system_server, which still holds the previous version of it, or none at all. Promotion therefore follows whatever was loaded there - on a first install nothing promotes the Live Update, and after an update it is the old rules that apply. To load this version's, restart the framework with \"su -c 'stop; start'\""]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["cbr", "B2.n10", 7, [], 8, []]},
+   {"params": [], "nodes": [], "end": ["cbr", "B2.n11", 4, [], 5, []]},
+   {"params": [], "nodes": [], "end": ["cbr", "B2.n12", 4, [], 5, []]}]},
+
+  {"name": "promoter_install", "params": [], "returns": ["b1"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["cl"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/ClassLoader", "getSystemClassLoader()Ljava/lang/ClassLoader;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "android.app.Service"]}}],
+    ["call.direct", ["n0", "n1"], ["cls"], {"entity": {"fn": "find_class_diag"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "startForeground"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "int"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "android.app.Notification"]}}],
+    ["const", "b32", 2],
+    ["call.direct", ["n6"], ["sarr"], {"entity": {"fn": "s_new"}}],
+    ["const", "b32", 0],
+    ["call.direct", ["n7", "n8", "n4"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 1],
+    ["call.direct", ["n7", "n10", "n5"], [], {"entity": {"fn": "s_put"}}],
+    ["call.direct", ["n0", "n7"], ["carr"], {"entity": {"fn": "find_types"}}],
+    ["call.direct", ["n2", "n3", "n12"], ["meth"], {"entity": {"fn": "find_method"}}],
+    ["const", "b32", 3],
+    ["call.direct", ["n14"], ["sarr"], {"entity": {"fn": "s_new"}}],
+    ["call.direct", ["n15", "n8", "n4"], [], {"entity": {"fn": "s_put"}}],
+    ["call.direct", ["n15", "n10", "n5"], [], {"entity": {"fn": "s_put"}}],
+    ["call.direct", ["n15", "n6", "n4"], [], {"entity": {"fn": "s_put"}}],
+    ["call.direct", ["n0", "n15"], ["carr"], {"entity": {"fn": "find_types"}}],
+    ["call.direct", ["n2", "n3", "n19"], ["meth"], {"entity": {"fn": "find_method"}}],
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_start_foreground"}}],
+    ["call.direct", ["n13", "n21"], ["b1"], {"entity": {"fn": "hook_if"}}],
+    ["call.direct", ["n20", "n21"], ["b1"], {"entity": {"fn": "hook_if"}}],
+    ["bit.or", ["n22", "n23"], ["b1"]]
+   ], "end": ["cbr", "n24", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Promoting the host notification on channel 05_syncthing_live_update"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}],
+    ["call.direct", [], [], {"entity": {"fn": "promotion_status_report"}}],
+    ["const", "b1", 1]
+   ], "end": ["ret", ["n3"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "No foreground-service entry point hooked; module stays inactive"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n2"]]}]},
+
+  {"name": "host_install", "params": ["prp"], "returns": [], "blocks": [
+   {"params": ["prp"], "nodes": [
+    ["call.foreign", ["p0"], ["ai"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedModuleInterface$PackageReadyParam", "getApplicationInfo()Landroid/content/pm/ApplicationInfo;"]}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "sourceDir:Ljava/lang/String;"]}}],
+    ["call.foreign", ["p0"], ["cl"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedModuleInterface$PackageReadyParam", "getClassLoader()Ljava/lang/ClassLoader;"]}}],
+    ["call.direct", ["n1"], ["dk"], {"entity": {"fn": "dexkit_open"}}],
+    ["call.direct", ["n3", "n2"], ["b1"], {"entity": {"fn": "tracker_install"}}]
+   ], "end": ["cbr", "n4", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["b1"], {"entity": {"fn": "promoter_install"}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.n3"], [], {"entity": {"fn": "dexkit_close"}}]
+   ], "end": ["ret", []]}]}
+ ]
+}
