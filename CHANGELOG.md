@@ -1,6 +1,30 @@
 # Changelog
 
-## Unreleased
+## 2.0.0 — unreleased
+
+The module is rewritten in XAX. Behaviour is the same as 1.1.2; the code that runs is new, so
+this is a major version.
+
+### Changed
+
+- **Written in XAX, built by the XAX compiler.** No Java, Gradle or `d8` is involved; the APK
+  is built from one XAX store (`source/xax/`) with the pinned compiler in `toolchains.json`.
+  Package name, entry class, scopes and signing key are unchanged, so it installs over 1.1.2.
+- **Updates need a framework restart.** XAX cannot yet declare `autoHotReload`
+  ([XAX#133](https://github.com/MrxSiN/XAX/issues/133)), so after installing an update run
+  `su -c 'stop; start'` (or reboot) for `system_server` to load it. `minApiVersion` is now 102.
+- **arm64 only.** The x86_64 DexKit library is no longer packaged.
+- The wavy bar's next frame is requested with `View.postInvalidateDelayed(16)` instead of a
+  scheduled `Runnable`; frames are still at most every 16 ms and stop when animations are off.
+- Failures inside the hooks are caught per call rather than by one surrounding `try`, so a
+  call that throws still leaves the host's notification as the host built it.
+
+### Verified
+
+On a Pixel 8 Pro, Android 17 QPR2 (`CP4A.261105.040.A1`), Vector 2.2, Syncthing-Fork 2.1.7.0:
+a real upload was promoted (`PROMOTED_ONGOING`, `ProgressStyle`, colour `0xff8ccdff`), with the
+wavy bar, cookie tracker, endpoint icons, direction badge and coloured chip. Android 16 is not
+tested on a device.
 
 ## 1.1.2 — 2026-11-11
 

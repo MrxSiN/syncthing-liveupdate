@@ -1,0 +1,7 @@
+*.xax binary
+*.apk binary
+*.dex binary
+*.so binary
+*.png binary
+*.batch text eol=lf
+*.sh text eol=lf
