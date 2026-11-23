@@ -46,7 +46,11 @@ server starts and cannot take effect until the next boot.
   the data moves.
 - The bar gliding to each new value on a spring instead of jumping.
 - The status bar chip filled with Syncthing's blue rather than the system surface colour.
-- The names of the folders currently transferring, using the labels configured in Syncthing.
+- The names of the folders currently transferring, using the labels configured in Syncthing,
+  followed by the download and upload rate and the estimated time left when Syncthing's own
+  figures support them.
+- On a lock screen that hides sensitive content, "Syncing files" with the percentage, rate and
+  estimate instead of folder names.
 - A direction badge on the status icon: down while this device pulls, up while a remote
   pulls from it, both when each is happening at once.
 
@@ -68,9 +72,9 @@ server starts and cannot take effect until the next boot.
   other notification on the device, including Syncthing's own, keeps the platform's verdict.
 - A hook that cannot install is logged and skipped, and Syncthing is left exactly as it was.
 - Logs are tagged `SyncthingLiveUpdate`.
-- After an update, restart the framework (`su -c 'stop; start'`) or reboot so `system_server`
-  loads it; until it does, the module says so in the log rather than leaving the Live Update
-  silently unpromoted.
+- Syncthing and SystemUI pick up a module update on their next start. `system_server` loads
+  it after a framework restart (`su -c 'stop; start'`) or a reboot; until then the module says
+  so in the log rather than leaving the Live Update silently unpromoted.
 
 Source, full documentation and troubleshooting:
 https://github.com/MrxSiN/syncthing-liveupdate

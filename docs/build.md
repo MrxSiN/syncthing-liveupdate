@@ -14,6 +14,8 @@ The module is XAX. There is no Java, Kotlin, Brainfuck, Gradle or `d8` in the bu
 | `source/xax/entry.json` | Static initialisation and the three lifecycle entries. |
 | `source/xax/transactions/0N-*.batch` | Native `xaxc edit` batches that define the float code (icon outlines, badge arrows, spring, wave drawing). The construct format cannot express floats. |
 | `source/branding/` | Static resources: manifest, label, description, launcher and endpoint icons. |
+| `tools/xcheck/xcheck.xax` | `xcheck`, the project's checker: an XAX Linux x86-64 program. `request.json` beside it is the `xax-construct-v1` request it was constructed from. |
+| `checks/*.checks` | `xcheck`'s input: the project's structural checks and the Syncthing-Fork host contract. |
 | `source/inputs/` | Pinned build inputs, named by BLAKE3 in the module record: the branding archive and DexKit 2.3.0 (DEX and arm64 library). Origins are in `toolchains.json`. |
 
 ## Building the APK
@@ -21,6 +23,24 @@ The module is XAX. There is no Java, Kotlin, Brainfuck, Gradle or `d8` in the bu
 See the README's Build section: `xaxc verify`, `resolve` and `build` of the store with
 `source/inputs/*`, then `apksigner`. `toolchains.json` names the XAX commit and both seeds' SHA-256;
 the Linux and Windows seeds produce the same APK bytes.
+
+## Checks
+
+`xcheck CHECKLIST` runs a checklist: one assertion per line, `f PATH` (the file exists),
+`h PATH TEXT` (it contains TEXT) or `l PATH TEXT` (it does not); `#` lines are comments. It
+prints `FAIL <line>` for each failure and exits 1 if any failed. `xcheck CHANGELOG VERSION`
+prints the changelog section under `## VERSION ` (the release notes) and exits 1 when there is
+none. Files are read whole, up to 124 MiB; consecutive lines on the same file read it once.
+
+```sh
+"$xaxc" verify tools/xcheck/xcheck.xax build/xcheck.rec
+"$xaxc" build  tools/xcheck/xcheck.xax build/xcheck build/xcheck.prov
+git ls-files > build/files.txt
+build/xcheck checks/project.checks
+```
+
+It is a Linux executable; on Windows run it in WSL. The host-contract recipe is in
+[compatibility.md](compatibility.md#checking-a-syncthing-fork-release).
 
 ## How the store is made
 
@@ -36,6 +56,15 @@ the Linux and Windows seeds produce the same APK bytes.
 
 To change the module, edit the committed store with `xaxc edit` batches and `verify` after each;
 regenerate from the carriers only when the carriers change, and then re-apply the batches.
+
+Regenerating reproduces the committed store byte for byte when the carriers are unchanged
+(checked 2026-11-23 at XAX 707eb6f). The swap in step 2 rebuilds the module over the v3 carrier,
+then the package and the release request over that module, as `construct` does; the request is
+the store's root, keeping only the objects it reaches. The v3 record also carries
+`"auto_hot_reload": true`. When carriers change, the functions' store order changes, so each
+batch's `R` line and `F<n>` references are mapped onto the new chain by CID: `F<n>` of the
+original chain's store before that batch names a CID, and the same CID's index in the new chain
+is used.
 
 ## Authoring notes
 
@@ -53,8 +82,10 @@ regenerate from the carriers only when the carriers change, and then re-apply th
 
 | Issue | Effect here |
 | --- | --- |
-| [XAX#133](https://github.com/MrxSiN/XAX/issues/133) | No `autoHotReload`; updates need a framework restart. `minApiVersion` is 102. |
-| [XAX#134](https://github.com/MrxSiN/XAX/issues/134) | An unbranded module loses `versionName`; the branding manifest supplies it. |
-| [XAX#135](https://github.com/MrxSiN/XAX/issues/135) | The first store and carrier changes need XAX's Python reference tooling. |
-| [XAX#136](https://github.com/MrxSiN/XAX/issues/136) | Uppercase hex constants are rejected in batches. |
-| [XAX#137](https://github.com/MrxSiN/XAX/issues/137) | Silent decline for two-result functions. |
+| [XAX#135](https://github.com/MrxSiN/XAX/issues/135) | A new store (this one, `xcheck`) and carrier changes need XAX's Python reference tooling. Native carrier replacement lands in XAX release 0042. |
+| [XAX#160](https://github.com/MrxSiN/XAX/issues/160) | A non-ASCII string constant makes `build` decline silently, so `glyph` makes `↓ ↑ · ≈` at run time. |
+| `xcheck` reach | XAX's construct carrier offers Java member calls only to `android-libxposed`, and its Linux platform only `openat`/`read`/`write`/`close`/`mmap`/`exit_group`. So `xcheck` cannot list a directory, fetch a URL or inflate a zip: CI passes it `git ls-files` output and an `unzip`ped dex. |
+
+Closed since the 0038 pin: [XAX#134](https://github.com/MrxSiN/XAX/issues/134) (the branded
+manifest already carries `versionName`), [XAX#136](https://github.com/MrxSiN/XAX/issues/136) and
+[XAX#137](https://github.com/MrxSiN/XAX/issues/137).

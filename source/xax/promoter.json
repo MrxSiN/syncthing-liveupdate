@@ -1,4 +1,16 @@
 {
+ "types": {
+  "mfmt": "jvm:Landroid/icu/text/MeasureFormat;",
+  "mwidth": "jvm:Landroid/icu/text/MeasureFormat$FormatWidth;",
+  "locale": "jvm:Ljava/util/Locale;",
+  "measure": "jvm:Landroid/icu/util/Measure;",
+  "munit": "jvm:Landroid/icu/util/MeasureUnit;",
+  "tunit": "jvm:Landroid/icu/util/TimeUnit;",
+  "jfmt": "jvm:Ljava/text/Format;",
+  "larr": "jvm:[J",
+  "num": "jvm:Ljava/lang/Number;",
+  "lng": "jvm:Ljava/lang/Long;"
+ },
  "functions": [
   {"name": "channel_ensure", "params": ["nm"], "returns": [], "blocks": [
    {"params": ["nm"], "nodes": [
@@ -301,6 +313,155 @@
    {"params": [], "nodes": [], "end": ["ret", ["B0.p1"]]},
    {"params": [], "nodes": [], "end": ["ret", ["B1.n3"]]}]},
 
+  {"name": "glyph", "params": ["b16"], "returns": ["str"], "blocks": [
+   {"params": ["b16"], "nodes": [
+    ["call.foreign", ["p0"], ["str"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/String", "valueOf(C)Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "rate_text", "params": ["ctx", "b32", "str"], "returns": ["str"], "blocks": [
+   {"params": ["ctx", "b32", "str"], "nodes": [
+    ["call.foreign", [], ["larr"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "meter:[J"]}}],
+    ["add.wrap", ["p1", ["b32", 2]], ["b32"]],
+    ["call.foreign", ["n0", "n1"], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["add.wrap", ["p1", ["b32", 3]], ["b32"]],
+    ["call.foreign", ["n0", "n3"], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["int.compare", ["n4", ["b64", 2]], ["b1"], {"attrs": ["sge"]}],
+    ["int.compare", ["n2", ["b64", 1000]], ["b1"], {"attrs": ["sge"]}],
+    ["bit.and", ["n5", "n6"], ["b1"]]
+   ], "end": ["cbr", "n7", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B0.n2"], ["str"], {"entity": {"jvm": ["jvm-invokestatic", "android/text/format/Formatter", "formatShortFileSize(Landroid/content/Context;J)Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "/s"]}}],
+    ["call.direct", ["B0.p2", "n0", "n1"], ["str"], {"entity": {"fn": "cat3"}}]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "eta_seconds", "params": [], "returns": ["b64"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["larr"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "meter:[J"]}}],
+    ["call.foreign", ["n0", ["b32", 4]], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["int.compare", ["n1", ["b64", 0]], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n2", 2, [], 3, []]},
+   {"params": [], "nodes": [], "end": ["ret", [["b64", 18446744073709551615]]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0", ["b32", 2]], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["call.foreign", ["B0.n0", ["b32", 3]], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["int.compare", ["n1", ["b64", 3]], ["b1"], {"attrs": ["sge"]}],
+    ["int.compare", ["n0", ["b64", 1000]], ["b1"], {"attrs": ["sge"]}],
+    ["bit.and", ["n2", "n3"], ["b1"]]
+   ], "end": ["cbr", "n4", 5, [], 1, []]},
+   {"params": [], "nodes": [], "end": ["br", 4, [["b64", 0]]]},
+   {"params": ["b64"], "nodes": [
+    ["call.foreign", ["B0.n0", ["b32", 9]], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["int.compare", ["n0", ["b64", 0]], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n1", 8, [], 9, []]},
+   {"params": [], "nodes": [
+    ["sub.wrap", ["B2.n0", ["b64", 1]], ["b64"]],
+    ["add.wrap", ["B0.n1", "n0"], ["b64"]],
+    ["udiv", ["n1", "B2.n0"], ["b64"]],
+    ["int.compare", ["n2", ["b64", 0]], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n3", 6, [], 7, []]},
+   {"params": [], "nodes": [], "end": ["br", 4, ["B5.n2"]]},
+   {"params": [], "nodes": [], "end": ["br", 4, [["b64", 0]]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0", ["b32", 7]], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["call.foreign", ["B0.n0", ["b32", 8]], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["int.compare", ["n1", ["b64", 3]], ["b1"], {"attrs": ["sge"]}],
+    ["int.compare", ["n0", ["b64", 1000]], ["b1"], {"attrs": ["sge"]}],
+    ["bit.and", ["n2", "n3"], ["b1"]]
+   ], "end": ["cbr", "n4", 11, [], 1, []]},
+   {"params": [], "nodes": [], "end": ["br", 10, ["B4.p0"]]},
+   {"params": ["b64"], "nodes": [
+    ["int.compare", ["p0", ["b64", 0]], ["b1"], {"attrs": ["sgt"]}],
+    ["int.compare", ["p0", ["b64", 86400]], ["b1"], {"attrs": ["sle"]}],
+    ["bit.and", ["n0", "n1"], ["b1"]]
+   ], "end": ["cbr", "n2", 14, [], 15, []]},
+   {"params": [], "nodes": [
+    ["sub.wrap", ["B8.n0", ["b64", 1]], ["b64"]],
+    ["add.wrap", ["B4.n0", "n0"], ["b64"]],
+    ["udiv", ["n1", "B8.n0"], ["b64"]],
+    ["int.compare", ["n2", "B4.p0"], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n3", 12, [], 13, []]},
+   {"params": [], "nodes": [], "end": ["br", 10, ["B11.n2"]]},
+   {"params": [], "nodes": [], "end": ["br", 10, ["B4.p0"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B10.p0"]]},
+   {"params": [], "nodes": [], "end": ["ret", [["b64", 18446744073709551615]]]}]},
+
+  {"name": "eta_text", "params": [], "returns": ["str"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["b64"], {"entity": {"fn": "eta_seconds"}}],
+    ["int.compare", ["n0", ["b64", 0]], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["int.compare", ["B0.n0", ["b64", 60]], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 7, [], 6, []]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B0.n0", ["b64", 59]], ["b64"]],
+    ["udiv", ["n0", ["b64", 60]], ["b64"]],
+    ["call.foreign", [], ["tunit"], {"entity": {"jvm": ["jvm-getstatic", "android/icu/util/MeasureUnit", "MINUTE:Landroid/icu/util/TimeUnit;"]}}]
+   ], "end": ["br", 5, ["n1", "n2"]]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B0.n0", ["b64", 1800]], ["b64"]],
+    ["udiv", ["n0", ["b64", 3600]], ["b64"]],
+    ["call.foreign", [], ["tunit"], {"entity": {"jvm": ["jvm-getstatic", "android/icu/util/MeasureUnit", "HOUR:Landroid/icu/util/TimeUnit;"]}}]
+   ], "end": ["br", 5, ["n1", "n2"]]},
+   {"params": ["b64", "tunit"], "nodes": [
+    ["call.foreign", [], ["locale"], {"entity": {"jvm": ["jvm-invokestatic", "java/util/Locale", "getDefault()Ljava/util/Locale;"]}}],
+    ["call.foreign", [], ["mwidth"], {"entity": {"jvm": ["jvm-getstatic", "android/icu/text/MeasureFormat$FormatWidth", "SHORT:Landroid/icu/text/MeasureFormat$FormatWidth;"]}}],
+    ["call.foreign", ["n0", "n1"], ["mfmt", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "android/icu/text/MeasureFormat", "getInstance(Ljava/util/Locale;Landroid/icu/text/MeasureFormat$FormatWidth;)Landroid/icu/text/MeasureFormat;"]}}],
+    ["call.direct", ["n2.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n3", 9, [], 8, []]},
+   {"params": [], "nodes": [
+    ["int.compare", ["B0.n0", ["b64", 5400]], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["tunit"], {"entity": {"jvm": ["jvm-getstatic", "android/icu/util/MeasureUnit", "SECOND:Landroid/icu/util/TimeUnit;"]}}]
+   ], "end": ["br", 5, ["B0.n0", "n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B5.p0"], ["lng"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/Long", "valueOf(J)Ljava/lang/Long;"]}}],
+    ["call.foreign", ["n0"], ["num"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Number", "checkcast"]}}],
+    ["call.foreign", ["B5.p1"], ["munit"], {"entity": {"jvm": ["jvm-checkcast", "android/icu/util/MeasureUnit", "checkcast"]}}],
+    ["call.foreign", ["n1", "n2"], ["measure"], {"entity": {"jvm": ["jvm-new", "android/icu/util/Measure", "<init>(Ljava/lang/Number;Landroid/icu/util/MeasureUnit;)V"]}}],
+    ["call.foreign", ["B5.n2"], ["jfmt"], {"entity": {"jvm": ["jvm-checkcast", "java/text/Format", "checkcast"]}}],
+    ["call.foreign", ["n3"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["n4", "n5"], ["str", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/text/Format", "format(Ljava/lang/Object;)Ljava/lang/String;"]}}],
+    ["call.direct", ["n6.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n7", 11, [], 10, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [["b16", 8776]], ["str"], {"entity": {"fn": "glyph"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2", "B8.n6"], ["str"], {"entity": {"fn": "cat"}}]
+   ], "end": ["ret", ["n3"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "join_opt", "params": ["str", "str"], "returns": ["str"], "blocks": [
+   {"params": ["str", "str"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["call.direct", ["p1"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [], "end": ["cbr", "B0.n1", 3, [], 4, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p1"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", [["b16", 183]], ["str"], {"entity": {"fn": "glyph"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n3", "n2"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["B0.p0", "n4", "B0.p1"], ["str"], {"entity": {"fn": "cat3"}}]
+   ], "end": ["ret", ["n5"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p0"]]}]},
+
   {"name": "folder_line", "params": ["list"], "returns": ["str"], "blocks": [
    {"params": ["list"], "nodes": [
     ["call.foreign", ["p0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
@@ -325,6 +486,23 @@
     ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
    ], "end": ["ret", ["n0"]]},
    {"params": [], "nodes": [], "end": ["cbr", "B0.n4", 1, [], 2, []]}]},
+
+  {"name": "second_line", "params": ["ctx", "list"], "returns": ["str"], "blocks": [
+   {"params": ["ctx", "list"], "nodes": [
+    ["call.direct", ["p1"], ["str"], {"entity": {"fn": "folder_line"}}],
+    ["call.direct", [["b16", 8595]], ["str"], {"entity": {"fn": "glyph"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", ["n1", "n2"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["p0", ["b32", 0], "n3"], ["str"], {"entity": {"fn": "rate_text"}}],
+    ["call.direct", ["n0", "n4"], ["str"], {"entity": {"fn": "join_opt"}}],
+    ["call.direct", [["b16", 8593]], ["str"], {"entity": {"fn": "glyph"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", ["n6", "n7"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["p0", ["b32", 5], "n8"], ["str"], {"entity": {"fn": "rate_text"}}],
+    ["call.direct", ["n5", "n9"], ["str"], {"entity": {"fn": "join_opt"}}],
+    ["call.direct", [], ["str"], {"entity": {"fn": "eta_text"}}],
+    ["call.direct", ["n10", "n11"], ["str"], {"entity": {"fn": "join_opt"}}]
+   ], "end": ["ret", ["n12"]]}]},
 
   {"name": "appearance_apply", "params": ["ctx", "notif", "nb", "b32", "b32", "list"], "returns": [], "blocks": [
    {"params": ["ctx", "notif", "nb", "b32", "b32", "list"], "nodes": [
@@ -363,7 +541,7 @@
    {"params": [], "nodes": [
     ["call.foreign", ["B0.n10"], ["nstyle"], {"entity": {"jvm": ["jvm-checkcast", "android/app/Notification$Style", "checkcast"]}}],
     ["call.foreign", ["B0.p2", "n0"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setStyle(Landroid/app/Notification$Style;)Landroid/app/Notification$Builder;"]}}],
-    ["call.direct", ["B0.p5"], ["str"], {"entity": {"fn": "folder_line"}}],
+    ["call.direct", ["B0.p0", "B0.p5"], ["str"], {"entity": {"fn": "second_line"}}],
     ["call.direct", ["n2"], ["b1"], {"entity": {"fn": "is_str"}}]
    ], "end": ["cbr", "n3", 4, [], 5, []]},
    {"params": [], "nodes": [
@@ -427,6 +605,35 @@
     ["call.foreign", ["n0"], ["notif"], {"entity": {"jvm": ["jvm-checkcast", "android/app/Notification", "checkcast"]}}]
    ], "end": ["ret", ["n1"]]}]},
 
+  {"name": "public_version", "params": ["ctx", "notif", "b32"], "returns": ["notif"], "blocks": [
+   {"params": ["ctx", "notif", "b32"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "05_syncthing_live_update"]}}],
+    ["call.foreign", ["p0", "n0"], ["nb"], {"entity": {"jvm": ["jvm-new", "android/app/Notification$Builder", "<init>(Landroid/content/Context;Ljava/lang/String;)V"]}}],
+    ["call.foreign", ["p1"], ["icon"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification", "getSmallIcon()Landroid/graphics/drawable/Icon;"]}}],
+    ["call.foreign", ["n1", "n2"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setSmallIcon(Landroid/graphics/drawable/Icon;)Landroid/app/Notification$Builder;"]}}],
+    ["call.foreign", ["p1"], ["jvm:Landroid/os/Bundle;"], {"entity": {"jvm": ["jvm-getfield", "android/app/Notification", "extras:Landroid/os/Bundle;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "android.title"]}}],
+    ["call.foreign", ["n4", "n5"], ["cs"], {"entity": {"jvm": ["jvm-invokevirtual", "android/os/Bundle", "getCharSequence(Ljava/lang/String;)Ljava/lang/CharSequence;"]}}],
+    ["call.foreign", ["n1", "n6"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setContentTitle(Ljava/lang/CharSequence;)Landroid/app/Notification$Builder;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Syncing files"]}}],
+    ["call.foreign", ["n8"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["n9"], ["list"], {"entity": {"jvm": ["jvm-invokestatic-interface", "java/util/List", "of(Ljava/lang/Object;)Ljava/util/List;"]}}],
+    ["call.direct", ["p0", "n10"], ["str"], {"entity": {"fn": "second_line"}}],
+    ["call.foreign", ["n11"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["n1", "n12"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setContentText(Ljava/lang/CharSequence;)Landroid/app/Notification$Builder;"]}}],
+    ["call.direct", ["p2"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "%"]}}],
+    ["call.direct", ["n14", "n15"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.foreign", ["n1", "n16"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setShortCriticalText(Ljava/lang/String;)Landroid/app/Notification$Builder;"]}}],
+    ["call.foreign", ["n1", ["b1", 1]], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setOngoing(Z)Landroid/app/Notification$Builder;"]}}],
+    ["call.foreign", ["n1"], ["notif", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/app/Notification$Builder", "build()Landroid/app/Notification;"]}}],
+    ["call.direct", ["n19.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n20", 2, [], 1, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n19"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["notif"], {"entity": {"fn": "notif_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
   {"name": "promoted", "params": ["ctx", "notif", "b32", "b32", "list"], "returns": ["notif"], "blocks": [
    {"params": ["ctx", "notif", "b32", "b32", "list"], "nodes": [
     ["call.foreign", ["p0", "p1"], ["nb", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "android/app/Notification$Builder", "recoverBuilder(Landroid/content/Context;Landroid/app/Notification;)Landroid/app/Notification$Builder;"]}}],
@@ -451,9 +658,9 @@
    ], "end": ["cbr", "n14", 4, [], 2, []]},
    {"params": [], "nodes": [
     ["call.direct", ["B0.p0", "B0.p1", "B0.n0", "B0.p2", "B0.p3", "B0.p4"], [], {"entity": {"fn": "appearance_apply"}}],
-    ["call.foreign", ["B0.n0"], ["notif", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/app/Notification$Builder", "build()Landroid/app/Notification;"]}}],
-    ["call.direct", ["n1.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
-   ], "end": ["cbr", "n2", 3, ["n1.r1"], 5, []]},
+    ["call.direct", ["B0.p0", "B0.p1", "B0.p2"], ["notif"], {"entity": {"fn": "public_version"}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/app/Notification", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 6, [], 7, []]},
    {"params": ["thr"], "nodes": [
     ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Live Update skipped: "]}}],
     ["call.direct", ["p0"], ["str"], {"entity": {"fn": "describe_thr"}}],
@@ -470,7 +677,14 @@
     ["call.direct", ["n2", "n3", "n4"], ["str"], {"entity": {"fn": "cat3"}}],
     ["call.direct", ["n5"], [], {"entity": {"fn": "log"}}]
    ], "end": ["br", 2, []]},
-   {"params": [], "nodes": [], "end": ["ret", ["B2.n1"]]}]},
+   {"params": ["notif"], "nodes": [], "end": ["ret", ["p0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0", "B2.n1"], ["nb"], {"entity": {"jvm": ["jvm-invokevirtual", "android/app/Notification$Builder", "setPublicVersion(Landroid/app/Notification;)Landroid/app/Notification$Builder;"]}}]
+   ], "end": ["br", 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0"], ["notif", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "android/app/Notification$Builder", "build()Landroid/app/Notification;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 3, ["n0.r1"], 5, ["n0"]]}]},
 
   {"name": "oarr_nil", "params": [], "returns": ["oarr"], "blocks": [
    {"params": [], "nodes": [
@@ -666,14 +880,18 @@
     ["call.foreign", ["p0"], ["ai"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedModuleInterface$PackageReadyParam", "getApplicationInfo()Landroid/content/pm/ApplicationInfo;"]}}],
     ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "sourceDir:Ljava/lang/String;"]}}],
     ["call.foreign", ["p0"], ["cl"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedModuleInterface$PackageReadyParam", "getClassLoader()Ljava/lang/ClassLoader;"]}}],
-    ["call.direct", ["n1"], ["dk"], {"entity": {"fn": "dexkit_open"}}],
+    ["call.direct", [], ["dk"], {"entity": {"fn": "dk_nil"}}],
+    ["call.foreign", ["n1"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dkPath:Ljava/lang/String;"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "cache_load"}}],
     ["call.direct", ["n3", "n2"], ["b1"], {"entity": {"fn": "tracker_install"}}]
-   ], "end": ["cbr", "n4", 1, [], 2, []]},
+   ], "end": ["cbr", "n6", 1, [], 2, []]},
    {"params": [], "nodes": [
     ["call.direct", [], ["b1"], {"entity": {"fn": "promoter_install"}}]
    ], "end": ["br", 2, []]},
    {"params": [], "nodes": [
-    ["call.direct", ["B0.n3"], [], {"entity": {"fn": "dexkit_close"}}]
+    ["call.foreign", [], ["dk"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dkOpen:Lorg/luckypray/dexkit/DexKitBridge;"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "dexkit_close"}}],
+    ["call.direct", [], [], {"entity": {"fn": "cache_save"}}]
    ], "end": ["ret", []]}]}
  ]
 }

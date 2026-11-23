@@ -20,6 +20,14 @@ answers whenever DexKit is unavailable or finds no unique match, which means the
 never worse off than it was before DexKit. The index is opened while a process's hooks are
 installed and closed immediately afterwards — nothing holds one past startup.
 
+What a query resolved to is remembered: `resolve` keeps each answer (the method's declaring class
+and name, or `-` when there is none) in `code_cache/syncthingliveupdate.properties` in the host's
+data directory, stamped with the host APK's path and size. A later start answers from that file with
+the same name lookup, and opens DexKit only for a query it has no answer for, or whose answer no
+longer resolves. Android empties `code_cache` when the host is updated, so a new release is
+resolved afresh. On a Pixel 8 Pro with the shrunk 2.1.7.0 this takes hook installation from about
+60-140 ms to 4-5 ms.
+
 DexKit is never pointed at process memory. Its in-memory mode faults natively on Android 17
 QPR2, which no Java handler can catch. SystemUI uses the name lookup only: the widgets it
 hooks live in `framework.jar` on the boot class path, which an index of SystemUI's APK
@@ -62,6 +70,20 @@ and the static lookup R8 leaves for `name()` by the state names it references.
    draws the tracker, start and end icons untinted, so each shape and its glyph are rendered
    into a bitmap once per theme. The endpoint glyphs live in the module's own resources and
    are opened in the host through `getModuleApplicationInfo()`.
+
+7. The rate and the estimate come from the bytes Syncthing still needs. `remember_state`
+   keeps each transferring folder's `FolderStatus.needBytes` under `d:<folder>`, and
+   `hk_remote_completion` keeps `RemoteCompletionInfo.needBytes` from
+   `RemoteCompletion.setCompletionInfo(String, String, RemoteCompletionInfo)` under
+   `u:<device>/<folder>` (`note_need`). On each host update `meter_update` sums both directions
+   and `meter_dir` samples them at most every 2 s into `Runtime.meter`: a smoothed rate (0.4 new,
+   0.6 old), a sample count, and the bytes still needed. Need that grows re-baselines without
+   losing the rate; need that reaches zero clears the direction. `rate_text` and `eta_text`
+   decide what is reliable enough to show, and `second_line` joins it after the folder names.
+   Nothing here posts: the figures ride the host's own updates.
+8. `public_version` attaches a small notification of its own (the host's icon and title,
+   "Syncing files", the rate and estimate, the percentage) as the Live Update's public version,
+   which a lock screen hiding sensitive content shows instead of folder names.
 
 ## In `system_server`
 

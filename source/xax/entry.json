@@ -287,7 +287,16 @@
       ["call.foreign", ["n19"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "running:Ljava/util/Map;"]}}],
       ["call.foreign", [], ["jvm:Ljava/util/WeakHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/WeakHashMap", "<init>()V"]}}],
       ["call.foreign", ["n21"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
-      ["call.foreign", ["n22"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "animFrames:Ljava/util/Map;"]}}]
+      ["call.foreign", ["n22"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "animFrames:Ljava/util/Map;"]}}],
+      ["call.foreign", [], ["jvm:Ljava/util/concurrent/ConcurrentHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/concurrent/ConcurrentHashMap", "<init>()V"]}}],
+      ["call.foreign", ["n24"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+      ["call.foreign", ["n25"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "need:Ljava/util/Map;"]}}],
+      ["const", "b32", 10],
+      ["call.foreign", ["n27"], ["jvm:[J"], {"entity": {"jvm": ["jvm-newarray", "J", "newarray"]}}],
+      ["call.foreign", ["n28"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "meter:[J"]}}],
+      ["call.foreign", [], ["jvm:Ljava/util/concurrent/ConcurrentHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/concurrent/ConcurrentHashMap", "<init>()V"]}}],
+      ["call.foreign", ["n30"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+      ["call.foreign", ["n31"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "fieldCache:Ljava/util/Map;"]}}]
      ],
      "end": [
       "ret",
@@ -888,7 +897,7 @@
          "jvm": [
           "jvm-ldc",
           "java/lang/String",
-          "Syncthing Live Update v2.0.0 loaded in "
+          "Syncthing Live Update v1.2.0 loaded in "
          ]
         }
        }

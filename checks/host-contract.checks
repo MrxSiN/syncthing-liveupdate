@@ -1,0 +1,47 @@
+# Checks that the Syncthing-Fork release the module supports still contains the classes,
+# methods and fields the module hooks. Run by xcheck over build/host.dex, every classes*.dex
+# of the release APK concatenated (see the host-contract step in .github/workflows/android.yml).
+#
+# This is the test that protects users: the module hooks someone else's app, so the update most
+# likely to break it is an upstream release that renames or removes one of those members.
+#
+# Names are looked up in the dex string pools; classes as their type descriptors. A missing name
+# is a definite break. A present one is strong but not conclusive evidence, because the string
+# pool does not say which class a method name belongs to; the module's own DexKit resolution on
+# a device closes that gap.
+
+# The method the host publishes every sync figure through. Shrunk builds rename it and its class,
+# so what is checked is what DexKit finds it by: its parameter type and the preference key it reads.
+h build/host.dex Lcom/nutomic/syncthingandroid/service/SyncthingService;
+h build/host.dex always_run_in_background
+
+# The channel of the host's persistent notification, which the promoter recognises.
+h build/host.dex 01_syncthing_persistent
+
+# The completion models the transfer direction is read from.
+h build/host.dex Lcom/nutomic/syncthingandroid/model/LocalCompletion;
+h build/host.dex Lcom/nutomic/syncthingandroid/model/RemoteCompletion;
+h build/host.dex getTotalFolderCompletion
+h build/host.dex getTotalDeviceCompletion
+
+# The folder status updates the transferring set is kept from.
+h build/host.dex Lcom/nutomic/syncthingandroid/model/FolderStatus;
+h build/host.dex updateFromConfig
+h build/host.dex setFolderStatus
+
+# The folder state that means data is moving.
+h build/host.dex sync-preparing
+
+# The service state names. Kept builds expose them through getCurrentState(); shrunk builds
+# through a lookup DexKit finds by these same strings.
+h build/host.dex INIT
+h build/host.dex STARTING
+h build/host.dex ACTIVE
+h build/host.dex DISABLED
+h build/host.dex ERROR
+
+# Transfer rate and estimate: the bytes still needed, per folder (FolderStatus, from the folder
+# status hook) and per remote device (RemoteCompletion's setter, found by its log line).
+h build/host.dex needBytes
+h build/host.dex Lcom/nutomic/syncthingandroid/model/RemoteCompletionInfo;
+h build/host.dex setCompletionInfo: Storing
