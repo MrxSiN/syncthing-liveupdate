@@ -1,0 +1,28 @@
+{
+  "schema": "syncthingliveupdate-toolchains-v1",
+  "xax": {
+    "repository": "https://github.com/MrxSiN/XAX",
+    "commit": "707eb6f40b48e94e9c304c27d96d03ab47fb64ad",
+    "seeds": {
+      "linux": {"path": "compiler/bootstrap/seed/xaxc-linux-x86_64", "sha256": "c5dfd5fb8e44a1325c91e3ed2426098ec654c924c76f4b5ee549303337ea631c"},
+      "windows": {"path": "compiler/bootstrap/windows/xaxc-windows-x86_64.exe", "sha256": "ae6fe1f4e8373a3d1f7fa47e71018d4d2aa63ac0458d68c3c1d3024e4e698d83"}
+    },
+    "reason": "Latest main on 2026-11-23 (release 0041). Builds the module APK to the same bytes as the 0038 pin (Windows seed, executed). Brings the closed XAX#134, #136 and #137; native carrier replacement (XAX#135) is in release 0042, not yet on main."
+  },
+  "xax_mcp": {
+    "repository": "https://github.com/MrxSiN/XAX-MCP",
+    "commit": "abc12e43150befffe32a1f3957e2b9d984e8fb8c",
+    "use": "Not used for the build: its android-libxposed target pins an older XAX (acd4046) without lifecycle entries."
+  },
+  "store": {
+    "path": "source/xax/syncthingliveupdate.xax"
+  },
+  "tools": {
+    "xcheck": {"path": "tools/xcheck/xcheck.xax", "origin": "tools/xcheck/request.json (xax-construct-v1, platform linux-x86_64) through the pinned XAX's reference xax_construct"}
+  },
+  "inputs": {
+    "source/inputs/branding.apk": {"blake3": "2241c274c33bd2a0bac1e2db29111afcdbdd08847e4fa3ac7697bb4218241c27", "origin": "aapt2 2.20-13193326 (build-tools 36.0.0) over source/branding, linked against android-36 android.jar"},
+    "source/inputs/dexkit.dex": {"blake3": "07f22ff643ac6c650036550355084f3b02034493201a2e5a8c8e487a393d4b90", "origin": "DexKit 2.3.0, flatbuffers-java 23.5.26 and kotlin-stdlib as one D8 dex; the same pinned file YouTubeHideAds ships"},
+    "source/inputs/libdexkit.so": {"blake3": "69e142100d6599c48b7315941ce4c3fea72784a55f6ed013177efb5ec015a159", "origin": "jni/arm64-v8a/libdexkit.so from org.luckypray:dexkit:2.3.0 (Maven Central AAR), byte-identical"}
+  }
+}

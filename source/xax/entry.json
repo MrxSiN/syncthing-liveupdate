@@ -1,0 +1,1424 @@
+{
+ "functions": [
+  {
+   "name": "init_statics",
+   "params": [],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "jvm:Ljava/util/concurrent/ConcurrentHashMap$KeySetView;"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "java/util/concurrent/ConcurrentHashMap",
+          "newKeySet()Ljava/util/concurrent/ConcurrentHashMap$KeySetView;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "set"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/util/Set",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "reported:Ljava/util/Set;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "jvm:Ljava/util/concurrent/ConcurrentHashMap;"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-new",
+          "java/util/concurrent/ConcurrentHashMap",
+          "<init>()V"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n3"
+       ],
+       [
+        "map"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/util/Map",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n4"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "labels:Ljava/util/Map;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "jvm:Ljava/util/concurrent/ConcurrentHashMap;"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-new",
+          "java/util/concurrent/ConcurrentHashMap",
+          "<init>()V"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n6"
+       ],
+       [
+        "map"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/util/Map",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n7"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "icons:Ljava/util/Map;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "jvm:Ljava/util/concurrent/CopyOnWriteArraySet;"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-new",
+          "java/util/concurrent/CopyOnWriteArraySet",
+          "<init>()V"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n9"
+       ],
+       [
+        "set"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/util/Set",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n10"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "syncing:Ljava/util/Set;"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       4294967295
+      ],
+      [
+       "call.foreign",
+       [
+        "n12"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "lastCompletion:I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n12"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "deviceCompletion:I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n12"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "lastPromoted:I"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       100
+      ],
+      [
+       "call.foreign",
+       [
+        "n16"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "folderCompletion:I"
+         ]
+        }
+       }
+      ],
+      ["call.foreign", [], ["jvm:Ljava/util/WeakHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/WeakHashMap", "<init>()V"]}}],
+      ["call.foreign", ["n18"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+      ["call.foreign", ["n19"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "running:Ljava/util/Map;"]}}],
+      ["call.foreign", [], ["jvm:Ljava/util/WeakHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/WeakHashMap", "<init>()V"]}}],
+      ["call.foreign", ["n21"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+      ["call.foreign", ["n22"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "animFrames:Ljava/util/Map;"]}}],
+      ["call.foreign", [], ["jvm:Ljava/util/concurrent/ConcurrentHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/concurrent/ConcurrentHashMap", "<init>()V"]}}],
+      ["call.foreign", ["n24"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+      ["call.foreign", ["n25"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "need:Ljava/util/Map;"]}}],
+      ["const", "b32", 10],
+      ["call.foreign", ["n27"], ["jvm:[J"], {"entity": {"jvm": ["jvm-newarray", "J", "newarray"]}}],
+      ["call.foreign", ["n28"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "meter:[J"]}}],
+      ["call.foreign", [], ["jvm:Ljava/util/concurrent/ConcurrentHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/concurrent/ConcurrentHashMap", "<init>()V"]}}],
+      ["call.foreign", ["n30"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+      ["call.foreign", ["n31"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "fieldCache:Ljava/util/Map;"]}}]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "systemui_style",
+   "params": [
+    "cl"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "cl"
+     ],
+     "nodes": [
+      [
+       "call.direct",
+       [],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "fn": "polish_supported"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n0",
+      2,
+      [],
+      1,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "SystemUI polish left off on "
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "contract_describe"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "log"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.direct",
+       [
+        "B0.p0"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "systemui_polish"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "on_package_ready",
+   "params": [
+    "api",
+    "prp"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "api",
+      "prp"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "p1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedModuleInterface$PackageReadyParam",
+          "getPackageName()Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "processName:Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/String",
+          "isEmpty()Z"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "fn": "str_eq"
+        }
+       }
+      ],
+      [
+       "bit.or",
+       [
+        "n2",
+        "n3"
+       ],
+       [
+        "b1"
+       ]
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n4",
+      1,
+      [],
+      5,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "com.github.catfriend1.syncthingfork"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "B0.n0"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "fn": "str_eq"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n1",
+      2,
+      [],
+      3,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "hostInstalled:I"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       0
+      ],
+      [
+       "int.compare",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n2",
+      6,
+      [],
+      5,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "com.android.systemui"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "B0.n0"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "fn": "str_eq"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "systemUiStyled:I"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       0
+      ],
+      [
+       "int.compare",
+       [
+        "n2",
+        "n3"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ],
+      [
+       "bit.and",
+       [
+        "n1",
+        "n4"
+       ],
+       [
+        "b1"
+       ]
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n5",
+      4,
+      [],
+      5,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       1
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "systemUiStyled:I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.p1"
+       ],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedModuleInterface$PackageReadyParam",
+          "getClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "systemui_style"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [],
+     "end": [
+      "ret",
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       1
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "hostInstalled:I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "B0.p1"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "host_install"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "module_loaded_body",
+   "params": [
+    "api",
+    "mlp"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "api",
+      "mlp"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "api:Lio/github/libxposed/api/XposedInterface;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedModuleInterface$ModuleLoadedParam",
+          "getProcessName()Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "processName:Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Syncthing Live Update v1.2.0 loaded in "
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n3",
+        "n1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          ", framework="
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n4",
+        "n5"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface",
+          "getFrameworkName()Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n6",
+        "n7"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          " "
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n8",
+        "n9"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface",
+          "getFrameworkVersion()Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n10",
+        "n11"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          ", api="
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n12",
+        "n13"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface",
+          "getApiVersion()I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n15"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "itoa"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n14",
+        "n16"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          ", contract="
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n17",
+        "n18"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "contract_describe"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n19",
+        "n20"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n21"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "log"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedModuleInterface$ModuleLoadedParam",
+          "isSystemServer()Z"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n23",
+      1,
+      [],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "B0.p0"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/lang/Object",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/Object",
+          "getClass()Ljava/lang/Class;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/Class",
+          "getClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "patch_promotion_policy"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "br",
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "on_module_loaded",
+   "params": [
+    "api",
+    "mlp"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "api",
+      "mlp"
+     ],
+     "nodes": [
+      [
+       "call.direct",
+       [],
+       [],
+       {
+        "entity": {
+         "fn": "init_statics"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "p0",
+        "p1"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "module_loaded_body"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "on_system_server_starting",
+   "params": [
+    "api",
+    "ssp"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "api",
+      "ssp"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "api:Lio/github/libxposed/api/XposedInterface;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p1"
+       ],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedModuleInterface$SystemServerStartingParam",
+          "getClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n1"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "patch_promotion_policy"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  }
+ ]
+}

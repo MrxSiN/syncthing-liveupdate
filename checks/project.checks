@@ -1,0 +1,102 @@
+# Structural checks over the project's own files, run by xcheck (docs/build.md).
+# One assertion per line: `f PATH` the file exists, `h PATH TEXT` it contains TEXT,
+# `l PATH TEXT` it does not. TEXT is the rest of the line, matched as bytes.
+# Run from the repository root after `git ls-files > build/files.txt`.
+
+f source/xax/syncthingliveupdate.xax
+f source/xax/module.json
+f source/xax/host.json
+f source/xax/promoter.json
+f source/xax/systemui.json
+f source/xax/entry.json
+f source/xax/transactions/01-circle.batch
+f source/xax/transactions/02-cookie.batch
+f source/xax/transactions/03-badge.batch
+f source/xax/transactions/04-interp.batch
+f source/xax/transactions/05-duration.batch
+f source/xax/transactions/06-wave.batch
+f source/branding/AndroidManifest.xml
+f source/branding/res/drawable/ic_endpoint_this_device.xml
+f source/branding/res/drawable/ic_endpoint_remote_device.xml
+f source/inputs/branding.apk
+f source/inputs/dexkit.dex
+f source/inputs/libdexkit.so
+f tools/xcheck/xcheck.xax
+f checks/host-contract.checks
+f toolchains.json
+f CHANGELOG.md
+
+# Code is XAX only.
+l build/files.txt .java
+l build/files.txt .kt
+l build/files.txt .bf
+l build/files.txt .py
+l build/files.txt .sh
+
+# Module identity: same package and entry class as the Java releases, so an update installs in place.
+h source/xax/syncthingliveupdate.xax io.github.mrxsin.syncthingliveupdate
+h source/xax/syncthingliveupdate.xax my.MrxSiN.syncthingliveupdate.ModuleMain
+h source/xax/syncthingliveupdate.xax com.github.catfriend1.syncthingfork
+h source/xax/syncthingliveupdate.xax com.android.systemui
+h source/xax/module.json "system"
+h source/xax/module.json "min_sdk": 36
+h source/branding/AndroidManifest.xml package="io.github.mrxsin.syncthingliveupdate"
+# DexKit's library is loaded by absolute path, which needs it unpacked at install.
+h source/branding/AndroidManifest.xml android:extractNativeLibs="true"
+l source/branding/AndroidManifest.xml xposedmodule
+l source/branding/AndroidManifest.xml xposedminversion
+l source/branding/AndroidManifest.xml xposedscope
+
+# Promotion patch: one private method, the module's own channel, the host package.
+h source/xax/syncthingliveupdate.xax com.android.server.notification.NotificationManagerService
+h source/xax/syncthingliveupdate.xax fixNotificationWithChannel
+h source/xax/syncthingliveupdate.xax 05_syncthing_live_update
+h source/xax/module.json 262144
+# Android 16 asks through the colorized characteristic; Android 17 asks explicitly.
+h source/xax/syncthingliveupdate.xax setColorized
+h source/xax/syncthingliveupdate.xax setRequestPromotedOngoing
+h source/xax/syncthingliveupdate.xax SystemUI polish left off on
+
+# Hook installation is the single fail-open boundary.
+h source/xax/syncthingliveupdate.xax jvm-invokeinterface-catch
+h source/xax/syncthingliveupdate.xax hook(Ljava/lang/reflect/Executable;)
+h source/xax/syncthingliveupdate.xax Hook installation failed:
+
+# DexKit reads the host APK from disk; its in-memory mode crash-looped SystemUI on Android 17 QPR2.
+h source/xax/syncthingliveupdate.xax create(Ljava/lang/String;)Lorg/luckypray/dexkit/DexKitBridge;
+l source/xax/syncthingliveupdate.xax create(Ljava/lang/ClassLoader;Z)
+# What DexKit resolved is kept per host install in code_cache, which Android clears on update.
+h source/xax/syncthingliveupdate.xax /code_cache/syncthingliveupdate.properties
+
+# The host's own notification is rewritten; no second notification is posted.
+h source/xax/syncthingliveupdate.xax startForeground
+h source/xax/syncthingliveupdate.xax recoverBuilder
+h source/xax/syncthingliveupdate.xax 01_syncthing_persistent
+h source/xax/syncthingliveupdate.xax setShortCriticalText
+h source/xax/syncthingliveupdate.xax setProgressTrackerIcon
+l source/xax/syncthingliveupdate.xax notify(
+l source/xax/syncthingliveupdate.xax setCustomContentView
+l source/xax/syncthingliveupdate.xax setCustomBigContentView
+l source/xax/syncthingliveupdate.xax DecoratedCustomViewStyle
+h source/xax/syncthingliveupdate.xax sync-preparing
+h source/xax/syncthingliveupdate.xax always_run_in_background
+h source/xax/syncthingliveupdate.xax sys.system_server.start_elapsed
+
+# Transfer rate and estimate come from the host's own figures; the lock screen gets a public version.
+h source/xax/syncthingliveupdate.xax setCompletionInfo: Storing
+h source/xax/syncthingliveupdate.xax formatShortFileSize
+h source/xax/syncthingliveupdate.xax android/icu/text/MeasureFormat
+h source/xax/syncthingliveupdate.xax setPublicVersion
+h source/xax/syncthingliveupdate.xax Syncing files
+
+# SystemUI polish stays limited to the host's own notification and has a ceiling.
+h source/xax/syncthingliveupdate.xax |com.github.catfriend1.syncthingfork|
+h source/xax/syncthingliveupdate.xax areAnimatorsEnabled
+h source/xax/syncthingliveupdate.xax postInvalidateDelayed
+h source/xax/syncthingliveupdate.xax Wavy progress disabled after
+
+# Releases: notes come from the changelog; the key never leaves apksigner's step.
+h .github/workflows/android.yml body_path: release-notes.md
+h .github/workflows/android.yml contents: read
+h .github/workflows/android.yml contents: write
+l .github/workflows/android.yml r0adkll/sign-android-release
