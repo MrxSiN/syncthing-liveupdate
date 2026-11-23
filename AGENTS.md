@@ -26,7 +26,7 @@ is the store `source/xax/syncthingliveupdate.xax`, edited with native `xaxc edit
 `docs/build.md`. Brainfuck policies are out of scope for this repository.
 
 The XAX pin lives in `toolchains.json`. Check XAX's latest `main` before nontrivial work. Where
-XAX lacks something, reproduce it, then link or open an XAX issue (open ones: #133-#137) rather
+XAX lacks something, reproduce it, then link or open an XAX issue (open: #135, #160) rather
 than adding another language or a local workaround in the toolchain.
 
 ## Tooling
@@ -37,7 +37,8 @@ than adding another language or a local workaround in the toolchain.
   Build), then `apksigner` with the release keystore from the environment.
 - Framework restart after installing an update: `su -c 'stop; start'` (no `autoHotReload` yet).
   It can drop wireless adb; reconnect from `adb mdns services`.
-- Checks: `sh scripts/check-project.sh`; `scripts/check-host-contract.sh <host version>`.
+- Checks: `xcheck` (`tools/xcheck`, an XAX Linux program) runs the checklists in `checks/`;
+  build and run it as in `docs/build.md` (Checks). On Windows run it in WSL.
 - Verify hook targets on a device: pull the APK/jar, unzip `classes*.dex`, run
   `dexdump` from `build-tools`.
 
