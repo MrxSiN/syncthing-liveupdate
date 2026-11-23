@@ -4,6 +4,9 @@ name: Android CI & Release
 # moved to different code by whoever owns the action, and two of the steps here
 # run with the repository's write token or near the signing secrets, so what runs
 # there has to be exactly what was reviewed.
+#
+# The module is XAX. Its APK is built from the committed store by the XAX
+# compiler named in toolchains.json; no Java toolchain is involved.
 
 on:
   push:
@@ -32,50 +35,69 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
+      - name: Read the XAX pin
+        id: pin
+        run: |
+          echo "commit=$(jq -r .xax.commit toolchains.json)" >> "$GITHUB_OUTPUT"
+          echo "seed=$(jq -r .xax.seeds.linux.path toolchains.json)" >> "$GITHUB_OUTPUT"
+          echo "sha256=$(jq -r .xax.seeds.linux.sha256 toolchains.json)" >> "$GITHUB_OUTPUT"
 
-      - name: Grant execute permission
-        run: chmod +x gradlew scripts/check-project.sh scripts/check-host-contract.sh
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: MrxSiN/XAX
+          ref: ${{ steps.pin.outputs.commit }}
+          path: xax
+          sparse-checkout: ${{ steps.pin.outputs.seed }}
+          sparse-checkout-cone-mode: false
+
+      - name: Check the compiler seed
+        run: |
+          set -eu
+          echo "${{ steps.pin.outputs.sha256 }}  xax/${{ steps.pin.outputs.seed }}" | sha256sum -c -
+          chmod +x "xax/${{ steps.pin.outputs.seed }}"
+
+      # xcheck is the project's own XAX checker (tools/xcheck); the checklists in checks/ are its input.
+      - name: Build xcheck
+        run: |
+          set -eu
+          xaxc="$PWD/xax/${{ steps.pin.outputs.seed }}"
+          mkdir -p build
+          "$xaxc" verify tools/xcheck/xcheck.xax build/xcheck.rec
+          "$xaxc" build tools/xcheck/xcheck.xax build/xcheck build/xcheck.prov
+          chmod +x build/xcheck
 
       - name: Validate project files
-        run: ./scripts/check-project.sh
+        run: |
+          git ls-files > build/files.txt
+          build/xcheck checks/project.checks
 
-      - name: Run unit tests
-        run: ./gradlew test
+      # Downloads a released Syncthing-Fork APK, so it stays off the pull-request path where a
+      # network failure would block an unrelated change.
+      - name: Check the supported Syncthing-Fork release
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          HOST_VERSION: 2.1.5.0
+        run: |
+          set -eu
+          curl -fsSL -o build/host.apk "https://github.com/researchxxl/syncthing-android/releases/download/v$HOST_VERSION/com.github.catfriend1.syncthingfork_release_v$HOST_VERSION.apk"
+          unzip -p build/host.apk 'classes*.dex' > build/host.dex
+          build/xcheck checks/host-contract.checks
 
-      - name: Build with Gradle
-        run: ./gradlew assemble
+      - name: Build the module
+        run: |
+          set -eu
+          xaxc="$PWD/xax/${{ steps.pin.outputs.seed }}"
+          "$xaxc" verify source/xax/syncthingliveupdate.xax build/verify.rec
+          "$xaxc" resolve source/xax/syncthingliveupdate.xax build/snapshot.xax source/inputs/*
+          "$xaxc" build build/snapshot.xax build/SyncthingLiveUpdate-unsigned.apk build/provenance source/inputs/*
 
-      - name: Upload test report
-        if: always()
+      - name: Upload the unsigned APK
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: unit-test-report
-          path: app/build/reports/tests/
-          if-no-files-found: ignore
-
-  host-contract:
-    name: Host contract
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    # The check downloads a released Syncthing-Fork APK, so it is kept off the
-    # pull-request path where a network failure would block an unrelated change.
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Grant execute permission
-        run: chmod +x scripts/check-host-contract.sh
-
-      - name: Check the supported Syncthing-Fork release
-        run: ./scripts/check-host-contract.sh
+          name: unsigned-apk
+          path: |
+            build/SyncthingLiveUpdate-unsigned.apk
+            build/xcheck
 
   release:
     name: Sign and publish
@@ -88,21 +110,14 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
+          name: unsigned-apk
+          path: build
 
-      - name: Grant execute permission
-        run: chmod +x gradlew
-
-      # Gradle is the only thing that ever sees the keystore. The module has a
-      # single release signing path, in app/build.gradle.kts, so the APK that
-      # leaves this job is signed by the same configuration a local release build
-      # would use.
-      - name: Build a signed release APK
+      # apksigner is the only thing that ever sees the keystore, and the keystore
+      # exists on the runner only for this step.
+      - name: Sign the APK
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           ANDROID_KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
@@ -110,45 +125,23 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -eu
+          apksigner=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools" \
+            -name apksigner -type f | sort -V | tail -1)
+          [ -n "$apksigner" ] || { echo "no apksigner on the runner" >&2; exit 1; }
           keystore="$RUNNER_TEMP/release.jks"
           printf '%s' "$SIGNING_KEY" | base64 --decode > "$keystore"
-          ANDROID_KEYSTORE_PATH="$keystore" ./gradlew assembleRelease
+          apk="build/SyncthingLiveUpdate-$GITHUB_REF_NAME.apk"
+          "$apksigner" sign --ks "$keystore" --ks-key-alias "$ANDROID_KEYSTORE_ALIAS" \
+            --ks-pass env:ANDROID_KEYSTORE_PASSWORD --key-pass env:ANDROID_KEY_PASSWORD \
+            --out "$apk" build/SyncthingLiveUpdate-unsigned.apk
           rm -f "$keystore"
-
-      # Checked with apksigner rather than by looking for META-INF/*.RSA: the
-      # module's minSdk is 36, so AGP signs with APK Signature Scheme v2 alone
-      # and puts nothing in META-INF. Looking there finds no signature on a
-      # perfectly signed APK.
-      - name: Verify the APK is signed
-        run: |
-          set -eu
-          apk=$(find app/build/outputs/apk/release -name '*.apk' -print -quit)
-          [ -n "$apk" ] || { echo "no release APK was produced" >&2; exit 1; }
-          apksigner=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools" \
-            -name apksigner -type f 2>/dev/null | sort -V | tail -1)
-          if [ -n "$apksigner" ]; then
-            "$apksigner" verify --verbose "$apk"
-          else
-            # No build-tools on the runner: fall back to the APK Signing Block
-            # magic, which only a v2-or-later signed APK carries.
-            grep -qa 'APK Sig Block 42' "$apk" \
-              || { echo "$apk is not signed" >&2; exit 1; }
-          fi
+          "$apksigner" verify --verbose "$apk"
           echo "APK=$apk" >> "$GITHUB_ENV"
 
       - name: Extract release notes from the changelog
         run: |
-          set -eu
-          VERSION="${GITHUB_REF_NAME#v}"
-          awk -v v="$VERSION" '
-            $0 ~ "^## " v " " { found = 1; next }
-            found && /^## / { exit }
-            found { print }
-          ' CHANGELOG.md > release-notes.md
-          if [ ! -s release-notes.md ]; then
-            echo "CHANGELOG.md has no section for version $VERSION." >&2
-            exit 1
-          fi
+          chmod +x build/xcheck
+          build/xcheck CHANGELOG.md "${GITHUB_REF_NAME#v}" > release-notes.md
 
       - name: Upload APK to Release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3

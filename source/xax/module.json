@@ -1,0 +1,2700 @@
+{
+ "format": "xax-construct-v1",
+ "platform": "android-libxposed",
+ "types": {
+  "api": "jvm:Lio/github/libxposed/api/XposedInterface;",
+  "mlp": "jvm:Lio/github/libxposed/api/XposedModuleInterface$ModuleLoadedParam;",
+  "prp": "jvm:Lio/github/libxposed/api/XposedModuleInterface$PackageReadyParam;",
+  "ssp": "jvm:Lio/github/libxposed/api/XposedModuleInterface$SystemServerStartingParam;",
+  "chain": "jvm:Lio/github/libxposed/api/XposedInterface$Chain;",
+  "hb": "jvm:Lio/github/libxposed/api/XposedInterface$HookBuilder;",
+  "hh": "jvm:Lio/github/libxposed/api/XposedInterface$HookHandle;",
+  "hooker": {
+   "jvm.callback": [
+    "io/github/libxposed/api/XposedInterface$Hooker",
+    "intercept(Lio/github/libxposed/api/XposedInterface$Chain;)Ljava/lang/Object;"
+   ]
+  },
+  "str": "jvm:Ljava/lang/String;",
+  "obj": "jvm:Ljava/lang/Object;",
+  "cls": "jvm:Ljava/lang/Class;",
+  "carr": "jvm:[Ljava/lang/Class;",
+  "cl": "jvm:Ljava/lang/ClassLoader;",
+  "thr": "jvm:Ljava/lang/Throwable;",
+  "thread": "jvm:Ljava/lang/Thread;",
+  "meth": "jvm:Ljava/lang/reflect/Method;",
+  "exe": "jvm:Ljava/lang/reflect/Executable;",
+  "list": "jvm:Ljava/util/List;",
+  "notif": "jvm:Landroid/app/Notification;",
+  "chan": "jvm:Landroid/app/NotificationChannel;"
+ },
+ "functions": [
+  {
+   "name": "cat",
+   "params": [
+    "str",
+    "str"
+   ],
+   "returns": [
+    "str"
+   ],
+   "blocks": [
+    {
+     "params": [
+      "str",
+      "str"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "p0",
+        "p1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/String",
+          "concat(Ljava/lang/String;)Ljava/lang/String;"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n0"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "itoa",
+   "params": [
+    "b32"
+   ],
+   "returns": [
+    "str"
+   ],
+   "blocks": [
+    {
+     "params": [
+      "b32"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "java/lang/String",
+          "valueOf(I)Ljava/lang/String;"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n0"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "log",
+   "params": [
+    "str"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "str"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "SyncthingLiveUpdate"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0",
+        "p0"
+       ],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "android/util/Log",
+          "i(Ljava/lang/String;Ljava/lang/String;)I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "api"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "api:Lio/github/libxposed/api/XposedInterface;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n2"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "io/github/libxposed/api/XposedInterface",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n3",
+      1,
+      [],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       4
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.n2",
+        "n0",
+        "B0.n0",
+        "B0.p0"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface",
+          "log(ILjava/lang/String;Ljava/lang/String;)V"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "br",
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "log_error",
+   "params": [
+    "str",
+    "thr"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "str",
+      "thr"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "SyncthingLiveUpdate"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0",
+        "p0",
+        "p1"
+       ],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "android/util/Log",
+          "e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "api"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "api:Lio/github/libxposed/api/XposedInterface;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n2"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "io/github/libxposed/api/XposedInterface",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n3",
+      1,
+      [],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       6
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.n2",
+        "n0",
+        "B0.n0",
+        "B0.p0",
+        "B0.p1"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface",
+          "log(ILjava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "br",
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "sdk",
+   "params": [],
+   "returns": [
+    "b32"
+   ],
+   "blocks": [
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "android/os/Build$VERSION",
+          "SDK_INT:I"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n0"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "polish_supported",
+   "params": [],
+   "returns": [
+    "b1"
+   ],
+   "blocks": [
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.direct",
+       [],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "fn": "sdk"
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       36
+      ],
+      [
+       "int.compare",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ],
+      [
+       "const",
+       "b32",
+       37
+      ],
+      [
+       "int.compare",
+       [
+        "n0",
+        "n3"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ],
+      [
+       "bit.or",
+       [
+        "n2",
+        "n4"
+       ],
+       [
+        "b1"
+       ]
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n5"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "contract_describe",
+   "params": [],
+   "returns": [
+    "str"
+   ],
+   "blocks": [
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.direct",
+       [],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "fn": "sdk"
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       36
+      ],
+      [
+       "int.compare",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n2",
+      1,
+      [],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Android 16 (API 36), promotion requested through setColorized"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n0"
+      ]
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       37
+      ],
+      [
+       "int.compare",
+       [
+        "B0.n0",
+        "n0"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n1",
+      3,
+      [],
+      4,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Android 17 (API 37), promotion requested through setRequestPromotedOngoing"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n0"
+      ]
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "unverified API "
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "B0.n0"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "itoa"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          ", following API 37 for promotion and leaving the SystemUI polish off"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2",
+        "n3"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n4"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "find_class",
+   "params": [
+    "cl",
+    "str"
+   ],
+   "returns": [
+    "cls"
+   ],
+   "blocks": [
+    {
+     "params": [
+      "cl",
+      "str"
+     ],
+     "nodes": [
+      [
+       "const",
+       "b1",
+       0
+      ],
+      [
+       "call.foreign",
+       [
+        "p1",
+        "n0",
+        "p0"
+       ],
+       [
+        "cls",
+        "thr"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic-catch",
+          "java/lang/Class",
+          "forName(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n1"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "find_service",
+   "params": [
+    "cl"
+   ],
+   "returns": [
+    "cls"
+   ],
+   "blocks": [
+    {
+     "params": [
+      "cl"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "com.android.server.notification.NotificationManagerService"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "p0",
+        "n0"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Class",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n2",
+      4,
+      [
+       "n1"
+      ],
+      1,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "api"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "api:Lio/github/libxposed/api/XposedInterface;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/lang/Object",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/Object",
+          "getClass()Ljava/lang/Class;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n2"
+       ],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/Class",
+          "getClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n3",
+        "B0.n0"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n4"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Class",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n5",
+      4,
+      [
+       "n4"
+      ],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "thread"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "java/lang/Thread",
+          "currentThread()Ljava/lang/Thread;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/Thread",
+          "getContextClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n1",
+        "B0.n0"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n2"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Class",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n3",
+      4,
+      [
+       "n2"
+      ],
+      3,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "java/lang/ClassLoader",
+          "getSystemClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "B0.n0"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "br",
+      4,
+      [
+       "n1"
+      ]
+     ]
+    },
+    {
+     "params": [
+      "cls"
+     ],
+     "nodes": [],
+     "end": [
+      "ret",
+      [
+       "p0"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "promotion_parameters",
+   "params": [],
+   "returns": [
+    "carr"
+   ],
+   "blocks": [
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       4
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "carr"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-newarray",
+          "Ljava/lang/Class;",
+          "newarray"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "cl"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "java/lang/ClassLoader",
+          "getSystemClassLoader()Ljava/lang/ClassLoader;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "android.app.Notification"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2",
+        "n3"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       0
+      ],
+      [
+       "call.foreign",
+       [
+        "n1",
+        "n5",
+        "n4"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-arraystore",
+          "[Ljava/lang/Class;",
+          "arraystore"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "android.app.NotificationChannel"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2",
+        "n7"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       1
+      ],
+      [
+       "call.foreign",
+       [
+        "n1",
+        "n9",
+        "n8"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-arraystore",
+          "[Ljava/lang/Class;",
+          "arraystore"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "java/lang/Integer",
+          "TYPE:Ljava/lang/Class;"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       2
+      ],
+      [
+       "call.foreign",
+       [
+        "n1",
+        "n12",
+        "n11"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-arraystore",
+          "[Ljava/lang/Class;",
+          "arraystore"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "java.lang.String"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2",
+        "n14"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_class"
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       3
+      ],
+      [
+       "call.foreign",
+       [
+        "n1",
+        "n16",
+        "n15"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-arraystore",
+          "[Ljava/lang/Class;",
+          "arraystore"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n1"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hook",
+   "params": [
+    "exe",
+    "hooker"
+   ],
+   "returns": [
+    "b1"
+   ],
+   "blocks": [
+    {
+     "params": [
+      "exe",
+      "hooker"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "api"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "api:Lio/github/libxposed/api/XposedInterface;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0",
+        "p0"
+       ],
+       [
+        "hb",
+        "thr"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface-catch",
+          "io/github/libxposed/api/XposedInterface",
+          "hook(Ljava/lang/reflect/Executable;)Lio/github/libxposed/api/XposedInterface$HookBuilder;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1.r1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Throwable",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n2",
+      2,
+      [
+       "n1.r1"
+      ],
+      1,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "B0.n1",
+        "B0.p1"
+       ],
+       [
+        "hh",
+        "thr"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface-catch",
+          "io/github/libxposed/api/XposedInterface$HookBuilder",
+          "intercept(Lio/github/libxposed/api/XposedInterface$Hooker;)Lio/github/libxposed/api/XposedInterface$HookHandle;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0.r1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Throwable",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n1",
+      2,
+      [
+       "n0.r1"
+      ],
+      3,
+      []
+     ]
+    },
+    {
+     "params": [
+      "thr"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Hook installation failed: "
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.p0"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/lang/Object",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokestatic",
+          "java/lang/String",
+          "valueOf(Ljava/lang/Object;)Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "n2"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n3",
+        "p0"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "log_error"
+        }
+       }
+      ],
+      [
+       "const",
+       "b1",
+       0
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n5"
+      ]
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b1",
+       1
+      ]
+     ],
+     "end": [
+      "ret",
+      [
+       "n0"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "promote",
+   "params": [
+    "chain"
+   ],
+   "returns": [
+    "obj"
+   ],
+   "blocks": [
+    {
+     "params": [
+      "chain"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface$Chain",
+          "proceed()Ljava/lang/Object;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "p0"
+       ],
+       [
+        "list"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "io/github/libxposed/api/XposedInterface$Chain",
+          "getArgs()Ljava/util/List;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "java/util/List",
+          "size()I"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       3
+      ],
+      [
+       "int.compare",
+       [
+        "n2",
+        "n3"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "sgt"
+        ]
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n4",
+      1,
+      [],
+      4,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       3
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.n1",
+        "n0"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "java/util/List",
+          "get(I)Ljava/lang/Object;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "com.github.catfriend1.syncthingfork"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n2",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/String",
+          "equals(Ljava/lang/Object;)Z"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       0
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.n1",
+        "n4"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "java/util/List",
+          "get(I)Ljava/lang/Object;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n5"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "android/app/Notification",
+          "instanceof"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       1
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.n1",
+        "n7"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokeinterface",
+          "java/util/List",
+          "get(I)Ljava/lang/Object;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n8"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "android/app/NotificationChannel",
+          "instanceof"
+         ]
+        }
+       }
+      ],
+      [
+       "bit.and",
+       [
+        "n3",
+        "n6"
+       ],
+       [
+        "b1"
+       ]
+      ],
+      [
+       "bit.and",
+       [
+        "n10",
+        "n9"
+       ],
+       [
+        "b1"
+       ]
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n11",
+      2,
+      [],
+      4,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "B1.n8"
+       ],
+       [
+        "chan"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "android/app/NotificationChannel",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "android/app/NotificationChannel",
+          "getId()Ljava/lang/String;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n1"
+       ],
+       [
+        "obj"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/lang/Object",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "05_syncthing_live_update"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n3",
+        "n2"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual",
+          "java/lang/String",
+          "equals(Ljava/lang/Object;)Z"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n4",
+      3,
+      [],
+      4,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "B1.n5"
+       ],
+       [
+        "notif"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "android/app/Notification",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getfield",
+          "android/app/Notification",
+          "flags:I"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       262144
+      ],
+      [
+       "bit.or",
+       [
+        "n1",
+        "n2"
+       ],
+       [
+        "b32"
+       ]
+      ],
+      [
+       "call.foreign",
+       [
+        "n0",
+        "n3"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putfield",
+          "android/app/Notification",
+          "flags:I"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "br",
+      4,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [],
+     "end": [
+      "ret",
+      [
+       "B0.n0"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "install_promotion",
+   "params": [
+    "cl"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "cl"
+     ],
+     "nodes": [
+      [
+       "call.direct",
+       [
+        "p0"
+       ],
+       [
+        "cls"
+       ],
+       {
+        "entity": {
+         "fn": "find_service"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Class",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n1",
+      1,
+      [],
+      4,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "fixNotificationWithChannel"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [],
+       [
+        "carr"
+       ],
+       {
+        "entity": {
+         "fn": "promotion_parameters"
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "B0.n0",
+        "n0",
+        "n1"
+       ],
+       [
+        "meth",
+        "thr"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-invokevirtual-catch",
+          "java/lang/Class",
+          "getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;"
+         ]
+        }
+       }
+      ],
+      [
+       "call.foreign",
+       [
+        "n2.r1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-instanceof",
+          "java/lang/Throwable",
+          "instanceof"
+         ]
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n3",
+      4,
+      [],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [
+        "B1.n2"
+       ],
+       [
+        "exe"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-checkcast",
+          "java/lang/reflect/Executable",
+          "checkcast"
+         ]
+        }
+       }
+      ],
+      [
+       "function.address",
+       [],
+       [
+        "hooker"
+       ],
+       {
+        "entity": {
+         "fn": "promote"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "entity": {
+         "fn": "hook"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n2",
+      3,
+      [],
+      5,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Promotion enabled for com.github.catfriend1.syncthingfork channel 05_syncthing_live_update on "
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "contract_describe"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "fn": "cat"
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n2"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "log"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Promotion entry point not found; Live Update stays unpromoted"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "log"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "str"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-ldc",
+          "java/lang/String",
+          "Promotion hook rejected; Live Update stays unpromoted"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "n0"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "log"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "name": "patch_promotion_policy",
+   "params": [
+    "cl"
+   ],
+   "returns": [],
+   "blocks": [
+    {
+     "params": [
+      "cl"
+     ],
+     "nodes": [
+      [
+       "call.foreign",
+       [],
+       [
+        "b32"
+       ],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-getstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "promotionPatched:I"
+         ]
+        }
+       }
+      ],
+      [
+       "const",
+       "b32",
+       0
+      ],
+      [
+       "int.compare",
+       [
+        "n0",
+        "n1"
+       ],
+       [
+        "b1"
+       ],
+       {
+        "attrs": [
+         "eq"
+        ]
+       }
+      ]
+     ],
+     "end": [
+      "cbr",
+      "n2",
+      1,
+      [],
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [
+      [
+       "const",
+       "b32",
+       1
+      ],
+      [
+       "call.foreign",
+       [
+        "n0"
+       ],
+       [],
+       {
+        "entity": {
+         "jvm": [
+          "jvm-putstatic",
+          "my/MrxSiN/syncthingliveupdate/Runtime",
+          "promotionPatched:I"
+         ]
+        }
+       }
+      ],
+      [
+       "call.direct",
+       [
+        "B0.p0"
+       ],
+       [],
+       {
+        "entity": {
+         "fn": "install_promotion"
+        }
+       }
+      ]
+     ],
+     "end": [
+      "br",
+      2,
+      []
+     ]
+    },
+    {
+     "params": [],
+     "nodes": [],
+     "end": [
+      "ret",
+      []
+     ]
+    }
+   ]
+  }
+ ],
+ "package": {
+  "name": "syncthingliveupdate",
+  "entries": {
+   "app": "on_package_ready"
+  },
+  "release": "app",
+  "android": {
+   "package": "io.github.mrxsin.syncthingliveupdate",
+   "module_class": "my.MrxSiN.syncthingliveupdate.ModuleMain",
+   "scopes": [
+    "system",
+    "android",
+    "com.github.catfriend1.syncthingfork",
+    "com.android.systemui"
+   ],
+   "version_code": 6,
+   "version_name": "1.2.0",
+   "min_sdk": 36,
+   "target_sdk": 36,
+   "branding": "2241c274c33bd2a0bac1e2db29111afcdbdd08847e4fa3ac7697bb4218241c27",
+   "dex": ["07f22ff643ac6c650036550355084f3b02034493201a2e5a8c8e487a393d4b90"],
+   "libraries": {"lib/arm64-v8a/libdexkit.so": "69e142100d6599c48b7315941ce4c3fea72784a55f6ed013177efb5ec015a159"},
+   "fields": [
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "api",
+     "Lio/github/libxposed/api/XposedInterface;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "processName",
+     "Ljava/lang/String;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "promotionPatched",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "nil",
+     "Ljava/lang/Object;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "reported",
+     "Ljava/util/Set;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "labels",
+     "Ljava/util/Map;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "syncing",
+     "Ljava/util/Set;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "icons",
+     "Ljava/util/Map;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "snapshot",
+     "[Ljava/lang/Object;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "lastCompletion",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "folderCompletion",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "deviceCompletion",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "lastPromoted",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "requestFailLogged",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "stateMethod",
+     "Ljava/lang/reflect/Method;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "stateField",
+     "Ljava/lang/reflect/Field;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "stateNameMethod",
+     "Ljava/lang/reflect/Method;"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "dexkitAttempted",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "dexkitLoaded",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "hostInstalled",
+     "I"
+    ],
+    [
+     "Lmy/MrxSiN/syncthingliveupdate/Runtime;",
+     "systemUiStyled",
+     "I"
+    ],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "setProgressModel", "Ljava/lang/reflect/Method;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "applyingFrame", "I"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "running", "Ljava/util/Map;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "animFrames", "Ljava/util/Map;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wParts", "Ljava/lang/reflect/Field;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wEndDot", "Ljava/lang/reflect/Field;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wFaded", "Ljava/lang/reflect/Field;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wStart", "Ljava/lang/reflect/Method;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wEnd", "Ljava/lang/reflect/Method;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wColor", "Ljava/lang/reflect/Method;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wSegment", "Ljava/lang/Class;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wPaint", "Landroid/graphics/Paint;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wPath", "Landroid/graphics/Path;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wFailures", "I"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "wDisabled", "I"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "cColors", "Ljava/lang/Class;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "cCustom", "Ljava/lang/Class;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "need", "Ljava/util/Map;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "meter", "[J"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "fieldCache", "Ljava/util/Map;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "dkPath", "Ljava/lang/String;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "dkOpen", "Lorg/luckypray/dexkit/DexKitBridge;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "resolved", "Ljava/util/Properties;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "cacheFile", "Ljava/lang/String;"],
+    ["Lmy/MrxSiN/syncthingliveupdate/Runtime;", "cacheDirty", "I"]
+   ]
+  }
+ }
+}

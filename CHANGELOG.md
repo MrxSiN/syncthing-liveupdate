@@ -1,6 +1,53 @@
 # Changelog
 
-## Unreleased
+## 1.2.0 — 2026-11-23
+
+The Live Update now shows the transfer rate and the time left, keeps working on a lock screen that
+hides sensitive content, starts faster and costs less per update. The module is rewritten in XAX;
+package name, entry class, scopes and signing key are unchanged, so it installs over 1.1.2.
+
+### Changed
+
+- **Written in XAX, built by the XAX compiler.** No Java, Gradle or `d8` is involved; the APK
+  is built from one XAX store (`source/xax/`) with the pinned compiler in `toolchains.json`.
+  Package name, entry class, scopes and signing key are unchanged, so it installs over 1.1.2.
+- **Transfer rate and time left.** The second line adds `↓ 4.2 MB/s`, `↑ 1.1 MB/s` and
+  `≈ 3 min` after the folder names. They come from the bytes Syncthing reports as still needed
+  (folder summaries for downloads, remote completion for uploads), sampled at most every 2 s and
+  smoothed. A rate needs two samples and at least 1 kB/s; the estimate needs three samples in
+  every direction that still has work, and is hidden past a day. No REST call, timer or extra
+  notification update is added: everything rides the host's own posts.
+- **Lock screen.** When Android is set to hide sensitive notification content, the lock screen
+  now shows the same Live Update with "Syncing files" in place of folder names, instead of
+  "Contents hidden", with the chip percentage, rate and estimate. The progress bar and its
+  icons are left to the unlocked view.
+- **Cheaper per update.** The lock-screen version is a small notification of its own instead of
+  a copy of Syncthing's, which halves the rewrite on each host update (median 6.8 ms to 3.7 ms,
+  Pixel 8 Pro, Syncthing-Fork 2.1.7.0). Reflected fields are looked up once per class.
+- **Faster start.** What DexKit resolves is remembered per host install, in the host's
+  `code_cache`, so later starts install the hooks without indexing the host APK: 4-5 ms instead
+  of about 60-140 ms on Syncthing-Fork 2.1.7.0. A host update clears it.
+- **Hot reload.** The module declares `autoHotReload`, so Syncthing and SystemUI pick up a
+  module update without a reboot. `system_server` still loads it at the next framework start.
+  `minApiVersion` is now 102.
+- **Checks are XAX too.** The shell check scripts are replaced by `xcheck`, a small XAX Linux
+  program (`tools/xcheck`), and two checklists in `checks/`. The project checks now assert
+  against the canonical store rather than the carriers it was made from, and CI's release notes
+  come from `xcheck` instead of `awk`.
+- **arm64 only.** The x86_64 DexKit library is no longer packaged.
+- The wavy bar's next frame is requested with `View.postInvalidateDelayed(16)` instead of a
+  scheduled `Runnable`; frames are still at most every 16 ms and stop when animations are off.
+- Failures inside the hooks are caught per call rather than by one surrounding `try`, so a
+  call that throws still leaves the host's notification as the host built it.
+
+### Verified
+
+On a Pixel 8 Pro, Android 17 QPR2 (`CP4A.261105.040.A1`), Vector 2.2, Syncthing-Fork 2.1.7.0,
+2026-11-23: real 0.5–2 GB uploads and downloads were promoted (`PROMOTED_ONGOING`,
+`ProgressStyle`, colour `0xff8ccdff`) with the rate and estimate counting down to completion
+(`↓ 25 MB/s · ≈ 32 sec` … `≈ 7 sec`, finished about 4 s later), the lock-screen version attached,
+hooks installed from the resolution cache, and no crash. The wavy bar measured 142 µs per frame
+with no missed vsync. Android 16 is not tested on a device.
 
 ## 1.1.2 — 2026-11-11
 

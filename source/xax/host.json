@@ -1,0 +1,1712 @@
+{
+ "types": {
+  "ctx": "jvm:Landroid/content/Context;",
+  "nm": "jvm:Landroid/app/NotificationManager;",
+  "nb": "jvm:Landroid/app/Notification$Builder;",
+  "nstyle": "jvm:Landroid/app/Notification$Style;",
+  "ps": "jvm:Landroid/app/Notification$ProgressStyle;",
+  "seg": "jvm:Landroid/app/Notification$ProgressStyle$Segment;",
+  "icon": "jvm:Landroid/graphics/drawable/Icon;",
+  "dr": "jvm:Landroid/graphics/drawable/Drawable;",
+  "bmp": "jvm:Landroid/graphics/Bitmap;",
+  "bcfg": "jvm:Landroid/graphics/Bitmap$Config;",
+  "canvas": "jvm:Landroid/graphics/Canvas;",
+  "paint": "jvm:Landroid/graphics/Paint;",
+  "path": "jvm:Landroid/graphics/Path;",
+  "ai": "jvm:Landroid/content/pm/ApplicationInfo;",
+  "pm": "jvm:Landroid/content/pm/PackageManager;",
+  "res": "jvm:Landroid/content/res/Resources;",
+  "theme": "jvm:Landroid/content/res/Resources$Theme;",
+  "rcfg": "jvm:Landroid/content/res/Configuration;",
+  "uri": "jvm:Landroid/net/Uri;",
+  "aa": "jvm:Landroid/media/AudioAttributes;",
+  "file": "jvm:Ljava/io/File;",
+  "field": "jvm:Ljava/lang/reflect/Field;",
+  "oarr": "jvm:[Ljava/lang/Object;",
+  "sarr": "jvm:[Ljava/lang/String;",
+  "integer": "jvm:Ljava/lang/Integer;",
+  "boolean": "jvm:Ljava/lang/Boolean;",
+  "enum": "jvm:Ljava/lang/Enum;",
+  "cs": "jvm:Ljava/lang/CharSequence;",
+  "iterable": "jvm:Ljava/lang/Iterable;",
+  "coll": "jvm:Ljava/util/Collection;",
+  "map": "jvm:Ljava/util/Map;",
+  "set": "jvm:Ljava/util/Set;",
+  "alist": "jvm:Ljava/util/ArrayList;",
+  "hset": "jvm:Ljava/util/HashSet;",
+  "iter": "jvm:Ljava/util/Iterator;",
+  "sj": "jvm:Ljava/util/StringJoiner;",
+  "dk": "jvm:Lorg/luckypray/dexkit/DexKitBridge;",
+  "fmq": "jvm:Lorg/luckypray/dexkit/query/FindMethod;",
+  "mm": "jvm:Lorg/luckypray/dexkit/query/matchers/MethodMatcher;",
+  "mdl": "jvm:Lorg/luckypray/dexkit/result/MethodDataList;",
+  "md": "jvm:Lorg/luckypray/dexkit/result/MethodData;",
+  "ufd": "jvm:Lorg/luckypray/dexkit/result/UsingFieldData;",
+  "fd": "jvm:Lorg/luckypray/dexkit/result/FieldData;",
+  "fut": "jvm:Lorg/luckypray/dexkit/result/FieldUsingType;",
+  "larr": "jvm:[J",
+  "num": "jvm:Ljava/lang/Number;",
+  "lng": "jvm:Ljava/lang/Long;",
+  "mentry": "jvm:Ljava/util/Map$Entry;",
+  "props": "jvm:Ljava/util/Properties;",
+  "fis": "jvm:Ljava/io/FileInputStream;",
+  "fos": "jvm:Ljava/io/FileOutputStream;",
+  "istream": "jvm:Ljava/io/InputStream;",
+  "ostream": "jvm:Ljava/io/OutputStream;",
+  "jfile": "jvm:Ljava/io/File;"
+ },
+ "functions": [
+  {"name": "nil", "params": [], "returns": ["obj"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["obj"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "nil:Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "so", "params": ["str"], "returns": ["obj"], "blocks": [
+   {"params": ["str"], "nodes": [
+    ["call.foreign", ["p0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "str_eq", "params": ["str", "str"], "returns": ["b1"], "blocks": [
+   {"params": ["str", "str"], "nodes": [
+    ["call.foreign", ["p1"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["p0", "n0"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "equals(Ljava/lang/Object;)Z"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "obj_eq", "params": ["str", "obj"], "returns": ["b1"], "blocks": [
+   {"params": ["str", "obj"], "nodes": [
+    ["call.foreign", ["p0", "p1"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "equals(Ljava/lang/Object;)Z"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "sval", "params": ["obj"], "returns": ["str"], "blocks": [
+   {"params": ["obj"], "nodes": [
+    ["call.foreign", ["p0"], ["str"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/String", "valueOf(Ljava/lang/Object;)Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "lval", "params": ["b64"], "returns": ["str"], "blocks": [
+   {"params": ["b64"], "nodes": [
+    ["call.foreign", ["p0"], ["str"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/String", "valueOf(J)Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "cat3", "params": ["str", "str", "str"], "returns": ["str"], "blocks": [
+   {"params": ["str", "str", "str"], "nodes": [
+    ["call.direct", ["p0", "p1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n0", "p2"], ["str"], {"entity": {"fn": "cat"}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "cat4", "params": ["str", "str", "str", "str"], "returns": ["str"], "blocks": [
+   {"params": ["str", "str", "str", "str"], "nodes": [
+    ["call.direct", ["p0", "p1", "p2"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n0", "p3"], ["str"], {"entity": {"fn": "cat"}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "is_thr", "params": ["thr"], "returns": ["b1"], "blocks": [
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Throwable", "instanceof"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "class_name", "params": ["obj"], "returns": ["str"], "blocks": [
+   {"params": ["obj"], "nodes": [
+    ["call.foreign", ["p0"], ["cls"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Object", "getClass()Ljava/lang/Class;"]}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "describe_thr", "params": ["thr"], "returns": ["str"], "blocks": [
+   {"params": ["thr"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n0", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["n0"], ["str"], {"entity": {"fn": "class_name"}}],
+    ["call.foreign", ["B0.p0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Throwable", "getMessage()Ljava/lang/String;"]}}],
+    ["call.foreign", ["n2"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}]
+   ], "end": ["cbr", "n3", 2, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ": "]}}],
+    ["call.direct", ["B1.n1", "n0", "B1.n2"], ["str"], {"entity": {"fn": "cat3"}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "none"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B1.n1"]]}]},
+
+  {"name": "diag", "params": ["str", "str", "thr"], "returns": [], "blocks": [
+   {"params": ["str", "str", "thr"], "nodes": [
+    ["call.foreign", ["p2"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/reflect/InvocationTargetException", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 2, ["p2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p2"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Throwable", "getCause()Ljava/lang/Throwable;"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 2, ["n0"], 2, ["B0.p2"]]},
+   {"params": ["thr"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_thr"}}],
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/ClassNotFoundException", "instanceof"]}}],
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/NoSuchMethodException", "instanceof"]}}],
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/NoSuchFieldException", "instanceof"]}}],
+    ["const", "b1", 1],
+    ["bit.xor", ["n0", "n4"], ["b1"]],
+    ["bit.or", ["n5", "n1"], ["b1"]],
+    ["bit.or", ["n6", "n2"], ["b1"]],
+    ["bit.or", ["n7", "n3"], ["b1"]],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ABSENT"]}}],
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/IllegalAccessException", "instanceof"]}}],
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/SecurityException", "instanceof"]}}],
+    ["bit.or", ["n10", "n11"], ["b1"]],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DENIED"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "THREW"]}}]
+   ], "end": ["cbr", "n8", 3, ["n9"], 4, []]},
+   {"params": ["str"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", ["p0", "n0", "B0.p0"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n1", "n0", "B0.p1"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.foreign", [], ["set"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "reported:Ljava/util/Set;"]}}],
+    ["call.direct", ["n2"], ["obj"], {"entity": {"fn": "so"}}],
+    ["call.foreign", ["n3", "n4"], ["b1"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Set", "add(Ljava/lang/Object;)Z"]}}]
+   ], "end": ["cbr", "n5", 5, [], 6, []]},
+   {"params": [], "nodes": [], "end": ["cbr", "B2.n12", 3, ["B2.n13"], 3, ["B2.n14"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Reflection "]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ": "]}}],
+    ["call.direct", ["n0", "B3.p0", "n1"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " expected="]}}],
+    ["call.direct", ["n2", "B0.p0", "n3"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", sdk="]}}],
+    ["call.direct", ["n4", "B0.p1", "n5"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", [], ["b32"], {"entity": {"fn": "sdk"}}],
+    ["call.direct", ["n7"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", fingerprint="]}}],
+    ["call.direct", ["n6", "n8", "n9"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-getstatic", "android/os/Build", "FINGERPRINT:Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", cause="]}}],
+    ["call.direct", ["B2.p0"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n10", "n11", "n12", "n13"], ["str"], {"entity": {"fn": "cat4"}}],
+    ["call.direct", ["n14"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "find_class_diag", "params": ["cl", "str"], "returns": ["cls"], "blocks": [
+   {"params": ["cl", "str"], "nodes": [
+    ["const", "b1", 0],
+    ["call.foreign", ["p1", "n0", "p0"], ["cls", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "java/lang/Class", "forName(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;"]}}],
+    ["call.direct", ["n1.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n2", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "class"]}}],
+    ["call.direct", ["B0.p1", "n0", "B0.n1.r1"], [], {"entity": {"fn": "diag"}}]
+   ], "end": ["ret", ["B0.n1"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n1"]]}]},
+
+  {"name": "type_named", "params": ["cl", "str"], "returns": ["cls"], "blocks": [
+   {"params": ["cl", "str"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "int"]}}],
+    ["call.direct", ["n0", "p1"], ["b1"], {"entity": {"fn": "str_eq"}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["cls"], {"entity": {"jvm": ["jvm-getstatic", "java/lang/Integer", "TYPE:Ljava/lang/Class;"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p1"], ["cls"], {"entity": {"fn": "find_class_diag"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "find_types", "params": ["cl", "sarr"], "returns": ["carr"], "blocks": [
+   {"params": ["cl", "sarr"], "nodes": [
+    ["call.foreign", ["p1"], ["b32"], {"entity": {"jvm": ["jvm-arraylength", "[Ljava/lang/String;", "arraylength"]}}],
+    ["call.foreign", ["n0"], ["carr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/Class;", "newarray"]}}],
+    ["const", "b32", 0]
+   ], "end": ["br", 1, ["n2"]]},
+   {"params": ["b32"], "nodes": [
+    ["int.compare", ["p0", "B0.n0"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 2, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p1", "B1.p0"], ["str"], {"entity": {"jvm": ["jvm-arrayload", "[Ljava/lang/String;", "arrayload"]}}],
+    ["call.direct", ["B0.p0", "n0"], ["cls"], {"entity": {"fn": "type_named"}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Class", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 3, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n1", "B1.p0", "B2.n1"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Class;", "arraystore"]}}],
+    ["const", "b32", 1],
+    ["add.wrap", ["B1.p0", "n1"], ["b32"]]
+   ], "end": ["br", 1, ["n2"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n1"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["carr"], {"entity": {"jvm": ["jvm-checkcast", "[Ljava/lang/Class;", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "sig", "params": ["carr"], "returns": ["str"], "blocks": [
+   {"params": ["carr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", "]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "("]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ")"]}}],
+    ["call.foreign", ["n0"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["n1"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["n2"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["n3", "n4", "n5"], ["sj"], {"entity": {"jvm": ["jvm-new", "java/util/StringJoiner", "<init>(Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;)V"]}}],
+    ["call.foreign", ["p0"], ["b32"], {"entity": {"jvm": ["jvm-arraylength", "[Ljava/lang/Class;", "arraylength"]}}],
+    ["const", "b32", 0]
+   ], "end": ["br", 1, ["n8"]]},
+   {"params": ["b32"], "nodes": [
+    ["int.compare", ["p0", "B0.n7"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 2, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B1.p0"], ["cls"], {"entity": {"jvm": ["jvm-arrayload", "[Ljava/lang/Class;", "arrayload"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Class", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}]
+   ], "end": ["br", 6, ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "?"]}}]
+   ], "end": ["br", 6, ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n6"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/StringJoiner", "toString()Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": ["str"], "nodes": [
+    ["call.foreign", ["p0"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["B0.n6", "n0"], ["sj"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/StringJoiner", "add(Ljava/lang/CharSequence;)Ljava/util/StringJoiner;"]}}],
+    ["const", "b32", 1],
+    ["add.wrap", ["B1.p0", "n2"], ["b32"]]
+   ], "end": ["br", 1, ["n3"]]}]},
+
+  {"name": "find_method", "params": ["cls", "str", "carr"], "returns": ["meth"], "blocks": [
+   {"params": ["cls", "str", "carr"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Class", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B0.p1", "B0.p2"], ["meth", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/Class", "getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 2, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "#"]}}],
+    ["call.direct", ["n0", "n1", "B0.p1"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["B0.p2"], ["str"], {"entity": {"fn": "sig"}}],
+    ["call.direct", ["n2", "n3", "B1.n0.r1"], [], {"entity": {"fn": "diag"}}]
+   ], "end": ["ret", ["B1.n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["meth"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/reflect/Method", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B1.n0"]]}]},
+
+  {"name": "read_field", "params": ["obj", "str"], "returns": ["obj"], "blocks": [
+   {"params": ["obj", "str"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Object", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["cls"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Object", "getClass()Ljava/lang/Class;"]}}],
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "fieldCache:Ljava/util/Map;"]}}],
+    ["call.foreign", ["n0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["n1", "n2"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "get(Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n3"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/util/Map", "instanceof"]}}]
+   ], "end": ["cbr", "n4", 3, [], 4, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n3"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}]
+   ], "end": ["br", 5, ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["jvm:Ljava/util/concurrent/ConcurrentHashMap;"], {"entity": {"jvm": ["jvm-new", "java/util/concurrent/ConcurrentHashMap", "<init>()V"]}}],
+    ["call.foreign", ["n0"], ["map"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map", "checkcast"]}}],
+    ["call.foreign", ["n1"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B1.n1", "B1.n2", "n2"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["br", 5, ["n1"]]},
+   {"params": ["map"], "nodes": [
+    ["call.foreign", ["B0.p1"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["p0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "get(Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/reflect/Field", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 6, [], 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B5.n1"], ["field"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/reflect/Field", "checkcast"]}}]
+   ], "end": ["br", 10, ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n0", "B0.p1"], ["field", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/Class", "getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 11, ["n0.r1"], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B7.n0", ["b1", 1]], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Field", "setAccessible(Z)V"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 11, ["n0"], 9, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B7.n0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B5.p0", "B5.n0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["br", 10, ["B7.n0"]]},
+   {"params": ["field"], "nodes": [
+    ["call.foreign", ["p0", "B0.p0"], ["obj", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Field", "get(Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 11, ["n0.r1"], 12, []]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", ["B1.n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "#"]}}],
+    ["call.direct", ["n0", "n1", "B0.p1"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "field read"]}}],
+    ["call.direct", ["n2", "n3", "p0"], [], {"entity": {"fn": "diag"}}],
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}]
+   ], "end": ["ret", ["n5"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B10.n0"]]}]},
+
+  {"name": "s0", "params": [], "returns": ["sarr"], "blocks": [
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["call.foreign", ["n0"], ["sarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/String;", "newarray"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "s1", "params": ["str"], "returns": ["sarr"], "blocks": [
+   {"params": ["str"], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["n0"], ["sarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/String;", "newarray"]}}],
+    ["const", "b32", 0],
+    ["call.foreign", ["n1", "n2", "p0"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/String;", "arraystore"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "s_put", "params": ["sarr", "b32", "str"], "returns": [], "blocks": [
+   {"params": ["sarr", "b32", "str"], "nodes": [
+    ["call.foreign", ["p0", "p1", "p2"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/String;", "arraystore"]}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "s_new", "params": ["b32"], "returns": ["sarr"], "blocks": [
+   {"params": ["b32"], "nodes": [
+    ["call.foreign", ["p0"], ["sarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/String;", "newarray"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "dexkit_from_module", "params": [], "returns": ["b1"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["api"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "api:Lio/github/libxposed/api/XposedInterface;"]}}],
+    ["call.foreign", ["n0"], ["ai", "thr"], {"entity": {"jvm": ["jvm-invokeinterface-catch", "io/github/libxposed/api/XposedInterface", "getModuleApplicationInfo()Landroid/content/pm/ApplicationInfo;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "android/content/pm/ApplicationInfo", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 1, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n1"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "nativeLibraryDir:Ljava/lang/String;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 2, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "libdexkit.so"]}}],
+    ["call.foreign", ["B1.n0", "n0"], ["file"], {"entity": {"jvm": ["jvm-new", "java/io/File", "<init>(Ljava/lang/String;Ljava/lang/String;)V"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/io/File", "isFile()Z"]}}],
+    ["call.foreign", ["n1"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["n3"], ["str"], {"entity": {"fn": "sval"}}]
+   ], "end": ["cbr", "n2", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.n1"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/io/File", "getAbsolutePath()Ljava/lang/String;"]}}],
+    ["call.foreign", ["n0"], ["thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "java/lang/System", "load(Ljava/lang/String;)V"]}}],
+    ["call.direct", ["n1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n2", 6, ["n1"], 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit library is not at "]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "; name lookups will be used instead"]}}],
+    ["call.direct", ["n0", "B2.n4", "n1"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [["const", "b1", 0]], "end": ["ret", ["n0"]]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit library at "]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " could not be loaded"]}}],
+    ["call.direct", ["n0", "B2.n4", "n1"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n2", "p0"], [], {"entity": {"fn": "log_error"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [["const", "b1", 1]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "dexkit_from_host", "params": [], "returns": ["b1"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "dexkit"]}}],
+    ["call.foreign", ["n0"], ["thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "java/lang/System", "loadLibrary(Ljava/lang/String;)V"]}}],
+    ["call.direct", ["n1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n2", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit library unavailable: "]}}],
+    ["call.direct", ["B0.n1"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [["const", "b1", 1]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "dexkit_load", "params": [], "returns": ["b1"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dexkitAttempted:I"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n2", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dexkitAttempted:I"]}}],
+    ["call.direct", [], ["b1"], {"entity": {"fn": "dexkit_from_module"}}]
+   ], "end": ["cbr", "n2", 3, ["n2"], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dexkitLoaded:I"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["ne"]}]
+   ], "end": ["ret", ["n2"]]},
+   {"params": ["b1"], "nodes": [
+    ["int.zero.extend", ["p0"], ["b32"]],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dexkitLoaded:I"]}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["b1"], {"entity": {"fn": "dexkit_from_host"}}]
+   ], "end": ["br", 3, ["n0"]]}]},
+
+  {"name": "dk_nil", "params": [], "returns": ["dk"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["dk"], {"entity": {"jvm": ["jvm-checkcast", "org/luckypray/dexkit/DexKitBridge", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "meth_nil", "params": [], "returns": ["meth"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["meth"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/reflect/Method", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "str_nil", "params": [], "returns": ["str"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/String", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "is_meth", "params": ["meth"], "returns": ["b1"], "blocks": [
+   {"params": ["meth"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/reflect/Method", "instanceof"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "is_str", "params": ["str"], "returns": ["b1"], "blocks": [
+   {"params": ["str"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "dexkit_open", "params": ["str"], "returns": ["dk"], "blocks": [
+   {"params": ["str"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n0", 1, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["b1"], {"entity": {"fn": "dexkit_load"}}]
+   ], "end": ["cbr", "n0", 2, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["b64"], {"entity": {"jvm": ["jvm-invokestatic", "android/os/SystemClock", "uptimeMillis()J"]}}],
+    ["call.foreign", ["B0.p0"], ["dk", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "org/luckypray/dexkit/DexKitBridge", "create(Ljava/lang/String;)Lorg/luckypray/dexkit/DexKitBridge;"]}}],
+    ["call.direct", ["n1.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n2", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit could not be loaded; falling back to name lookups"]}}],
+    ["call.direct", ["n0", "B2.n1.r1"], [], {"entity": {"fn": "log_error"}}]
+   ], "end": ["br", 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.n1"], ["b1", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/DexKitBridge", "isValid()Z"]}}]
+   ], "end": ["cbr", "n0", 6, [], 7, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["dk"], {"entity": {"fn": "dk_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.n1"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/DexKitBridge", "getDexNum()I"]}}],
+    ["call.foreign", [], ["b64"], {"entity": {"jvm": ["jvm-invokestatic", "android/os/SystemClock", "uptimeMillis()J"]}}],
+    ["sub.wrap", ["n1", "B2.n0"], ["b64"]],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit indexed "]}}],
+    ["call.direct", ["n0"], ["str"], {"entity": {"fn": "itoa"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " dex file(s) in "]}}],
+    ["call.direct", ["n3", "n4", "n5"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n2"], ["str"], {"entity": {"fn": "lval"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ms"]}}],
+    ["call.direct", ["n6", "n7", "n8"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["n9"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", ["B2.n1"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit index unavailable; falling back to name lookups"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["br", 5, []]}]},
+
+  {"name": "dexkit_search", "params": ["dk", "mm", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "mm", "cl"], "nodes": [
+    ["call.foreign", [], ["fmq"], {"entity": {"jvm": ["jvm-invokestatic", "org/luckypray/dexkit/query/FindMethod", "create()Lorg/luckypray/dexkit/query/FindMethod;"]}}],
+    ["call.foreign", ["n0", "p1"], ["fmq"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/query/FindMethod", "matcher(Lorg/luckypray/dexkit/query/matchers/MethodMatcher;)Lorg/luckypray/dexkit/query/FindMethod;"]}}],
+    ["call.foreign", ["p0", "n1"], ["mdl", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/DexKitBridge", "findMethod(Lorg/luckypray/dexkit/query/FindMethod;)Lorg/luckypray/dexkit/result/MethodDataList;"]}}],
+    ["call.direct", ["n2.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n3", 1, ["n2.r1"], 2, []]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit search failed: "]}}],
+    ["call.direct", ["p0"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}],
+    ["call.direct", [], ["meth"], {"entity": {"fn": "meth_nil"}}]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n2"], ["alist"], {"entity": {"jvm": ["jvm-checkcast", "java/util/ArrayList", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/ArrayList", "size()I"]}}],
+    ["const", "b32", 1],
+    ["int.compare", ["n1", "n2"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n3", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["call.foreign", ["B2.n0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/ArrayList", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n1"], ["md"], {"entity": {"jvm": ["jvm-checkcast", "org/luckypray/dexkit/result/MethodData", "checkcast"]}}],
+    ["call.foreign", ["n2", "B0.p2"], ["meth", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/result/MethodData", "getMethodInstance(Ljava/lang/ClassLoader;)Ljava/lang/reflect/Method;"]}}],
+    ["call.direct", ["n3.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n4", 1, ["n3.r1"], 5, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["meth"], {"entity": {"fn": "meth_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B3.n3"]]}]},
+
+  {"name": "as_list", "params": ["sarr"], "returns": ["list"], "blocks": [
+   {"params": ["sarr"], "nodes": [
+    ["call.foreign", ["p0"], ["oarr"], {"entity": {"jvm": ["jvm-checkcast", "[Ljava/lang/Object;", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["list"], {"entity": {"jvm": ["jvm-invokestatic", "java/util/Arrays", "asList([Ljava/lang/Object;)Ljava/util/List;"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "join", "params": ["str", "list"], "returns": ["str"], "blocks": [
+   {"params": ["str", "list"], "nodes": [
+    ["call.foreign", ["p0"], ["cs"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/CharSequence", "checkcast"]}}],
+    ["call.foreign", ["p1"], ["iterable"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Iterable", "checkcast"]}}],
+    ["call.foreign", ["n0", "n1"], ["str"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/String", "join(Ljava/lang/CharSequence;Ljava/lang/Iterable;)Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n2"]]}]},
+
+  {"name": "query_describe", "params": ["str", "str", "sarr", "sarr"], "returns": ["str"], "blocks": [
+   {"params": ["str", "str", "sarr", "sarr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ", "]}}],
+    ["call.direct", ["p2"], ["list"], {"entity": {"fn": "as_list"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "join"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "("]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ")"]}}],
+    ["call.direct", ["n3", "n2", "n4"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["call.direct", ["p1"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["bit.and", ["n6", "n7"], ["b1"]]
+   ], "end": ["cbr", "n8", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "#"]}}],
+    ["call.direct", ["B0.p0", "n0", "B0.p1", "B0.n5"], ["str"], {"entity": {"fn": "cat4"}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "method"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " using "]}}],
+    ["call.foreign", ["B0.p3"], ["oarr"], {"entity": {"jvm": ["jvm-checkcast", "[Ljava/lang/Object;", "checkcast"]}}],
+    ["call.foreign", ["n2"], ["str"], {"entity": {"jvm": ["jvm-invokestatic", "java/util/Arrays", "toString([Ljava/lang/Object;)Ljava/lang/String;"]}}],
+    ["call.direct", ["n0", "B0.n5", "n1", "n3"], ["str"], {"entity": {"fn": "cat4"}}]
+   ], "end": ["ret", ["n4"]]}]},
+
+  {"name": "dexkit_method", "params": ["dk", "cl", "str", "str", "sarr", "sarr"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl", "str", "str", "sarr", "sarr"], "nodes": [
+    ["call.direct", ["p4"], ["list"], {"entity": {"fn": "as_list"}}],
+    ["call.foreign", ["n0"], ["coll"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Collection", "checkcast"]}}],
+    ["call.direct", ["p2"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["call.direct", ["p3"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["bit.and", ["n2", "n3"], ["b1"]]
+   ], "end": ["cbr", "n4", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["mm"], {"entity": {"jvm": ["jvm-invokestatic", "org/luckypray/dexkit/query/matchers/MethodMatcher", "create()Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.foreign", ["n0", "B0.p2"], ["mm"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/query/matchers/MethodMatcher", "declaredClass(Ljava/lang/String;)Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.foreign", ["n1", "B0.p3"], ["mm"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/query/matchers/MethodMatcher", "name(Ljava/lang/String;)Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.foreign", ["n2", "B0.n1"], ["mm"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/query/matchers/MethodMatcher", "paramTypes(Ljava/util/Collection;)Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.direct", ["B0.p0", "n3", "B0.p1"], ["meth"], {"entity": {"fn": "dexkit_search"}}],
+    ["call.direct", ["n4"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n5", 5, ["n4"], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p5"], ["b32"], {"entity": {"jvm": ["jvm-arraylength", "[Ljava/lang/String;", "arraylength"]}}],
+    ["const", "b32", 0],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n2", 6, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["mm"], {"entity": {"jvm": ["jvm-invokestatic", "org/luckypray/dexkit/query/matchers/MethodMatcher", "create()Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.foreign", ["n0", "B0.n1"], ["mm"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/query/matchers/MethodMatcher", "paramTypes(Ljava/util/Collection;)Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.foreign", ["n1", "B0.p5"], ["mm"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/query/matchers/MethodMatcher", "usingStrings([Ljava/lang/String;)Lorg/luckypray/dexkit/query/matchers/MethodMatcher;"]}}],
+    ["call.direct", ["B0.p0", "n2", "B0.p1"], ["meth"], {"entity": {"fn": "dexkit_search"}}],
+    ["call.direct", ["n3"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n4", 4, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Resolved "]}}],
+    ["call.direct", ["B0.p2", "B0.p3", "B0.p4", "B0.p5"], ["str"], {"entity": {"fn": "query_describe"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " by its constants: "]}}],
+    ["call.foreign", ["B3.n3"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["n3"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.direct", ["n0", "n1", "n2", "n4"], ["str"], {"entity": {"fn": "cat4"}}],
+    ["call.direct", ["n5"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", ["B3.n3"]]},
+   {"params": ["meth"], "nodes": [], "end": ["ret", ["p0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["meth"], {"entity": {"fn": "meth_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "field_nil", "params": [], "returns": ["field"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["n0"], ["field"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/reflect/Field", "checkcast"]}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "dexkit_field_read_by", "params": ["dk", "meth", "str", "str", "cl"], "returns": ["field"], "blocks": [
+   {"params": ["dk", "meth", "str", "str", "cl"], "nodes": [
+    ["call.foreign", ["p0", "p1"], ["md", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/DexKitBridge", "getMethodData(Ljava/lang/reflect/Method;)Lorg/luckypray/dexkit/result/MethodData;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 10, ["n0.r1"], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0"], ["list", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/result/MethodData", "getUsingFields()Ljava/util/List;"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 10, ["n0.r1"], 11, []]},
+   {"params": ["b32", "b32", "hset"], "nodes": [
+    ["int.compare", ["p0", "p1"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 3, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n0", "B2.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n0"], ["ufd"], {"entity": {"jvm": ["jvm-checkcast", "org/luckypray/dexkit/result/UsingFieldData", "checkcast"]}}],
+    ["call.foreign", ["n1"], ["fut"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/result/UsingFieldData", "getUsingType()Lorg/luckypray/dexkit/result/FieldUsingType;"]}}],
+    ["call.foreign", ["n2"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/result/FieldUsingType", "isRead()Z"]}}],
+    ["call.foreign", ["n1"], ["fd"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/result/UsingFieldData", "getField()Lorg/luckypray/dexkit/result/FieldData;"]}}],
+    ["call.foreign", ["n4"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/result/FieldData", "getDeclaredClassName()Ljava/lang/String;"]}}],
+    ["call.foreign", ["n4"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "org/luckypray/dexkit/result/FieldData", "getTypeName()Ljava/lang/String;"]}}],
+    ["call.direct", ["B0.p2", "n5"], ["b1"], {"entity": {"fn": "str_eq"}}],
+    ["call.direct", ["B0.p3", "n6"], ["b1"], {"entity": {"fn": "str_eq"}}],
+    ["bit.and", ["n3", "n7"], ["b1"]],
+    ["bit.and", ["n9", "n8"], ["b1"]]
+   ], "end": ["cbr", "n10", 4, [], 5, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B3.n4"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B2.p2", "n0"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/HashSet", "add(Ljava/lang/Object;)Z"]}}]
+   ], "end": ["br", 5, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["add.wrap", ["B2.p0", "n0"], ["b32"]]
+   ], "end": ["br", 2, ["n1", "B2.p1", "B2.p2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.p2"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/HashSet", "size()I"]}}],
+    ["const", "b32", 1],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n2", 7, [], 9, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.p2"], ["iter"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/HashSet", "iterator()Ljava/util/Iterator;"]}}],
+    ["call.foreign", ["n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Iterator", "next()Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n1"], ["fd"], {"entity": {"jvm": ["jvm-checkcast", "org/luckypray/dexkit/result/FieldData", "checkcast"]}}],
+    ["call.foreign", ["n2", "B0.p4"], ["field", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/result/FieldData", "getFieldInstance(Ljava/lang/ClassLoader;)Ljava/lang/reflect/Field;"]}}],
+    ["call.direct", ["n3.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n4", 10, ["n3.r1"], 8, []]},
+   {"params": [], "nodes": [
+    ["const", "b1", 1],
+    ["call.foreign", ["B7.n3", "n0"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Field", "setAccessible(Z)V"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Resolved "]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " "]}}],
+    ["call.direct", ["n2", "B0.p2", "n3", "B0.p3"], ["str"], {"entity": {"fn": "cat4"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", " read by "]}}],
+    ["call.foreign", ["B0.p1"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/reflect/Method", "getName()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", ": "]}}],
+    ["call.direct", ["n4", "n5", "n6", "n7"], ["str"], {"entity": {"fn": "cat4"}}],
+    ["call.foreign", ["B7.n3"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["n9"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.direct", ["n8", "n10"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n11"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", ["B7.n3"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["field"], {"entity": {"fn": "field_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit field search failed: "]}}],
+    ["call.direct", ["p0"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}],
+    ["call.direct", [], ["field"], {"entity": {"fn": "field_nil"}}]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["call.foreign", [], ["hset"], {"entity": {"jvm": ["jvm-new", "java/util/HashSet", "<init>()V"]}}],
+    ["const", "b32", 0]
+   ], "end": ["br", 2, ["n2", "n0", "n1"]]}]},
+
+  {"name": "dexkit_close", "params": ["dk"], "returns": [], "blocks": [
+   {"params": ["dk"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "org/luckypray/dexkit/DexKitBridge", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "org/luckypray/dexkit/DexKitBridge", "close()V"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DexKit index could not be closed: "]}}],
+    ["call.direct", ["B1.n0"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "reflect_method", "params": ["cl", "str", "str", "sarr"], "returns": ["meth"], "blocks": [
+   {"params": ["cl", "str", "str", "sarr"], "nodes": [
+    ["call.direct", ["p1"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["call.direct", ["p2"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["bit.and", ["n0", "n1"], ["b1"]]
+   ], "end": ["cbr", "n2", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p3"], ["carr"], {"entity": {"fn": "find_types"}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "[Ljava/lang/Class;", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p1"], ["cls"], {"entity": {"fn": "find_class_diag"}}],
+    ["call.direct", ["n0", "B0.p2", "B1.n0"], ["meth"], {"entity": {"fn": "find_method"}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["meth"], {"entity": {"fn": "meth_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "dk_get", "params": ["dk"], "returns": ["dk"], "blocks": [
+   {"params": ["dk"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "org/luckypray/dexkit/DexKitBridge", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["dk"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dkOpen:Lorg/luckypray/dexkit/DexKitBridge;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "org/luckypray/dexkit/DexKitBridge", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 4, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dkPath:Ljava/lang/String;"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n1", 6, [], 5, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B2.n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["dk"], {"entity": {"fn": "dk_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dkPath:Ljava/lang/String;"]}}],
+    ["call.direct", ["B3.n0"], ["dk"], {"entity": {"fn": "dexkit_open"}}],
+    ["call.foreign", ["n2"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "dkOpen:Lorg/luckypray/dexkit/DexKitBridge;"]}}]
+   ], "end": ["ret", ["n2"]]}]},
+
+  {"name": "cache_get", "params": ["str"], "returns": ["str"], "blocks": [
+   {"params": ["str"], "nodes": [
+    ["call.foreign", [], ["props"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "resolved:Ljava/util/Properties;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/util/Properties", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0", "B0.p0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/Properties", "getProperty(Ljava/lang/String;)Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "cache_put", "params": ["str", "str"], "returns": [], "blocks": [
+   {"params": ["str", "str"], "nodes": [
+    ["call.foreign", [], ["props"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "resolved:Ljava/util/Properties;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/util/Properties", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0", "B0.p0", "B0.p1"], ["obj"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/Properties", "setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;"]}}],
+    ["call.foreign", [["b32", 1]], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "cacheDirty:I"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "resolve", "params": ["dk", "cl", "str", "str", "sarr", "sarr"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl", "str", "str", "sarr", "sarr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "m|"]}}],
+    ["call.direct", ["p2", "p3", "p4", "p5"], ["str"], {"entity": {"fn": "query_describe"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], ["str"], {"entity": {"fn": "cache_get"}}],
+    ["call.direct", ["n3"], ["b1"], {"entity": {"fn": "is_str"}}]
+   ], "end": ["cbr", "n4", 1, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "-"]}}],
+    ["call.direct", ["n0", "B0.n3"], ["b1"], {"entity": {"fn": "str_eq"}}]
+   ], "end": ["cbr", "n1", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["meth"], {"entity": {"fn": "meth_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n3", ["b32", 124]], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "indexOf(I)I"]}}],
+    ["int.compare", ["n0", ["b32", 0]], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n1", 5, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0"], ["dk"], {"entity": {"fn": "dk_get"}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "org/luckypray/dexkit/DexKitBridge", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 7, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n3", ["b32", 0], "B3.n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "substring(II)Ljava/lang/String;"]}}],
+    ["add.wrap", ["B3.n0", ["b32", 1]], ["b32"]],
+    ["call.foreign", ["B0.n3", "n1"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "substring(I)Ljava/lang/String;"]}}],
+    ["call.direct", ["B0.p1", "n0", "n2", "B0.p4"], ["meth"], {"entity": {"fn": "reflect_method"}}],
+    ["call.direct", ["n3"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n4", 6, [], 4, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B5.n3"]]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B4.n0", "B0.p1", "B0.p2", "B0.p3", "B0.p4", "B0.p5"], ["meth"], {"entity": {"fn": "dexkit_method"}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n1", 9, ["n0"], 8, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p1", "B0.p2", "B0.p3", "B0.p4"], ["meth"], {"entity": {"fn": "reflect_method"}}]
+   ], "end": ["br", 9, ["n0"]]},
+   {"params": ["meth"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n0", 10, [], 11, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B9.p0"], ["cls"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/reflect/Method", "getDeclaringClass()Ljava/lang/Class;"]}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "|"]}}],
+    ["call.foreign", ["B9.p0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/reflect/Method", "getName()Ljava/lang/String;"]}}],
+    ["call.direct", ["n1", "n2", "n3"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["B0.n2", "n4"], [], {"entity": {"fn": "cache_put"}}]
+   ], "end": ["ret", ["B9.p0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "-"]}}],
+    ["call.direct", ["B0.n2", "n0"], [], {"entity": {"fn": "cache_put"}}]
+   ], "end": ["ret", ["B9.p0"]]}]},
+
+  {"name": "q_persistent", "params": ["dk", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.service.NotificationHandler"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "updatePersistentNotification"]}}],
+    ["const", "b32", 4],
+    ["call.direct", ["n2"], ["sarr"], {"entity": {"fn": "s_new"}}],
+    ["const", "b32", 0],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.service.SyncthingService"]}}],
+    ["call.direct", ["n3", "n4", "n5"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 1],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "java.lang.Boolean"]}}],
+    ["call.direct", ["n3", "n7", "n8"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 2],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "int"]}}],
+    ["call.direct", ["n3", "n10", "n11"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 3],
+    ["call.direct", ["n3", "n13", "n11"], [], {"entity": {"fn": "s_put"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "always_run_in_background"]}}],
+    ["call.direct", ["n15"], ["sarr"], {"entity": {"fn": "s1"}}],
+    ["call.direct", ["p0", "p1", "n0", "n1", "n3", "n16"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n17"]]}]},
+
+  {"name": "q_current_state", "params": ["dk", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.service.SyncthingService"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "getCurrentState"]}}],
+    ["call.direct", [], ["sarr"], {"entity": {"fn": "s0"}}],
+    ["call.direct", ["p0", "p1", "n0", "n1", "n2", "n2"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n3"]]}]},
+
+  {"name": "q_state_name", "params": ["dk", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "int"]}}],
+    ["call.direct", ["n1"], ["sarr"], {"entity": {"fn": "s1"}}],
+    ["const", "b32", 5],
+    ["call.direct", ["n3"], ["sarr"], {"entity": {"fn": "s_new"}}],
+    ["const", "b32", 0],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "INIT"]}}],
+    ["call.direct", ["n4", "n5", "n6"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 1],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "STARTING"]}}],
+    ["call.direct", ["n4", "n8", "n9"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 2],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ACTIVE"]}}],
+    ["call.direct", ["n4", "n11", "n12"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 3],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DISABLED"]}}],
+    ["call.direct", ["n4", "n14", "n15"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 4],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ERROR"]}}],
+    ["call.direct", ["n4", "n17", "n18"], [], {"entity": {"fn": "s_put"}}],
+    ["call.direct", ["p0", "p1", "n0", "n0", "n2", "n4"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n20"]]}]},
+
+  {"name": "q_simple", "params": ["dk", "cl", "str", "str"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl", "str", "str"], "nodes": [
+    ["call.direct", [], ["sarr"], {"entity": {"fn": "s0"}}],
+    ["call.direct", ["p0", "p1", "p2", "p3", "n0", "n0"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n1"]]}]},
+
+  {"name": "q_folder_config", "params": ["dk", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.LocalCompletion"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "updateFromConfig"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "java.util.List"]}}],
+    ["call.direct", ["n2"], ["sarr"], {"entity": {"fn": "s1"}}],
+    ["call.direct", [], ["sarr"], {"entity": {"fn": "s0"}}],
+    ["call.direct", ["p0", "p1", "n0", "n1", "n3", "n4"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n5"]]}]},
+
+  {"name": "q_folder_status", "params": ["dk", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.LocalCompletion"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "setFolderStatus"]}}],
+    ["const", "b32", 3],
+    ["call.direct", ["n2"], ["sarr"], {"entity": {"fn": "s_new"}}],
+    ["const", "b32", 0],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "java.lang.String"]}}],
+    ["call.direct", ["n3", "n4", "n5"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 1],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "java.lang.Boolean"]}}],
+    ["call.direct", ["n3", "n7", "n8"], [], {"entity": {"fn": "s_put"}}],
+    ["const", "b32", 2],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.FolderStatus"]}}],
+    ["call.direct", ["n3", "n10", "n11"], [], {"entity": {"fn": "s_put"}}],
+    ["call.direct", [], ["sarr"], {"entity": {"fn": "s0"}}],
+    ["call.direct", ["p0", "p1", "n0", "n1", "n3", "n13"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n14"]]}]},
+
+  {"name": "q_remote_completion", "params": ["dk", "cl"], "returns": ["meth"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.direct", [["b32", 3]], ["sarr"], {"entity": {"fn": "s_new"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "java.lang.String"]}}],
+    ["call.direct", ["n0", ["b32", 0], "n1"], [], {"entity": {"fn": "s_put"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "java.lang.String"]}}],
+    ["call.direct", ["n0", ["b32", 1], "n3"], [], {"entity": {"fn": "s_put"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.RemoteCompletionInfo"]}}],
+    ["call.direct", ["n0", ["b32", 2], "n5"], [], {"entity": {"fn": "s_put"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "setCompletionInfo: Storing "]}}],
+    ["call.direct", ["n7"], ["sarr"], {"entity": {"fn": "s1"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.RemoteCompletion"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "setCompletionInfo"]}}],
+    ["call.direct", ["p0", "p1", "n9", "n10", "n0", "n8"], ["meth"], {"entity": {"fn": "resolve"}}]
+   ], "end": ["ret", ["n11"]]}]},
+
+  {"name": "hook_if", "params": ["meth", "hooker"], "returns": ["b1"], "blocks": [
+   {"params": ["meth", "hooker"], "nodes": [
+    ["call.direct", ["p0"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["exe"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/reflect/Executable", "checkcast"]}}],
+    ["call.direct", ["n0", "B0.p1"], ["b1"], {"entity": {"fn": "hook"}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [["const", "b1", 0]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "set_snapshot", "params": ["b1", "b32", "b32", "list"], "returns": [], "blocks": [
+   {"params": ["b1", "b32", "b32", "list"], "nodes": [
+    ["const", "b32", 4],
+    ["call.foreign", ["n0"], ["oarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/Object;", "newarray"]}}],
+    ["int.zero.extend", ["p0"], ["b32"]],
+    ["call.foreign", ["n2"], ["integer"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/Integer", "valueOf(I)Ljava/lang/Integer;"]}}],
+    ["call.foreign", ["n3"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["const", "b32", 0],
+    ["call.foreign", ["n1", "n5", "n4"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.foreign", ["p1"], ["integer"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/Integer", "valueOf(I)Ljava/lang/Integer;"]}}],
+    ["call.foreign", ["n7"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["const", "b32", 1],
+    ["call.foreign", ["n1", "n9", "n8"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.foreign", ["p2"], ["integer"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/Integer", "valueOf(I)Ljava/lang/Integer;"]}}],
+    ["call.foreign", ["n11"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["const", "b32", 2],
+    ["call.foreign", ["n1", "n13", "n12"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.foreign", ["p3"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["const", "b32", 3],
+    ["call.foreign", ["n1", "n16", "n15"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.foreign", ["n1"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "snapshot:[Ljava/lang/Object;"]}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "snap_int", "params": ["oarr", "b32", "b32"], "returns": ["b32"], "blocks": [
+   {"params": ["oarr", "b32", "b32"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "[Ljava/lang/Object;", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B0.p1"], ["obj"], {"entity": {"jvm": ["jvm-arrayload", "[Ljava/lang/Object;", "arrayload"]}}],
+    ["call.foreign", ["n0"], ["integer"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Integer", "checkcast"]}}],
+    ["call.foreign", ["n1"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Integer", "intValue()I"]}}]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.p2"]]}]},
+
+  {"name": "snap_folders", "params": ["oarr"], "returns": ["list"], "blocks": [
+   {"params": ["oarr"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "[Ljava/lang/Object;", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 3],
+    ["call.foreign", ["B0.p0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-arrayload", "[Ljava/lang/Object;", "arrayload"]}}],
+    ["call.foreign", ["n1"], ["list"], {"entity": {"jvm": ["jvm-checkcast", "java/util/List", "checkcast"]}}]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["list"], {"entity": {"jvm": ["jvm-invokestatic", "java/util/Collections", "emptyList()Ljava/util/List;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "direction", "params": [], "returns": ["b32"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "folderCompletion:I"]}}],
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "deviceCompletion:I"]}}],
+    ["const", "b32", 0],
+    ["const", "b32", 100],
+    ["int.compare", ["n0", "n2"], ["b1"], {"attrs": ["sge"]}],
+    ["int.compare", ["n0", "n3"], ["b1"], {"attrs": ["slt"]}],
+    ["bit.and", ["n4", "n5"], ["b1"]],
+    ["int.compare", ["n1", "n2"], ["b1"], {"attrs": ["sge"]}],
+    ["int.compare", ["n1", "n3"], ["b1"], {"attrs": ["slt"]}],
+    ["bit.and", ["n7", "n8"], ["b1"]],
+    ["int.zero.extend", ["n6"], ["b32"]],
+    ["int.zero.extend", ["n9"], ["b32"]],
+    ["add.wrap", ["n11", "n11"], ["b32"]],
+    ["add.wrap", ["n10", "n12"], ["b32"]]
+   ], "end": ["ret", ["n13"]]}]},
+
+  {"name": "dir_name", "params": ["b32"], "returns": ["str"], "blocks": [
+   {"params": ["b32"], "nodes": [
+    ["const", "b32", 1],
+    ["int.compare", ["p0", "n0"], ["b1"], {"attrs": ["eq"]}],
+    ["const", "b32", 2],
+    ["int.compare", ["p0", "n2"], ["b1"], {"attrs": ["eq"]}],
+    ["const", "b32", 3],
+    ["int.compare", ["p0", "n4"], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "DOWNLOAD"]}}]], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [], "end": ["cbr", "B0.n3", 3, [], 4, []]},
+   {"params": [], "nodes": [["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "UPLOAD"]}}]], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [], "end": ["cbr", "B0.n5", 5, [], 6, []]},
+   {"params": [], "nodes": [["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "BOTH"]}}]], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "NONE"]}}]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "state_name", "params": ["obj"], "returns": ["str"], "blocks": [
+   {"params": ["obj"], "nodes": [
+    ["call.foreign", [], ["meth"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "stateMethod:Ljava/lang/reflect/Method;"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n1", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["call.foreign", ["n0"], ["oarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/Object;", "newarray"]}}],
+    ["call.foreign", ["B0.n0", "B0.p0", "n1"], ["obj", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Method", "invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n2.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n3", 6, ["n2.r1"], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n2"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Enum", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 7, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["field"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "stateField:Ljava/lang/reflect/Field;"]}}],
+    ["call.foreign", [], ["meth"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "stateNameMethod:Ljava/lang/reflect/Method;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/reflect/Field", "instanceof"]}}],
+    ["call.direct", ["n1"], ["b1"], {"entity": {"fn": "is_meth"}}],
+    ["bit.and", ["n2", "n3"], ["b1"]]
+   ], "end": ["cbr", "n4", 4, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B3.n0", "B0.p0"], ["b32", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Field", "getInt(Ljava/lang/Object;)I"]}}],
+    ["call.direct", ["n0.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 6, ["n0.r1"], 5, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["n0"], ["oarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/Object;", "newarray"]}}],
+    ["call.foreign", ["B4.n0"], ["integer"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/Integer", "valueOf(I)Ljava/lang/Integer;"]}}],
+    ["call.foreign", ["n2"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["const", "b32", 0],
+    ["call.foreign", ["n1", "n4", "n3"], [], {"entity": {"jvm": ["jvm-arraystore", "[Ljava/lang/Object;", "arraystore"]}}],
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.foreign", ["B3.n1", "n6", "n1"], ["obj", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Method", "invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n7.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n8", 6, ["n7.r1"], 9, []]},
+   {"params": ["thr"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.service.SyncthingService#state"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "state read"]}}],
+    ["call.direct", ["n0", "n1", "p0"], [], {"entity": {"fn": "diag"}}]
+   ], "end": ["br", 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n2"], ["enum"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Enum", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Enum", "name()Ljava/lang/String;"]}}]
+   ], "end": ["ret", ["n1"]]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["str"], {"entity": {"fn": "str_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B5.n7"], ["str"], {"entity": {"fn": "sval"}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "folders_current", "params": [], "returns": ["list"], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["alist"], {"entity": {"jvm": ["jvm-new", "java/util/ArrayList", "<init>()V"]}}],
+    ["call.foreign", [], ["set"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "syncing:Ljava/util/Set;"]}}],
+    ["call.foreign", ["n1"], ["oarr"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Set", "toArray()[Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n2"], ["b32"], {"entity": {"jvm": ["jvm-arraylength", "[Ljava/lang/Object;", "arraylength"]}}],
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "labels:Ljava/util/Map;"]}}],
+    ["const", "b32", 0]
+   ], "end": ["br", 1, ["n5"]]},
+   {"params": ["b32"], "nodes": [
+    ["int.compare", ["p0", "B0.n3"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n2", "B1.p0"], ["obj"], {"entity": {"jvm": ["jvm-arrayload", "[Ljava/lang/Object;", "arrayload"]}}],
+    ["call.foreign", ["B0.n4", "n0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "getOrDefault(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["B0.n0", "n1"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/ArrayList", "add(Ljava/lang/Object;)Z"]}}],
+    ["const", "b32", 1],
+    ["add.wrap", ["B1.p0", "n3"], ["b32"]]
+   ], "end": ["br", 1, ["n4"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0"], ["list"], {"entity": {"jvm": ["jvm-checkcast", "java/util/List", "checkcast"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "note_need", "params": ["str", "obj"], "returns": [], "blocks": [
+   {"params": ["str", "obj"], "nodes": [
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "need:Ljava/util/Map;"]}}],
+    ["call.foreign", ["p1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Number", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p1"], ["num"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Number", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b64"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Number", "longValue()J"]}}],
+    ["int.compare", ["n1", ["b64", 0]], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n2", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n1"], ["lng"], {"entity": {"jvm": ["jvm-invokestatic", "java/lang/Long", "valueOf(J)Ljava/lang/Long;"]}}],
+    ["call.foreign", ["n0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B0.n0", "n2", "n1"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.foreign", ["B0.n0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "remove(Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "meter_dir", "params": ["b64", "b64", "b32"], "returns": [], "blocks": [
+   {"params": ["b64", "b64", "b32"], "nodes": [
+    ["call.foreign", [], ["larr"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "meter:[J"]}}],
+    ["int.compare", ["p0", ["b64", 0]], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B0.p2", ["b32", 0]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n0", ["b64", 0]], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 1]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n2", ["b64", 0]], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 2]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n4", ["b64", 0]], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 3]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n6", ["b64", 0]], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 4]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n8", ["b64", 0]], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B0.p2", ["b32", 4]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n0", "B0.p0"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 0]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n2"], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 1]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n4"], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["int.compare", ["n5", ["b64", 0]], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n6", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B0.p2", ["b32", 0]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n0", "B0.p0"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 1]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n2", "B0.p1"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["int.compare", ["B0.p0", "B2.n3"], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n0", 3, [], 5, []]},
+   {"params": [], "nodes": [
+    ["sub.wrap", ["B0.p1", "B2.n5"], ["b64"]],
+    ["int.compare", ["n0", ["b64", 2000]], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n1", 7, [], 6, []]},
+   {"params": [], "nodes": [
+    ["sub.wrap", ["B2.n3", "B0.p0"], ["b64"]],
+    ["mul.wrap", ["n0", ["b64", 1000]], ["b64"]],
+    ["udiv", ["n1", "B5.n0"], ["b64"]],
+    ["add.wrap", ["B0.p2", ["b32", 2]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n3"], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 3]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n5"], ["b64"], {"entity": {"jvm": ["jvm-arrayload", "[J", "arrayload"]}}],
+    ["mul.wrap", ["n4", ["b64", 6]], ["b64"]],
+    ["mul.wrap", ["n2", ["b64", 4]], ["b64"]],
+    ["add.wrap", ["n7", "n8"], ["b64"]],
+    ["udiv", ["n9", ["b64", 10]], ["b64"]],
+    ["int.compare", ["n6", ["b64", 0]], ["b1"], {"attrs": ["eq"]}]
+   ], "end": ["cbr", "n11", 8, [], 9, []]},
+   {"params": [], "nodes": [], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["br", 10, ["B6.n2"]]},
+   {"params": [], "nodes": [], "end": ["br", 10, ["B6.n10"]]},
+   {"params": ["b64"], "nodes": [
+    ["add.wrap", ["B0.p2", ["b32", 2]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n0", "p0"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B6.n6", ["b64", 1]], ["b64"]],
+    ["add.wrap", ["B0.p2", ["b32", 3]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n3", "n2"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 0]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n5", "B0.p0"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}],
+    ["add.wrap", ["B0.p2", ["b32", 1]], ["b32"]],
+    ["call.foreign", ["B0.n0", "n7", "B0.p1"], [], {"entity": {"jvm": ["jvm-arraystore", "[J", "arraystore"]}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "meter_update", "params": [], "returns": [], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "need:Ljava/util/Map;"]}}],
+    ["call.foreign", ["n0"], ["set"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "entrySet()Ljava/util/Set;"]}}],
+    ["call.foreign", ["n1"], ["oarr"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Set", "toArray()[Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n2"], ["b32"], {"entity": {"jvm": ["jvm-arraylength", "[Ljava/lang/Object;", "arraylength"]}}]
+   ], "end": ["br", 1, [["b32", 0], ["b64", 0], ["b64", 0]]]},
+   {"params": ["b32", "b64", "b64"], "nodes": [
+    ["int.compare", ["p0", "B0.n3"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 2, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n2", "B1.p0"], ["obj"], {"entity": {"jvm": ["jvm-arrayload", "[Ljava/lang/Object;", "arrayload"]}}],
+    ["call.foreign", ["n0"], ["mentry"], {"entity": {"jvm": ["jvm-checkcast", "java/util/Map$Entry", "checkcast"]}}],
+    ["call.foreign", ["n1"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map$Entry", "getKey()Ljava/lang/Object;"]}}],
+    ["call.direct", ["n2"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.foreign", ["n1"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map$Entry", "getValue()Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n4"], ["num"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Number", "checkcast"]}}],
+    ["call.foreign", ["n5"], ["b64"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Number", "longValue()J"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "d:"]}}],
+    ["call.foreign", ["n3", "n7"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "startsWith(Ljava/lang/String;)Z"]}}]
+   ], "end": ["cbr", "n8", 3, [], 4, []]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B1.p1", "B2.n6"], ["b64"]]
+   ], "end": ["br", 5, ["n0", "B1.p2"]]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B1.p2", "B2.n6"], ["b64"]]
+   ], "end": ["br", 5, ["B1.p1", "n0"]]},
+   {"params": ["b64", "b64"], "nodes": [
+    ["add.wrap", ["B1.p0", ["b32", 1]], ["b32"]]
+   ], "end": ["br", 1, ["n0", "p0", "p1"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["b64"], {"entity": {"jvm": ["jvm-invokestatic", "android/os/SystemClock", "elapsedRealtime()J"]}}],
+    ["call.direct", ["B1.p1", "n0", ["b32", 0]], [], {"entity": {"fn": "meter_dir"}}],
+    ["call.direct", ["B1.p2", "n0", ["b32", 5]], [], {"entity": {"fn": "meter_dir"}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "update", "params": ["list"], "returns": [], "blocks": [
+   {"params": ["list"], "nodes": [
+    ["call.foreign", ["p0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["const", "b32", 4],
+    ["int.compare", ["n0", "n1"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n2", 5, [], 1, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["call.foreign", ["B0.p0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", [], ["boolean"], {"entity": {"jvm": ["jvm-getstatic", "java/lang/Boolean", "FALSE:Ljava/lang/Boolean;"]}}],
+    ["call.foreign", ["n2", "n1"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Boolean", "equals(Ljava/lang/Object;)Z"]}}],
+    ["const", "b32", 3],
+    ["call.foreign", ["B0.p0", "n4"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n5"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Integer", "instanceof"]}}],
+    ["bit.and", ["n3", "n6"], ["b1"]]
+   ], "end": ["cbr", "n7", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n5"], ["integer"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Integer", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Integer", "intValue()I"]}}],
+    ["call.foreign", ["n1"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "lastCompletion:I"]}}]
+   ], "end": ["br", 3, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["call.foreign", ["B0.p0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n1"], ["str"], {"entity": {"fn": "state_name"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "ACTIVE"]}}],
+    ["call.direct", ["n3", "n2"], ["b1"], {"entity": {"fn": "str_eq"}}]
+   ], "end": ["cbr", "n4", 4, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], [], {"entity": {"fn": "meter_update"}}],
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "lastCompletion:I"]}}],
+    ["call.direct", [], ["b32"], {"entity": {"fn": "direction"}}],
+    ["call.direct", [], ["list"], {"entity": {"fn": "folders_current"}}],
+    ["call.direct", ["B3.n4", "n1", "n2", "n3"], [], {"entity": {"fn": "set_snapshot"}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 4294967295],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "lastCompletion:I"]}}]
+   ], "end": ["br", 4, []]}]},
+
+  {"name": "hk_progress", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", ["p0"], ["list"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "getArgs()Ljava/util/List;"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "update"}}],
+    ["call.foreign", ["p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n2"]]}]},
+
+  {"name": "hk_folder_completion", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", ["p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Integer", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0"], ["integer"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Integer", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Integer", "intValue()I"]}}],
+    ["call.foreign", ["n1"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "folderCompletion:I"]}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n0"]]}]},
+
+  {"name": "hk_device_completion", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", ["p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Integer", "instanceof"]}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0"], ["integer"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Integer", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Integer", "intValue()I"]}}],
+    ["call.foreign", ["n1"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "deviceCompletion:I"]}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B0.n0"]]}]},
+
+  {"name": "hk_remote_completion", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", ["p0"], ["list"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "getArgs()Ljava/util/List;"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["int.compare", ["n1", ["b32", 3]], ["b1"], {"attrs": ["sge"]}]
+   ], "end": ["cbr", "n2", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n0", ["b32", 0]], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["B0.n0", ["b32", 1]], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["B0.n0", ["b32", 2]], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n0"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.direct", ["n1"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "u:"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "/"]}}],
+    ["call.direct", ["n5", "n3", "n6", "n4"], ["str"], {"entity": {"fn": "cat4"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "needBytes"]}}],
+    ["call.direct", ["n2", "n8"], ["obj"], {"entity": {"fn": "read_field"}}],
+    ["call.direct", ["n7", "n9"], [], {"entity": {"fn": "note_need"}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "remember_labels", "params": ["list"], "returns": [], "blocks": [
+   {"params": ["list"], "nodes": [
+    ["call.foreign", ["p0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["call.foreign", [], ["map"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "labels:Ljava/util/Map;"]}}],
+    ["const", "b32", 0]
+   ], "end": ["br", 1, ["n2"]]},
+   {"params": ["b32"], "nodes": [
+    ["int.compare", ["p0", "B0.n0"], ["b1"], {"attrs": ["slt"]}]
+   ], "end": ["cbr", "n0", 2, [], 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0", "B1.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "id"]}}],
+    ["call.direct", ["n0", "n1"], ["obj"], {"entity": {"fn": "read_field"}}],
+    ["call.foreign", ["n2"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}]
+   ], "end": ["cbr", "n3", 3, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B2.n2"], ["str"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/String", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "isEmpty()Z"]}}]
+   ], "end": ["cbr", "n1", 6, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "label"]}}],
+    ["call.direct", ["B2.n0", "n0"], ["obj"], {"entity": {"fn": "read_field"}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 5, [], 8, ["B2.n2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B4.n1"], ["str"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/String", "checkcast"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "isEmpty()Z"]}}]
+   ], "end": ["cbr", "n1", 8, ["B2.n2"], 8, ["B4.n1"]]},
+   {"params": [], "nodes": [
+    ["const", "b32", 1],
+    ["add.wrap", ["B1.p0", "n0"], ["b32"]]
+   ], "end": ["br", 1, ["n1"]]},
+   {"params": [], "nodes": [], "end": ["ret", []]},
+   {"params": ["obj"], "nodes": [
+    ["call.foreign", ["B0.n1", "B2.n2", "p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Map", "put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"]}}]
+   ], "end": ["br", 6, []]}]},
+
+  {"name": "hk_folder_config", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", ["p0"], ["list"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "getArgs()Ljava/util/List;"]}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "isEmpty()Z"]}}]
+   ], "end": ["cbr", "n1", 3, [], 1, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["call.foreign", ["B0.n0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/util/List", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n1"], ["list"], {"entity": {"jvm": ["jvm-checkcast", "java/util/List", "checkcast"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "remember_labels"}}]
+   ], "end": ["br", 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "remember_state", "params": ["str", "b1", "obj"], "returns": [], "blocks": [
+   {"params": ["str", "b1", "obj"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "isEmpty()Z"]}}]
+   ], "end": ["cbr", "n0", 5, [], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "state"]}}],
+    ["call.direct", ["B0.p2", "n0"], ["obj"], {"entity": {"fn": "read_field"}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}],
+    ["const", "b1", 0]
+   ], "end": ["cbr", "n2", 2, [], 3, ["n3"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "syncing"]}}],
+    ["call.direct", ["n0", "B1.n1"], ["b1"], {"entity": {"fn": "obj_eq"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "sync-preparing"]}}],
+    ["call.direct", ["n2", "B1.n1"], ["b1"], {"entity": {"fn": "obj_eq"}}],
+    ["bit.or", ["n1", "n3"], ["b1"]]
+   ], "end": ["br", 3, ["n4"]]},
+   {"params": ["b1"], "nodes": [
+    ["const", "b1", 1],
+    ["bit.xor", ["B0.p1", "n0"], ["b1"]],
+    ["bit.and", ["p0", "n1"], ["b1"]],
+    ["call.foreign", [], ["set"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "syncing:Ljava/util/Set;"]}}],
+    ["call.direct", ["B0.p0"], ["obj"], {"entity": {"fn": "so"}}]
+   ], "end": ["cbr", "n2", 4, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B3.n3", "B3.n4"], ["b1"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Set", "add(Ljava/lang/Object;)Z"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "d:"]}}],
+    ["call.direct", ["n1", "B0.p0"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "needBytes"]}}],
+    ["call.direct", ["B0.p2", "n3"], ["obj"], {"entity": {"fn": "read_field"}}],
+    ["call.direct", ["n2", "n4"], [], {"entity": {"fn": "note_need"}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B3.n3", "B3.n4"], ["b1"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/Set", "remove(Ljava/lang/Object;)Z"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "d:"]}}],
+    ["call.direct", ["n1", "B0.p0"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", [], ["obj"], {"entity": {"fn": "nil"}}],
+    ["call.direct", ["n2", "n3"], [], {"entity": {"fn": "note_need"}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "hk_folder_status", "params": ["chain"], "returns": ["obj"], "blocks": [
+   {"params": ["chain"], "nodes": [
+    ["call.foreign", ["p0"], ["list"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "getArgs()Ljava/util/List;"]}}],
+    ["call.foreign", ["n0"], ["b32"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "size()I"]}}],
+    ["const", "b32", 3],
+    ["int.compare", ["n1", "n2"], ["b1"], {"attrs": ["sge"]}]
+   ], "end": ["cbr", "n3", 1, [], 3, []]},
+   {"params": [], "nodes": [
+    ["const", "b32", 0],
+    ["call.foreign", ["B0.n0", "n0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/String", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B1.n1"], ["str"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/String", "checkcast"]}}],
+    ["const", "b32", 1],
+    ["call.foreign", ["B0.n0", "n1"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.foreign", [], ["boolean"], {"entity": {"jvm": ["jvm-getstatic", "java/lang/Boolean", "TRUE:Ljava/lang/Boolean;"]}}],
+    ["call.foreign", ["n3", "n2"], ["b1"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Boolean", "equals(Ljava/lang/Object;)Z"]}}],
+    ["const", "b32", 2],
+    ["call.foreign", ["B0.n0", "n5"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "java/util/List", "get(I)Ljava/lang/Object;"]}}],
+    ["call.direct", ["n0", "n4", "n6"], [], {"entity": {"fn": "remember_state"}}]
+   ], "end": ["br", 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.p0"], ["obj"], {"entity": {"jvm": ["jvm-invokeinterface", "io/github/libxposed/api/XposedInterface$Chain", "proceed()Ljava/lang/Object;"]}}]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "folders_install", "params": ["dk", "cl"], "returns": ["b1"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.direct", ["p0", "p1"], ["meth"], {"entity": {"fn": "q_folder_config"}}],
+    ["call.direct", ["p0", "p1"], ["meth"], {"entity": {"fn": "q_folder_status"}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_meth"}}],
+    ["call.direct", ["n1"], ["b1"], {"entity": {"fn": "is_meth"}}],
+    ["bit.and", ["n2", "n3"], ["b1"]]
+   ], "end": ["cbr", "n4", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_folder_config"}}],
+    ["call.direct", ["B0.n0", "n0"], ["b1"], {"entity": {"fn": "hook_if"}}],
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_folder_status"}}],
+    ["call.direct", ["B0.n1", "n2"], ["b1"], {"entity": {"fn": "hook_if"}}],
+    ["bit.and", ["n1", "n3"], ["b1"]]
+   ], "end": ["ret", ["n4"]]},
+   {"params": [], "nodes": [["const", "b1", 0]], "end": ["ret", ["n0"]]}]},
+
+  {"name": "set_accessible", "params": ["meth"], "returns": [], "blocks": [
+   {"params": ["meth"], "nodes": [
+    ["const", "b1", 1],
+    ["call.foreign", ["p0", "n0"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Method", "setAccessible(Z)V"]}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "state_field", "params": ["dk", "meth", "cl"], "returns": ["field"], "blocks": [
+   {"params": ["dk", "meth", "cl"], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "f|com.nutomic.syncthingandroid.service.SyncthingService|int"]}}],
+    ["call.direct", ["n0"], ["str"], {"entity": {"fn": "cache_get"}}],
+    ["call.direct", ["n1"], ["b1"], {"entity": {"fn": "is_str"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.service.SyncthingService"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "int"]}}]
+   ], "end": ["cbr", "n2", 1, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "-"]}}],
+    ["call.direct", ["n0", "B0.n1"], ["b1"], {"entity": {"fn": "str_eq"}}]
+   ], "end": ["cbr", "n1", 2, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", [], ["field"], {"entity": {"fn": "field_nil"}}]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n1", ["b32", 124]], ["b32"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "indexOf(I)I"]}}],
+    ["int.compare", ["n0", ["b32", 0]], ["b1"], {"attrs": ["sgt"]}]
+   ], "end": ["cbr", "n1", 5, [], 4, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0"], ["dk"], {"entity": {"fn": "dk_get"}}],
+    ["call.foreign", ["n0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "org/luckypray/dexkit/DexKitBridge", "instanceof"]}}],
+    ["call.direct", [], ["field"], {"entity": {"fn": "field_nil"}}]
+   ], "end": ["cbr", "n1", 9, [], 10, ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n1", ["b32", 0], "B3.n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "substring(II)Ljava/lang/String;"]}}],
+    ["call.direct", ["B0.p2", "n0"], ["cls"], {"entity": {"fn": "find_class_diag"}}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/Class", "instanceof"]}}]
+   ], "end": ["cbr", "n2", 6, [], 4, []]},
+   {"params": [], "nodes": [
+    ["add.wrap", ["B3.n0", ["b32", 1]], ["b32"]],
+    ["call.foreign", ["B0.n1", "n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/String", "substring(I)Ljava/lang/String;"]}}],
+    ["call.foreign", ["B5.n1", "n1"], ["field", "thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/Class", "getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;"]}}],
+    ["call.direct", ["n2.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n3", 4, [], 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B6.n2", ["b1", 1]], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/lang/reflect/Field", "setAccessible(Z)V"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n1", 4, [], 8, []]},
+   {"params": [], "nodes": [], "end": ["ret", ["B6.n2"]]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B4.n0", "B0.p1", "B0.n3", "B0.n4", "B0.p2"], ["field"], {"entity": {"fn": "dexkit_field_read_by"}}]
+   ], "end": ["br", 10, ["n0"]]},
+   {"params": ["field"], "nodes": [
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/reflect/Field", "instanceof"]}}]
+   ], "end": ["cbr", "n0", 11, [], 12, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B10.p0"], ["cls"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/reflect/Field", "getDeclaringClass()Ljava/lang/Class;"]}}],
+    ["call.foreign", ["n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/Class", "getName()Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "|"]}}],
+    ["call.foreign", ["B10.p0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/lang/reflect/Field", "getName()Ljava/lang/String;"]}}],
+    ["call.direct", ["n1", "n2", "n3"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.direct", ["B0.n0", "n4"], [], {"entity": {"fn": "cache_put"}}]
+   ], "end": ["ret", ["B10.p0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "-"]}}],
+    ["call.direct", ["B0.n0", "n0"], [], {"entity": {"fn": "cache_put"}}]
+   ], "end": ["ret", ["B10.p0"]]}]},
+
+  {"name": "service_state_install", "params": ["dk", "cl", "meth"], "returns": ["b1"], "blocks": [
+   {"params": ["dk", "cl", "meth"], "nodes": [
+    ["call.direct", ["p0", "p1"], ["meth"], {"entity": {"fn": "q_current_state"}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n1", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.n0"], [], {"entity": {"fn": "set_accessible"}}],
+    ["call.foreign", ["B0.n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "stateMethod:Ljava/lang/reflect/Method;"]}}],
+    ["const", "b1", 1]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [], "end": ["br", 3, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p2", "B0.p1"], ["field"], {"entity": {"fn": "state_field"}}]
+   ], "end": ["br", 4, ["n0"]]},
+   {"params": ["field"], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p1"], ["meth"], {"entity": {"fn": "q_state_name"}}],
+    ["call.foreign", ["p0"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/lang/reflect/Field", "instanceof"]}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_meth"}}],
+    ["bit.and", ["n1", "n2"], ["b1"]]
+   ], "end": ["cbr", "n3", 5, [], 6, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B4.n0"], [], {"entity": {"fn": "set_accessible"}}],
+    ["call.foreign", ["B4.p0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "stateField:Ljava/lang/reflect/Field;"]}}],
+    ["call.foreign", ["B4.n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "stateNameMethod:Ljava/lang/reflect/Method;"]}}],
+    ["const", "b1", 1]
+   ], "end": ["ret", ["n3"]]},
+   {"params": [], "nodes": [
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n0"]]}]},
+
+  {"name": "meter_install", "params": ["dk", "cl"], "returns": [], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.direct", ["p0", "p1"], ["meth"], {"entity": {"fn": "q_remote_completion"}}],
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_remote_completion"}}],
+    ["call.direct", ["n0", "n1"], ["b1"], {"entity": {"fn": "hook_if"}}]
+   ], "end": ["cbr", "n2", 2, [], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Remote completion unavailable; the upload rate stays off"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [], "end": ["ret", []]}]},
+
+  {"name": "cache_load", "params": ["jvm:Landroid/content/pm/ApplicationInfo;"], "returns": [], "blocks": [
+   {"params": ["jvm:Landroid/content/pm/ApplicationInfo;"], "nodes": [
+    ["call.foreign", ["p0"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "sourceDir:Ljava/lang/String;"]}}],
+    ["call.foreign", ["p0"], ["str"], {"entity": {"jvm": ["jvm-getfield", "android/content/pm/ApplicationInfo", "dataDir:Ljava/lang/String;"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "/code_cache/syncthingliveupdate.properties"]}}],
+    ["call.direct", ["n1", "n2"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.foreign", ["n3"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "cacheFile:Ljava/lang/String;"]}}],
+    ["call.foreign", ["n0"], ["jfile"], {"entity": {"jvm": ["jvm-new", "java/io/File", "<init>(Ljava/lang/String;)V"]}}],
+    ["call.foreign", ["n5"], ["b64"], {"entity": {"jvm": ["jvm-invokevirtual", "java/io/File", "length()J"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "|"]}}],
+    ["call.direct", ["n6"], ["str"], {"entity": {"fn": "lval"}}],
+    ["call.direct", ["n0", "n7", "n8"], ["str"], {"entity": {"fn": "cat3"}}],
+    ["call.foreign", [], ["props"], {"entity": {"jvm": ["jvm-new", "java/util/Properties", "<init>()V"]}}],
+    ["call.foreign", [["b32", 0]], ["sarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/String;", "newarray"]}}],
+    ["call.foreign", ["n3", "n11"], ["jvm:Ljava/nio/file/Path;"], {"entity": {"jvm": ["jvm-invokestatic", "java/nio/file/Paths", "get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;"]}}],
+    ["call.foreign", [["b32", 0]], ["jvm:[Ljava/nio/file/OpenOption;"], {"entity": {"jvm": ["jvm-newarray", "Ljava/nio/file/OpenOption;", "newarray"]}}],
+    ["call.foreign", ["n12", "n13"], ["istream", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "java/nio/file/Files", "newInputStream(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/InputStream;"]}}],
+    ["call.direct", ["n14.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n15", 2, [], 1, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n10", "B0.n14"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/util/Properties", "load(Ljava/io/InputStream;)V"]}}],
+    ["call.foreign", ["B0.n14"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/io/InputStream", "close()V"]}}]
+   ], "end": ["br", 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "apk"]}}],
+    ["call.foreign", ["B0.n10", "n0"], ["str"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/Properties", "getProperty(Ljava/lang/String;)Ljava/lang/String;"]}}],
+    ["call.foreign", ["n1"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["B0.n9", "n2"], ["b1"], {"entity": {"fn": "obj_eq"}}]
+   ], "end": ["cbr", "n3", 4, [], 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["props"], {"entity": {"jvm": ["jvm-new", "java/util/Properties", "<init>()V"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "apk"]}}],
+    ["call.foreign", ["n0", "n1", "B0.n9"], ["obj"], {"entity": {"jvm": ["jvm-invokevirtual", "java/util/Properties", "setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;"]}}],
+    ["call.foreign", ["n0"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "resolved:Ljava/util/Properties;"]}}],
+    ["call.foreign", [["b32", 1]], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "cacheDirty:I"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["call.foreign", ["B0.n10"], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "resolved:Ljava/util/Properties;"]}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "cache_save", "params": [], "returns": [], "blocks": [
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["b32"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "cacheDirty:I"]}}],
+    ["call.foreign", [], ["props"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "resolved:Ljava/util/Properties;"]}}],
+    ["int.compare", ["n0", ["b32", 0]], ["b1"], {"attrs": ["ne"]}],
+    ["call.foreign", ["n1"], ["b1"], {"entity": {"jvm": ["jvm-instanceof", "java/util/Properties", "instanceof"]}}],
+    ["bit.and", ["n2", "n3"], ["b1"]]
+   ], "end": ["cbr", "n4", 1, [], 2, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [["b32", 0]], [], {"entity": {"jvm": ["jvm-putstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "cacheDirty:I"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-getstatic", "my/MrxSiN/syncthingliveupdate/Runtime", "cacheFile:Ljava/lang/String;"]}}],
+    ["call.foreign", [["b32", 0]], ["sarr"], {"entity": {"jvm": ["jvm-newarray", "Ljava/lang/String;", "newarray"]}}],
+    ["call.foreign", ["n1", "n2"], ["jvm:Ljava/nio/file/Path;"], {"entity": {"jvm": ["jvm-invokestatic", "java/nio/file/Paths", "get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;"]}}],
+    ["call.foreign", [["b32", 0]], ["jvm:[Ljava/nio/file/OpenOption;"], {"entity": {"jvm": ["jvm-newarray", "Ljava/nio/file/OpenOption;", "newarray"]}}],
+    ["call.foreign", ["n3", "n4"], ["ostream", "thr"], {"entity": {"jvm": ["jvm-invokestatic-catch", "java/nio/file/Files", "newOutputStream(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;"]}}],
+    ["call.direct", ["n5.r1"], ["b1"], {"entity": {"fn": "is_thr"}}]
+   ], "end": ["cbr", "n6", 4, [], 3, []]},
+   {"params": [], "nodes": [], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Syncthing Live Update: resolved host members"]}}],
+    ["call.foreign", ["B0.n1", "B1.n5", "n0"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/util/Properties", "store(Ljava/io/OutputStream;Ljava/lang/String;)V"]}}],
+    ["call.foreign", ["B1.n5"], ["thr"], {"entity": {"jvm": ["jvm-invokevirtual-catch", "java/io/OutputStream", "close()V"]}}]
+   ], "end": ["ret", []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Resolution cache not saved: "]}}],
+    ["call.direct", ["B1.n5.r1"], ["str"], {"entity": {"fn": "describe_thr"}}],
+    ["call.direct", ["n0", "n1"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n2"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["ret", []]}]},
+
+  {"name": "tracker_install", "params": ["dk", "cl"], "returns": ["b1"], "blocks": [
+   {"params": ["dk", "cl"], "nodes": [
+    ["call.direct", ["p0", "p1"], ["meth"], {"entity": {"fn": "q_persistent"}}],
+    ["call.direct", ["n0"], ["b1"], {"entity": {"fn": "is_meth"}}]
+   ], "end": ["cbr", "n1", 1, [], 6, []]},
+   {"params": [], "nodes": [
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_progress"}}],
+    ["call.direct", ["B0.n0", "n0"], ["b1"], {"entity": {"fn": "hook_if"}}]
+   ], "end": ["cbr", "n1", 2, [], 7, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Observing "]}}],
+    ["call.foreign", ["B0.n0"], ["obj"], {"entity": {"jvm": ["jvm-checkcast", "java/lang/Object", "checkcast"]}}],
+    ["call.direct", ["n1"], ["str"], {"entity": {"fn": "sval"}}],
+    ["call.direct", ["n0", "n2"], ["str"], {"entity": {"fn": "cat"}}],
+    ["call.direct", ["n3"], [], {"entity": {"fn": "log"}}],
+    ["call.direct", ["B0.p0", "B0.p1", "B0.n0"], ["b1"], {"entity": {"fn": "service_state_install"}}]
+   ], "end": ["cbr", "n5", 3, [], 8, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.LocalCompletion"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "getTotalFolderCompletion"]}}],
+    ["call.direct", ["B0.p0", "B0.p1", "n0", "n1"], ["meth"], {"entity": {"fn": "q_simple"}}],
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_folder_completion"}}],
+    ["call.direct", ["n2", "n3"], ["b1"], {"entity": {"fn": "hook_if"}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "com.nutomic.syncthingandroid.model.RemoteCompletion"]}}],
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "getTotalDeviceCompletion"]}}],
+    ["call.direct", ["B0.p0", "B0.p1", "n5", "n6"], ["meth"], {"entity": {"fn": "q_simple"}}],
+    ["function.address", [], ["hooker"], {"entity": {"fn": "hk_device_completion"}}],
+    ["call.direct", ["n7", "n8"], ["b1"], {"entity": {"fn": "hook_if"}}],
+    ["bit.and", ["n4", "n9"], ["b1"]]
+   ], "end": ["cbr", "n10", 4, [], 9, []]},
+   {"params": [], "nodes": [
+    ["call.direct", ["B0.p0", "B0.p1"], [], {"entity": {"fn": "meter_install"}}],
+    ["call.direct", ["B0.p0", "B0.p1"], ["b1"], {"entity": {"fn": "folders_install"}}]
+   ], "end": ["cbr", "n1", 5, [], 10, []]},
+   {"params": [], "nodes": [
+    ["const", "b1", 1]
+   ], "end": ["ret", ["n0"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Host notification method not found; module stays inactive"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Progress hook rejected by the framework; module stays inactive"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}],
+    ["const", "b1", 0]
+   ], "end": ["ret", ["n2"]]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Host service state unavailable; the Live Update stays off"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["br", 3, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Transfer direction unavailable; the badge stays off"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["br", 4, []]},
+   {"params": [], "nodes": [
+    ["call.foreign", [], ["str"], {"entity": {"jvm": ["jvm-ldc", "java/lang/String", "Folder names unavailable; the Live Update omits them"]}}],
+    ["call.direct", ["n0"], [], {"entity": {"fn": "log"}}]
+   ], "end": ["br", 5, []]}]}
+ ]
+}
