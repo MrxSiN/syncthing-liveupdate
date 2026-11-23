@@ -56,14 +56,37 @@ jobs:
           echo "${{ steps.pin.outputs.sha256 }}  xax/${{ steps.pin.outputs.seed }}" | sha256sum -c -
           chmod +x "xax/${{ steps.pin.outputs.seed }}"
 
+      # xcheck is the project's own XAX checker (tools/xcheck); the checklists in checks/ are its input.
+      - name: Build xcheck
+        run: |
+          set -eu
+          xaxc="$PWD/xax/${{ steps.pin.outputs.seed }}"
+          mkdir -p build
+          "$xaxc" verify tools/xcheck/xcheck.xax build/xcheck.rec
+          "$xaxc" build tools/xcheck/xcheck.xax build/xcheck build/xcheck.prov
+          chmod +x build/xcheck
+
       - name: Validate project files
-        run: sh scripts/check-project.sh
+        run: |
+          git ls-files > build/files.txt
+          build/xcheck checks/project.checks
+
+      # Downloads a released Syncthing-Fork APK, so it stays off the pull-request path where a
+      # network failure would block an unrelated change.
+      - name: Check the supported Syncthing-Fork release
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          HOST_VERSION: 2.1.5.0
+        run: |
+          set -eu
+          curl -fsSL -o build/host.apk "https://github.com/researchxxl/syncthing-android/releases/download/v$HOST_VERSION/com.github.catfriend1.syncthingfork_release_v$HOST_VERSION.apk"
+          unzip -p build/host.apk 'classes*.dex' > build/host.dex
+          build/xcheck checks/host-contract.checks
 
       - name: Build the module
         run: |
           set -eu
           xaxc="$PWD/xax/${{ steps.pin.outputs.seed }}"
-          mkdir -p build
           "$xaxc" verify source/xax/syncthingliveupdate.xax build/verify.rec
           "$xaxc" resolve source/xax/syncthingliveupdate.xax build/snapshot.xax source/inputs/*
           "$xaxc" build build/snapshot.xax build/SyncthingLiveUpdate-unsigned.apk build/provenance source/inputs/*
@@ -72,22 +95,9 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: unsigned-apk
-          path: build/SyncthingLiveUpdate-unsigned.apk
-
-  host-contract:
-    name: Host contract
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    # The check downloads a released Syncthing-Fork APK, so it is kept off the
-    # pull-request path where a network failure would block an unrelated change.
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Check the supported Syncthing-Fork release
-        run: sh scripts/check-host-contract.sh
+          path: |
+            build/SyncthingLiveUpdate-unsigned.apk
+            build/xcheck
 
   release:
     name: Sign and publish
@@ -120,8 +130,7 @@ jobs:
           [ -n "$apksigner" ] || { echo "no apksigner on the runner" >&2; exit 1; }
           keystore="$RUNNER_TEMP/release.jks"
           printf '%s' "$SIGNING_KEY" | base64 --decode > "$keystore"
-          version=$(sed -n 's/.*android:versionName="\([^"]*\)".*/\1/p' source/branding/AndroidManifest.xml)
-          apk="build/SyncthingLiveUpdate-v$version.apk"
+          apk="build/SyncthingLiveUpdate-$GITHUB_REF_NAME.apk"
           "$apksigner" sign --ks "$keystore" --ks-key-alias "$ANDROID_KEYSTORE_ALIAS" \
             --ks-pass env:ANDROID_KEYSTORE_PASSWORD --key-pass env:ANDROID_KEY_PASSWORD \
             --out "$apk" build/SyncthingLiveUpdate-unsigned.apk
@@ -131,17 +140,8 @@ jobs:
 
       - name: Extract release notes from the changelog
         run: |
-          set -eu
-          VERSION="${GITHUB_REF_NAME#v}"
-          awk -v v="$VERSION" '
-            $0 ~ "^## " v " " { found = 1; next }
-            found && /^## / { exit }
-            found { print }
-          ' CHANGELOG.md > release-notes.md
-          if [ ! -s release-notes.md ]; then
-            echo "CHANGELOG.md has no section for version $VERSION." >&2
-            exit 1
-          fi
+          chmod +x build/xcheck
+          build/xcheck CHANGELOG.md "${GITHUB_REF_NAME#v}" > release-notes.md
 
       - name: Upload APK to Release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
