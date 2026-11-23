@@ -133,6 +133,20 @@ refuses to promote anything posted there. During a transfer the notification is 
 `05_syncthing_live_update` at `IMPORTANCE_LOW`; when the sync completes it goes back to
 `01_syncthing_persistent` and behaves exactly as before.
 
+## What it costs
+
+Measured on a Pixel 8 Pro (Android 17 QPR2, Syncthing-Fork 2.1.7.0) with temporary timing builds,
+2026-11-23:
+
+| Path | Cost |
+| --- | --- |
+| Hook installation at Syncthing start | 4–5 ms from the resolution cache; 60–140 ms on the first start after a Syncthing install or update, when DexKit indexes the APK |
+| Rewriting the notification on each host update | 3.7 ms median (11.8 ms p90), about once a second while a sync runs |
+| Folder-status hook, per host event | 12 µs median |
+| Wave on Syncthing's bar, per frame while the shade is open | 142 µs median, 74 frames/s, about 1.5% of one core; SystemUI kept 0 missed vsyncs |
+
+Nothing runs while Syncthing is idle, and the module posts no notification updates of its own.
+
 ## Failing open
 
 A module that patches private code will eventually meet a build it does not fit, and the

@@ -27,6 +27,16 @@ host method it is observing, and the channel it will promote on.
 | Hooks look stale after a Syncthing update, or a lookup keeps failing | The module remembers what it resolved in `code_cache/syncthingliveupdate.properties` in Syncthing's data directory. Android clears it when Syncthing updates; to force a fresh lookup otherwise, delete the file (root) or clear Syncthing's cache, then restart Syncthing. |
 | Two Syncthing notifications | A build older than `1.0.0` posted its own notification on id `7710`. Force-stop Syncthing once after updating the module. |
 
+## Setting the scope from a shell
+
+The module declares a static scope, but the system server entry generally has to be confirmed by
+hand. With the Vector CLI:
+
+```sh
+su -c '/data/adb/lspd/cli modules enable io.github.mrxsin.syncthingliveupdate'
+su -c '/data/adb/lspd/cli scope set io.github.mrxsin.syncthingliveupdate system/0 com.github.catfriend1.syncthingfork/0 com.android.systemui/0'
+```
+
 ## Reading a reflection failure
 
 A member the module cannot reach is reported once, with enough context to act on without a

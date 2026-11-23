@@ -20,9 +20,18 @@ The module is XAX. There is no Java, Kotlin, Brainfuck, Gradle or `d8` in the bu
 
 ## Building the APK
 
-See the README's Build section: `xaxc verify`, `resolve` and `build` of the store with
-`source/inputs/*`, then `apksigner`. `toolchains.json` names the XAX commit and both seeds' SHA-256;
-the Linux and Windows seeds produce the same APK bytes.
+With a checkout of XAX at the commit `toolchains.json` pins:
+
+```sh
+xaxc=path/to/XAX/compiler/bootstrap/seed/xaxc-linux-x86_64   # or windows/xaxc-windows-x86_64.exe
+"$xaxc" verify  source/xax/syncthingliveupdate.xax verify.rec
+"$xaxc" resolve source/xax/syncthingliveupdate.xax snapshot.xax source/inputs/*
+"$xaxc" build   snapshot.xax SyncthingLiveUpdate-unsigned.apk provenance source/inputs/*
+apksigner sign --ks release.jks --out SyncthingLiveUpdate.apk SyncthingLiveUpdate-unsigned.apk
+```
+
+Both seeds build the same APK bytes. Release signing stays outside the build: CI signs with
+`apksigner` from repository secrets, and nothing is stored here.
 
 ## Checks
 
